@@ -660,3 +660,20 @@ Yo tengo una partición de Windows y lo tengo configurado para que se monte auto
 UUID=F45A6CAA /windows ntfs-3g nosuid,nodev,nofail 0 0
 ~~~
 
+## Eliminar instalación desde Windows en (UEFI)
+Lo primero que se debe hacer es eliminar la partición de Linux y después se procederán a instalar los siguientes comandos en CMD como administrador
+~~~
+diskpart
+sel disk 0
+list part		# Listar particiones
+sel part 1		# Partición EFI
+assign letter z:
+exit
+bcdboot c:/windows /s z: /f uefi
+bcdedit.exe /enum firmware
+~~~
+Buscar la entrada de la distribución y copiamos el número con letras que está entre corchetes, lo copiamos y lo pegamos en la parte del siguiente comando que está como `{}`
+~~~
+bcdedit.exe /delete {}
+~~~
+
