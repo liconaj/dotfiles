@@ -38,8 +38,8 @@ sh xfce4-install.sh
 sudo pacman -S - < packages/libreoffice.txt
 
 # Install some AUR-applications
-gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 8FD3D9A8D3800305A9FFF259D1742AD60D811D58
-yay -S packages/aurs.txt
+# gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 8FD3D9A8D3800305A9FFF259D1742AD60D811D58
+yay -S - < packages/aurs.txt
 
 
 # Install some applications
