@@ -252,6 +252,7 @@ gruvbox
 Language - Spanish
 SideBarEnhancements
 Anaconda
+~~~
 
 
 ## fstab
@@ -273,7 +274,7 @@ list part		# Listar particiones
 sel part 1		# Partición EFI
 assign letter z:
 exit
-bcdboot c:/windows /s z: /f uefi
+bcdboot c:\windows /s z: /f uefi
 bcdedit.exe /enum firmware
 ~~~
 Buscar la entrada de la distribución y copiamos el número con letras que está entre corchetes, lo copiamos y lo pegamos en la parte del siguiente comando que está como `{}`
