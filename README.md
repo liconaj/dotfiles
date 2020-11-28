@@ -260,7 +260,7 @@ Yo tengo una partición de Windows y lo tengo configurado para que se monte auto
 
 ~~~
 /dev/[partición] /windows ntfs-3g nosuid,nodev,nofail 0 0
-# Otra manera es a través del UUID de la partiión este es único así que tendrías que mirar cual es el tuyo
+Otra manera es a través del UUID de la partiión este es único así que tendrías que mirar cual es el tuyo
 UUID=F45A6CAA /windows ntfs-3g nosuid,nodev,nofail 0 0
 ~~~
 
