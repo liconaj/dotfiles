@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Session options
 xfconf-query -c xfce4-session -np /shutdown/ShowHibernate -t bool -s false
@@ -25,4 +25,4 @@ xfconf-query -c "xfce4-keyboard-shortcuts" -np "/commands/custom/<Shift>Print" -
 xfconf-query -c "xfce4-keyboard-shortcuts" -np "/commands/custom/<Super>t" -t string -s "xfce4-terminal"
 
 # Whisker menu and terminal configuration
-cp -r xfce4/* ~/.config/xfce4/
+mv xfce4/* ~/.config/xfce4/
