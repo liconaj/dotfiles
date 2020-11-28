@@ -1,0 +1,25 @@
+#!/bin/sh
+
+
+DEFAULT=light
+
+case "$1" in
+
+	light)
+	xfconf-query -c xsettings -p /Net/ThemeName -t string -s Greybird
+	xfconf-query -c xfwm4 -p /general/theme  -t string -s Greybird
+	xfconf-query -c xsettings -p /Net/IconThemeName -t string -s elementary-xfce-darker
+	;;
+
+	dark)
+	xfconf-query -c xfwm4 -p /general/theme  -t string -s Greybird-dark
+	xfconf-query -c xsettings -p /Net/ThemeName -t string -s Greybird-dark
+	xfconf-query -c xsettings -p /Net/IconThemeName -t string -s elementary-xfce-dark
+	;;
+
+	*)
+	echo "Opciones"
+	echo " - light"
+	echo " - dark"
+
+esac

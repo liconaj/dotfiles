@@ -1,0 +1,98 @@
+{
+	// Disable packages
+	"ignored_packages":
+	[
+		"Vintage"
+	],
+
+
+	// Excluir archivos del explorador
+	"binary_file_patterns":
+	[
+		"*.jpg",
+		"*.jpeg",
+		"*.png",
+		"*.gif",
+		"*.ttf",
+		"*.tga",
+		"*.dds",
+		"*.ico",
+		"*.eot",
+		"*.pdf",
+		"*.swf",
+		"*.jar",
+		"*.zip"
+	],
+	"file_exclude_patterns":
+	[
+		"*.pyc",
+		"*.pyo",
+		"*.exe",
+		"*.dll",
+		"*.obj",
+		"*.o",
+		"*.a",
+		"*.lib",
+		"*.so",
+		"*.dylib",
+		"*.ncb",
+		"*.sdf",
+		"*.suo",
+		"*.pdb",
+		"*.idb",
+		".DS_Store",
+		"*.class",
+		"*.psd",
+		"*.db",
+		"*.pdf",
+		"*.sublime-workspace"
+	],
+	"folder_exclude_patterns":
+	[
+		".svn",
+		".git",
+		".hg",
+		"CVS"
+	],
+
+	// Fuente
+	"font_face": "Victor Mono SemiBold",
+	"font_size": 11,
+	"font_options":
+	[
+		"gray_antialias",
+		"subpixel_antialias"
+	],
+
+	// Variadas
+	"show_full_path": false,
+	"always_show_minimap_viewport": true,
+	"trim_trailing_white_space_on_save": true,
+	"overlay_scroll_bars": "enabled",
+	"tab_size": 4,
+	"rulers": [79],
+	"mini_diff": false,
+
+	// Personalización
+	"color_scheme": "Packages/gruvbox/gruvbox (Dark) (Hard).sublime-color-scheme",
+	"theme": "gruvbox.sublime-theme",
+
+	// Opciones del tema gruvbox
+	"gruvbox_sidebar_compact": true,
+	"gruvbox_accent_blue": true,
+	"gruvbox_sidebar_font_size_12": true,
+	"gruvbox_statusbar_xxs": true,
+	"gruvbox_statusbar_button_xxs": true,
+	"gruvbox_statusbar_font_size_12": true,
+	"gruvbox_tabs_font_size_12": true,
+	"gruvbox_buttons_font_size_12": true,
+	"gruvbox_panel_xxs": true,
+	"gruvbox_tabs_xxs": true,
+	"gruvbox_disable_borders": true,
+	"gruvbox_tabs_bold": true,
+	"bold_folder_labels": true,
+	"ui_native_titlebar": true,
+	"ui_separator": false,
+	"ui_wide_scrollbars": false,
+	"word_wrap": false
+}

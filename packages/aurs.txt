@@ -1,0 +1,10 @@
+sublime-text-3
+google-chrome
+ulauncher
+snapd
+archey4
+typora
+micro
+unrar
+zoom
+teams

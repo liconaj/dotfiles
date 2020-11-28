@@ -1,0 +1,14 @@
+ttf-bitstream-vera
+ttf-dejavu
+ttf-droid
+gnu-free-fonts
+ttf-ibm-plex
+ttf-liberation
+ttf-roboto
+noto-fonts
+ttf-ubuntu-font-family
+ttf-cascadia-code
+ttf-fira-mono
+ttf-fira-code
+ttf-hack
+ttf-jetbrains-mono

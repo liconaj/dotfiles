@@ -1,0 +1,2 @@
+PATH=$PATH:/home/josue/.local/bin
+export PATH

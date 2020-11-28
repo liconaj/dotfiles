@@ -1,0 +1,12 @@
+libreoffice-fresh
+libreoffice-fresh-es
+libreoffice-fresh-fr
+hunspell
+hunspell-es_es
+hunspell-es_any
+hunspell-fr
+hyphen
+hyphen-es
+hyphen-fr
+mythes-es
+mythes-fr

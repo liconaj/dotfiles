@@ -1,0 +1,6 @@
+xorg
+xorg-server
+xorg-xinit
+xorg-server-xwayland
+xf86-video-intel
+xf86-input-libinput
