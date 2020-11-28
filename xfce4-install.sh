@@ -7,6 +7,12 @@ yay -S elementary-xfce-icons-git xfce-theme-greybird-git
 
 # Aplicaciones
 sudo pacman -S - < packages/xfce4-apps.txt
+yay -S appmenu-gtk-module-git
+
+# Global app menu settings
+xfconf-query -c xsettings -p /Gtk/ShellShowsMenuBar -n -t bool -s true
+xfconf-query -c xsettings -p /Gtk/ShellShowsAppmenu -n -t bool -s true
+xfconf-query -c xsettings -p /Gtk/Modules -n -t string -s "appmenu-gtk-module"
 
 # Appmenu
 git clone https://gitlab.com/vala-panel-project/vala-panel-appmenu.git
