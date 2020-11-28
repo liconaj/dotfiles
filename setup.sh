@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ## Install yay
 git clone https://aur.archlinux.org/yay.git /tmp/yay
@@ -25,7 +25,7 @@ yay -S exa
 
 # Zsh
 sudo pacman -S zsh
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+bash -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 cp configurations/zsh/custom-simple.zsh-theme ~/.oh-my-zsh/themes
 cp configurations/zsh/zshrc ~/.zshrc
@@ -88,7 +88,7 @@ sudo cp backgrounds/* /usr/share/backgrounds/
 winetricks settings fontsmooth=rgb
 
 # Vim installation
-sh vim-install.sh
-
+bash vim-install.sh
+ 
 echo ""
 echo OK
