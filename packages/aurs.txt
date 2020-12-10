@@ -8,3 +8,4 @@ micro
 unrar
 zoom
 teams
+scrcpy

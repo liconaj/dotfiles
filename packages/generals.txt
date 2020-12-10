@@ -1,6 +1,7 @@
 cmatrix
 neofetch
 vlc
+wget
 texstudio
 texlive-most
 audacity
@@ -13,9 +14,13 @@ wine-mono
 wine-gecko
 winetricks
 dosbox
+openal
 simplescreenrecorder
 python-pip
 packagekit
 gvim
 gimp
+nano
+nano-syntax-highlighting
 tk
+dwarffortress

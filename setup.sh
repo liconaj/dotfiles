@@ -63,6 +63,8 @@ pip install pygame
 sudo pacman -S sdl_image sdl_ttf
 sudo pacman -S lib32-sdl_image lib32-sdl_ttf
 
+# Some python packages
+pip install jedi autopep8 flake8 ipython yapf
 
 # Window directory
 ln -sf /windows/Users/licona ~/Windows

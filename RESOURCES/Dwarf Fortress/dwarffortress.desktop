@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Dwarf Fortress
+GenericName=Dwarf Fortress
+Comment=A single-player fantasy game.
+Exec=dwarffortress
+Icon=/home/josue/Aplicaciones/dwarffortress/icon.png
+Terminal=false
+Type=Application
+Categories=Game;

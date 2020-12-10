@@ -82,7 +82,7 @@ endif
 let g:AutoPairsUseInsertedCount = 1
 let g:AutoPairsSmartQuotes = 1
 let g:AutoPairsMapCR = 1
-let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`','<':'>'}
+let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
 let g:AutoPairsOnlyWhitespace = 1
 let g:AutoPairsMapBS = 1
 

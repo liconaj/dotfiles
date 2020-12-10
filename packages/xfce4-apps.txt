@@ -10,6 +10,7 @@ vala
 mesa
 meson
 cmake
+blueman
 ninja
 glib2
 gvfs-gphoto2
@@ -19,8 +20,10 @@ gvfs-smb
 file-roller
 xclip
 gucharmap
+gnome-bluetooth
 gnome-calculator
 gnome-screenshot
+gnome-disk-utility
 libdbusmenu-glib
 libdbusmenu-gtk3
 libdbusmenu-gtk2
