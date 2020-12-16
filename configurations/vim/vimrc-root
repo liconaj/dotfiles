@@ -1,15 +1,15 @@
 " ----------------------------------------------------------------
-" 					 INITIALIZATION OF PLUGINS
+" 		    INITIALIZATION OF PLUGINS
 " ----------------------------------------------------------------
 
 " VIM PLUG AUTOINSTALLATION:
 
-"Install vim-plug if doesn't exist
-"if empty(glob('~/.vim/autoload/plug.vim'))
-"    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-"                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-"    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-"endif
+Install vim-plug if doesn't exist
+if empty(glob('~/.vim/autoload/plug.vim'))
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 
 call plug#begin('~/.vim/plugged')
 Plug 'kh3phr3n/python-syntax'
@@ -20,7 +20,7 @@ Plug 'preservim/nerdtree'
 call plug#end()
 
 " ----------------------------------------------------------------
-" 					  GENERAL OPTIONS
+" 			 GENERAL OPTIONS
 " ----------------------------------------------------------------
 
 set nocompatible
@@ -63,7 +63,7 @@ set backupdir=~/.vim/files/backup/
 set undodir=~/.vim/files/undo/
 
 " ----------------------------------------------------------------
-" 					 PLUGINS AND CUSTOMIZATION
+" 		    PLUGINS AND CUSTOMIZATION
 " ----------------------------------------------------------------
 
 if has("statusline")
@@ -85,7 +85,7 @@ let NERDTreeShowHidden=0
 let g:netrw_menu=0
 
 " ----------------------------------------------------------------
-" 							 BINDINGS
+" 			    BINDINGS
 " ----------------------------------------------------------------
 
 " LEADER KEY:

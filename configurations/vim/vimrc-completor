@@ -188,6 +188,35 @@ if has("gui")
   cnoremap <expr> <C-H> has("gui_running") ? "\<C-\>\<C-C>:promptrepl\<CR>" : "\<C-H>"
 endif
 
+" TEXT SELECTION:
+inoremap <S-Left> <C-o>vh
+nnoremap <S-Left> vh
+inoremap <S-Right> <C-o>vl
+nnoremap <S-Right> vl
+inoremap <S-Up> <C-o>vk
+nnoremap <S-Up> vk
+inoremap <S-Down> <C-o>vj
+nnoremap <S-Down> vj
+inoremap <S-End> <C-o>v$
+nnoremap <S-End> v$
+inoremap <S-Home> <C-o>v0
+nnoremap <S-Home> v0
+vnoremap h          <Esc><Left>
+vnoremap j          <Esc><Down>
+vnoremap k          <Esc><Up>
+vnoremap l          <Esc><Right>
+vnoremap <Left>     <Esc><Left>
+vnoremap <Down>     <Esc><Down>
+vnoremap <Up>       <Esc><Up>
+vnoremap <Right>    <Esc><Right>
+vnoremap <S-h>      <Left>
+vnoremap <S-j>      <Down>
+vnoremap <S-k>      <Up>
+vnoremap <S-l>      <Right>
+vnoremap <S-Left>   <Left>
+vnoremap <S-Down>   <Down>
+vnoremap <S-Up>     <Up>
+vnoremap <S-Right>  <Right>
 
 " ----------------------------------------------------------------
 " 					    MORE OPTIONS
@@ -214,36 +243,6 @@ endif
 "      \ }
 
 
-
-" TEXT SELECTION:
-"inoremap <S-Left> <C-o>vh
-"nnoremap <S-Left> vh
-"inoremap <S-Right> <C-o>vl
-"nnoremap <S-Right> vl
-"inoremap <S-Up> <C-o>vk
-"nnoremap <S-Up> vk
-"inoremap <S-Down> <C-o>vj
-"nnoremap <S-Down> vj
-"inoremap <S-End> <C-o>v$
-"nnoremap <S-End> v$
-"inoremap <S-Home> <C-o>v0
-"nnoremap <S-Home> v0
-"vnoremap h          <Esc><Left>
-"vnoremap j          <Esc><Down>
-"vnoremap k          <Esc><Up>
-"vnoremap l          <Esc><Right>
-"vnoremap <Left>     <Esc><Left>
-"vnoremap <Down>     <Esc><Down>
-"vnoremap <Up>       <Esc><Up>
-"vnoremap <Right>    <Esc><Right>
-"vnoremap <S-h>      <Left>
-"vnoremap <S-j>      <Down>
-"vnoremap <S-k>      <Up>
-"vnoremap <S-l>      <Right>
-"vnoremap <S-Left>   <Left>
-"vnoremap <S-Down>   <Down>
-"vnoremap <S-Up>     <Up>
-"vnoremap <S-Right>  <Right>
 
 "" WINDOWS:
 "noremap <C-Tab> <C-W>w

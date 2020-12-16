@@ -70,6 +70,11 @@ set undodir=~/.vim/files/undo/
 " 					 PLUGINS AND CUSTOMIZATION
 " ----------------------------------------------------------------
 
+
+" LEADER KEY:
+let mapleader=' '
+
+
 " STATUS LINE:
 set laststatus=2
 let g:airline_extensions = []
@@ -82,8 +87,9 @@ endif
 let g:AutoPairsUseInsertedCount = 1
 let g:AutoPairsSmartQuotes = 1
 let g:AutoPairsMapCR = 1
-let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
-let g:AutoPairsOnlyWhitespace = 1
+let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"'}
+let g:AutoPairsOnlyWhitespace = 0
+let g:AutoPairsShortcutToggle = '<M-ñ>'
 let g:AutoPairsMapBS = 1
 
 " PYTHON SYNTAXIS:
@@ -117,7 +123,7 @@ let g:ycm_key_list_select_completion = ['<C-p>']
 let g:ycm_key_list_previous_completion = ['<C-n>']
 let g:ycm_key_invoke_completion = '<C-Space>'
 
-inoremap <expr> <Up> pumvisible() ? '<c-e><Up>' : '<Up>'
+noremap <expr> <Up> pumvisible() ? '<c-e><Up>' : '<Up>'
 inoremap <expr> <Down> pumvisible() ? '<c-e><Down>' : '<Down>'
 
 " FILE BROWSING:
@@ -128,9 +134,6 @@ let g:netrw_menu=0
 " ----------------------------------------------------------------
 " 							 BINDINGS
 " ----------------------------------------------------------------
-
-" LEADER KEY:
-let mapleader=' '
 
 " COPY AND PASTE:
 nnoremap <leader>y "+y
@@ -180,6 +183,35 @@ if has("gui")
   cnoremap <expr> <C-H> has("gui_running") ? "\<C-\>\<C-C>:promptrepl\<CR>" : "\<C-H>"
 endif
 
+" TEXT SELECTION:
+inoremap <S-Left> <C-o>vh
+nnoremap <S-Left> vh
+inoremap <S-Right> <C-o>vl
+nnoremap <S-Right> vl
+inoremap <S-Up> <C-o>vk
+nnoremap <S-Up> vk
+inoremap <S-Down> <C-o>vj
+nnoremap <S-Down> vj
+inoremap <S-End> <C-o>v$
+nnoremap <S-End> v$
+inoremap <S-Home> <C-o>v0
+nnoremap <S-Home> v0
+vnoremap h          <Esc><Left>
+vnoremap j          <Esc><Down>
+vnoremap k          <Esc><Up>
+vnoremap l          <Esc><Right>
+vnoremap <Left>     <Esc><Left>
+vnoremap <Down>     <Esc><Down>
+vnoremap <Up>       <Esc><Up>
+vnoremap <Right>    <Esc><Right>
+vnoremap <S-h>      <Left>
+vnoremap <S-j>      <Down>
+vnoremap <S-k>      <Up>
+vnoremap <S-l>      <Right>
+vnoremap <S-Left>   <Left>
+vnoremap <S-Down>   <Down>
+vnoremap <S-Up>     <Up>
+vnoremap <S-Right>  <Right>
 
 " ----------------------------------------------------------------
 " 					    MORE OPTIONS
@@ -226,35 +258,6 @@ endif
 
 
 
-" TEXT SELECTION:
-"inoremap <S-Left> <C-o>vh
-"nnoremap <S-Left> vh
-"inoremap <S-Right> <C-o>vl
-"nnoremap <S-Right> vl
-"inoremap <S-Up> <C-o>vk
-"nnoremap <S-Up> vk
-"inoremap <S-Down> <C-o>vj
-"nnoremap <S-Down> vj
-"inoremap <S-End> <C-o>v$
-"nnoremap <S-End> v$
-"inoremap <S-Home> <C-o>v0
-"nnoremap <S-Home> v0
-"vnoremap h          <Esc><Left>
-"vnoremap j          <Esc><Down>
-"vnoremap k          <Esc><Up>
-"vnoremap l          <Esc><Right>
-"vnoremap <Left>     <Esc><Left>
-"vnoremap <Down>     <Esc><Down>
-"vnoremap <Up>       <Esc><Up>
-"vnoremap <Right>    <Esc><Right>
-"vnoremap <S-h>      <Left>
-"vnoremap <S-j>      <Down>
-"vnoremap <S-k>      <Up>
-"vnoremap <S-l>      <Right>
-"vnoremap <S-Left>   <Left>
-"vnoremap <S-Down>   <Down>
-"vnoremap <S-Up>     <Up>
-"vnoremap <S-Right>  <Right>
 
 "" WINDOWS:
 "noremap <C-Tab> <C-W>w

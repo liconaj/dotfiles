@@ -23,4 +23,5 @@ gimp
 nano
 nano-syntax-highlighting
 tk
+freebasic
 dwarffortress

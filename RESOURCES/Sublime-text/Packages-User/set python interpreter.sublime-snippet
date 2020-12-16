@@ -1,7 +1,0 @@
-<snippet>
-	<content><![CDATA[
-#!/usr/bin/env python
-$0
-]]></content>
-	<tabTrigger>env</tabTrigger>
-</snippet>
