@@ -49,7 +49,7 @@ unsafe-load-any-extension=no
 
 # Only show warnings with the listed confidence levels. Leave empty to show
 # all. Valid levels: HIGH, INFERENCE, INFERENCE_FAILURE, UNDEFINED.
-confidence=
+confidence=HIGH
 
 # Disable the message, report, category or checker with the given id(s). You
 # can either give multiple identifiers separated by comma (,) or put this
@@ -65,7 +65,7 @@ disable=print-statement,
 	method-hidden,
 	unused-wildcard-import,
 	too-many-lines,
-	C, R,
+	C, R, W,
         parameter-unpacking,
         unpacking-in-except,
         old-raise-syntax,
@@ -143,7 +143,9 @@ disable=print-statement,
         xreadlines-attribute,
         deprecated-sys-function,
         exception-escape,
-        comprehension-escape
+        comprehension-escape,
+        redefined-outer-name,
+        global-statement
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option
@@ -253,6 +255,10 @@ function-naming-style=snake_case
 good-names=i,
            j,
            k,
+           x,
+           y,
+           f,
+           c,
            ex,
            Run,
            _

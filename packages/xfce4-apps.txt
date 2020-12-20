@@ -12,6 +12,7 @@ meson
 cmake
 blueman
 ninja
+pavucontrol
 glib2
 gvfs-gphoto2
 gvfs-mtp

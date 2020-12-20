@@ -1,0 +1,257 @@
+
+;; NOTAS:
+;; - Para que el menu se integre con GlobalAppmenu xfce plugin
+;;	 Se debe ejecutar el siguiente comando, ya que Emacs se encuentra
+;;   en la lista negra del modulo Appmenu gtk
+;;
+;;  gsettings set org.appmenu.gtk-module whitelist "['emacs27','emacs']"
+;;
+
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" default))
+ '(elpy-modules
+   '(elpy-module-company elpy-module-eldoc elpy-module-pyvenv elpy-module-yasnippet elpy-module-sane-defaults))
+ '(font-use-system-font t)
+ '(highlight-indent-guides-method 'bitmap)
+ '(minimap-mode t)
+ '(minimap-width-fraction 0.1)
+ '(minimap-window-location 'right)
+ '(org-support-shift-select t)
+ '(package-selected-packages
+   '(flycheck elpy treemacs-icons-dired treemacs-projectile projectile multiple-cursors yasnippet-snippets yasnippet-classic-snippets yasnippet highlight-indent-guides company)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
+;; (desktop-save-mode 1)
+
+;; TEMA
+;; (load-theme 'doom-gruvbox)
+;; (use-package doom-themes
+;;   :config
+;;   (load-theme 'doom-gruvbox)
+;;   (doom-themes-org-config))
+;; (setq doom-themes-enable-italic t
+;;       doom-themes-enable-bold t)
+;; (enable-theme 'doom-gruvbox)
+
+;; DESHABILITAR MENSAJE EN EL AREA DE ECO
+;(setq inhibit-startup-message t)
+;(setq inhibit-startup-echo-area-message t)
+
+
+;; MELPA
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(package-initialize)
+
+
+;; RESTABLER MODO Interactively Do Things (IDO)
+(ido-mode 1)
+(setq ido-enable-flex-matching t)
+
+;; LINTER
+(add-hook 'after-init-hook #'global-flycheck-mode)
+
+;; BORDES
+(fringe-mode 0)
+(setq-default left-margin-width 2 right-margin-width 2)
+
+
+;; DESHABILITAR GUI MENUS
+;(menu-bar-mode -1)
+(toggle-scroll-bar -1)
+(tool-bar-mode -1)
+
+;; FUENTE
+(set-face-attribute 'default nil :font "Victor Mono SemiBold" :height 110)
+(set-face-attribute 'variable-pitch
+                    nil
+                    :family "Victor Mono")
+
+
+;; BACKUPS
+(setq backup-directory-alist `(("." . "~/.emacs.d/saves")))
+
+;; OPCIONES DE LINEAS
+(global-visual-line-mode)
+
+
+;; STATUS LINE
+;(setq sml/theme 'respect)
+(smart-mode-line-enable)
+(setq sml/no-confirm-load-theme t)
+
+;; AUTOCOMPLETADO
+(add-hook 'after-init-hook 'global-company-mode)
+(add-hook 'after-init-hook 'electric-pair-mode 1)
+
+;; TABS
+(setq tab-width 4)
+(setq-default indent-tabs-mode nil)
+(setq python-indent 4)
+
+
+(global-set-key (kbd "C->") 'indent-rigidly-right-to-tab-stop)
+(global-set-key (kbd "C-<") 'indent-rigidly-left-to-tab-stop)
+
+;; MOSTRAR PARENTESIS
+(show-paren-mode t)
+
+;; LINEAS GUIAS DE INDENTACION
+(defun my-highlighter (level responsive display)
+  (if (> 1 level)
+      nil
+    (highlight-indent-guides--highlighter-default level responsive display)))
+(setq highlight-indent-guides-highlighter-function 'my-highlighter)
+
+;; SNIPPETS
+(add-to-list 'load-path
+             "~/.emacs.d/plugins/yasnippet")
+(require 'yasnippet)
+(yas-reload-all)
+(add-hook 'prog-mode-hook #'yas-minor-mode)
+(add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+
+;; MARKDOWN
+(autoload 'markdown-mode "markdown-mode"
+  "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+
+(autoload 'gfm-mode "markdown-mode"
+  "Major mode for editing GitHub Flavored Markdown files" t)
+(add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
+
+;; HABILITAR FORMATO DE MAYÚSCULAS Y MINÚSCULAS
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+
+;; CURSORES MULTIPLES
+(require 'multiple-cursors)
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "<M-S-up>") 'mc/mark-previous-like-this)
+(global-set-key (kbd "<M-S-down>") 'mc/mark-next-like-this)
+
+;; OPCIONES PROG-MODE
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+
+;; FREEBASIC
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+(require 'freebasic-mode)
+
+;; SCROLL WINDOWS
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
+(setq mouse-wheel-progressive-speed nil)
+(setq mouse-wheel-follow-mouse 't)
+(setq scroll-step 1)
+(setq scroll-preserve-screen-position 1)
+(global-set-key (kbd "M-n") (kbd "C-u 1 C-v"))
+(global-set-key (kbd "M-p ") (kbd "C-u 1 M-v"))
+
+
+;; SIDEBAR
+(use-package treemacs
+  :ensure t
+  :defer t
+  :init
+  (with-eval-after-load 'winum
+    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+  :config
+  (progn
+    (setq treemacs-collapse-dirQs                 (if treemacs-python-executable 3 0)
+          treemacs-deferred-git-apply-delay      0.5
+          treemacs-directory-name-transformer    #'identity
+          treemacs-display-in-side-window        t
+          treemacs-eldoc-display                 t
+          treemacs-file-event-delay              5000
+          treemacs-file-extension-regex          treemacs-last-period-regex-value
+          treemacs-file-follow-delay             0.2
+          treemacs-file-name-transformer         #'identity
+          treemacs-follow-after-init             t
+          treemacs-git-command-pipe              ""
+          treemacs-goto-tag-strategy             'refetch-index
+          treemacs-indentation                   2
+          treemacs-indentation-string            " "
+          treemacs-is-never-other-window         nil
+          treemacs-max-git-entries               5000
+          treemacs-missing-project-action        'ask
+          treemacs-move-forward-on-expand        nil
+          treemacs-no-png-images                 nil
+          treemacs-no-delete-other-windows       t
+          treemacs-project-follow-cleanup        nil
+          treemacs-persist-file                  (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
+          treemacs-position                      'left
+          treemacs-recenter-distance             0.1
+          treemacs-recenter-after-file-follow    nil
+          treemacs-recenter-after-tag-follow     nil
+          treemacs-recenter-after-project-jump   'always
+          treemacs-recenter-after-project-expand 'on-distance
+          treemacs-show-cursor                   nil
+          treemacs-show-hidden-files             nil
+          treemacs-silent-filewatch              t
+          treemacs-silent-refresh                t
+          treemacs-sorting                       'alphabetic-asc
+          treemacs-space-between-root-nodes      nil
+          treemacs-tag-follow-cleanup            t
+          treemacs-tag-follow-delay              1.5
+          treemacs-user-mode-line-format         nil
+          treemacs-user-header-line-format       nil
+          treemacs-width                         25
+          treemacs-workspace-switch-cleanup      nil)
+
+    (treemacs-resize-icons 16)
+    (treemacs-follow-mode t)
+    (treemacs-filewatch-mode t)
+    (treemacs-fringe-indicator-mode nil)
+    (pcase (cons (not (null (executable-find "git")))
+                 (not (null treemacs-python-executable)))
+      (`(t . t)
+       (treemacs-git-mode 'deferred))
+      (`(t . _)
+       (treemacs-git-mode 'simple))))
+  :bind
+  (:map global-map
+        ("<f8>"      . treemacs)
+        ("M-0"       . treemacs-select-window)
+        ("C-x t 1"   . treemacs-delete-other-windows)
+        ("C-x t B"   . treemacs-bookmark)
+        ("C-x t C-t" . treemacs-find-file)
+        ("C-x t M-t" . treemacs-find-tag)))
+
+(use-package treemacs-icons-dired
+  :after treemacs dired
+  :ensure t
+  :config (treemacs-icons-dired-mode))
+
+;; ELPY
+(use-package elpy
+  :ensure t
+  :init
+  (elpy-enable))
+
+(when (load "flycheck" t t)
+  (add-hook 'elpy-mode-hook 'flycheck-mode))
+(add-hook 'elpy-mode-hook (lambda ()
+                            (add-hook 'before-save-hook
+                                      'elpy-format-code nil t)))
+(add-hook 'python-mode-hook
+          (lambda ()
+            (setq-default indent-tabs-mode nil)
+            (add-to-list 'write-file-functions
+                         'delete-trailing-whitespace)))
+
+(defun execute-python ()
+  "Run a terminal command in an external xterm window."
+  (interactive)
+  (shell-command (concat "xfce4-terminal -e \"bash -c `python -u '"  buffer-file-name  "';echo;read`\""))
+  )
