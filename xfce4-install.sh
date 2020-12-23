@@ -1,13 +1,13 @@
 #!/bin/sh
 
 # Install desktop, icons and theme
-sudo pacman -S xfce4 xfce4-goodies
-yay -S elementary-xfce-icons-git xfce-theme-greybird-git
+sudo pacman --noconfirm -S xfce4 xfce4-goodies
+yay --noconfirm -S elementary-xfce-icons-git xfce-theme-greybird-git
 
 
 # Aplicaciones
-sudo pacman -S - < packages/xfce4-apps.txt
-yay -S appmenu-gtk-module-git
+sudo pacman --noconfirm -S - < packages/xfce4-apps.txt
+yay --noconfirm -S appmenu-gtk-module-git
 
 # Global app menu settings
 xfconf-query -c xsettings -p /Gtk/ShellShowsMenuBar -n -t bool -s true

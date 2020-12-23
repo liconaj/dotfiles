@@ -18,10 +18,11 @@ openal
 simplescreenrecorder
 python-pip
 packagekit
-gvim
 gimp
 nano
 nano-syntax-highlighting
+python-pip
 tk
+htop
 freebasic
 dwarffortress
