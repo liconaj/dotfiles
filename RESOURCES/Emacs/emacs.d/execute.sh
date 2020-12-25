@@ -2,7 +2,6 @@
 
 
 file=$1
-prompt=$2
 
 filename="${file%.*}"
 basename=$(basename -- "$file")
@@ -50,22 +49,19 @@ case $extension in
 esac
 
 
-if (( $prompt == "-p")); then
+echo -e "\n"
 
-    echo -e "\n"
-
-    if [ $retorno -eq 0 ]; then
-        echo "[Process finished with exit code 0]"
-    else
-        echo "[Procees finished with error(s)]"
-    fi
-
-    # Hide cursor
-    tput civis
-
-    # Wait for input
-    read
+if [ $retorno -eq 0 ]; then
+echo "[Process finished with exit code 0]"
+else
+echo "[Procees finished with error(s)]"
 fi
+
+# Hide cursor
+tput civis
+
+# Wait for input
+read
 
 if [[ -f "$temp" ]]; then
     rm $temp

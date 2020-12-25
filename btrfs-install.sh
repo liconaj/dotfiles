@@ -8,7 +8,6 @@ mount $ROOT /mnt
 btrfs su cr /mnt/@
 btrfs su cr /mnt/@home
 btrfs su cr /mnt/@var
-btrfs su cr /mnt/@srv
 btrfs su cr /mnt/@opt
 btrfs su cr /mnt/@tmp
 btrfs su cr /mnt/@swap
@@ -17,15 +16,15 @@ btrfs su cr /mnt/@.snapshots
 # Mount subvolumes
 umount /mnt
 mount -o noatime,compress=lzo,space_cache,subvol=@ $ROOT /mnt
-mkdir /mnt/{boot,home,var,srv,opt,tmp,swap,.snapshots}
+mkdir -p /mnt/boot/efi
+mkdir /mnt/{home,var,opt,tmp,swap,.snapshots}
 mount -o noatime,compress=lzo,space_cache,subvol=@home $ROOT /mnt/home
-mount -o noatime,compress=lzo,space_cache,subvol=@srv $ROOT /mnt/srv
 mount -o noatime,compress=lzo,space_cache,subvol=@tmp $ROOT /mnt/tmp
 mount -o noatime,compress=lzo,space_cache,subvol=@opt $ROOT /mnt/opt
 mount -o noatime,compress=lzo,space_cache,subvol=@.snapshots $ROOT /mnt/.snapshots
 mount -o nodatacow,subvol=@swap $ROOT /mnt/swap
 mount -o nodatacow,subvol=@var $ROOT /mnt/var
-mount $BOOT /mnt/boot
+mount $BOOT /mnt/boot/efi
 
 # Install base system
 pacstrap /mnt base linux linux-firmware vim intel-ucode btrfs-progs
@@ -48,26 +47,27 @@ echo "/swap/swapfile none swap defaults 0 0" >> /etc/fstab
 ln -sf /usr/share/zoneinfo/America/Bogota /etc/localtime
 hwclock --systohc
 sed -i -e 's/\#es_CO.UTF-8/es_CO.UTF-8/g' /etc/locale.gen
-ocale-gen
+
 echo LANG=es_CO.UTF-8 >> /etc/locale.conf
 echo KEYMAP=la-latin1 >> /etc/vconsole.conf
+locale-gen
 
 echo asus > /etc/hostname
 echo "127.0.0.1        localhost" >> /etc/hosts
 echo "::1              localhost" >> /etc/hosts
 echo "127.0.1.1        asus.localdomain        asus" >> /etc/hosts
 
-pacman -S grub grub-btrfs efibootmgr networkmanager network-manager-applet wpa_supplicant dialog os-prober mtools dosfstools base-devel linux-headers git bluez bluez-utils xdg-utils xdg-user-dirs alsa-utils pulseaudio pulseaudio-bluetooth
+pacman -S grub grub-btrfs efibootmgr networkmanager network-manager-applet wpa_supplicant dialog os-prober mtools dosfstools base-devel linux-headers git bluez bluez-utils xdg-utils xdg-user-dirs alsa-utils pulseaudio pulseaudio-bluetooth --noconfirm
 
-y
 sed -i -e 's/MODULES=()/MODULES=(btrfs)/g' /etc/mkinitcpio.conf
 mkinitcpio -p linux
 
-grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=Archlinux
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=Archlinux
 os-prober
 grub-mkconfig -o /boot/grub/grub.cfg
 systemctl enable NetworkManager
 systemctl enable bluetooth
+
 EOF
 clear
 echo "Installation succesfully finished"

@@ -1,3 +1,4 @@
+
 ;; List of packages:
 ;; - use-package
 ;; - company
@@ -20,21 +21,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- 
  '(custom-safe-themes
-   '("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" default))
-
- '(company-clang-executable "C:/Program Files/LLVM/bin/clang.exe")
-
- '(elpy-modules
-   '(elpy-module-company elpy-module-eldoc elpy-module-pyvenv elpy-module-yasnippet elpy-module-sane-defaults))
- 
- '(font-use-system-font t)
+   '("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" default))
  '(highlight-indent-guides-method 'bitmap)
- '(org-support-shift-select t)
- 
  '(package-selected-packages
-   '(markdown-mode use-package treemacs-icons-dired smart-mode-line multiple-cursors highlight-indent-guides flycheck elpy)))
+   '(smart-mode-line multiple-cursors elpy treemacs-icons-dired treemacs company use-package highlight-indent-guides)))
+
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -43,11 +35,14 @@
  ;; If there is more than one, they won't work right.
  )
 
+
+
 ;; MELPA
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
+
 
 ;; INTERFAZ
 
@@ -68,7 +63,7 @@
 ;; Líneas
 (global-visual-line-mode)
 
-;; Statusline
+;; Modeline
 (smart-mode-line-enable)
 (setq sml/no-confirm-load-theme t)
 
@@ -83,9 +78,15 @@
     (highlight-indent-guides--highlighter-default level responsive display)))
 (setq highlight-indent-guides-highlighter-function 'my-highlighter)
 
-
-
 ;; PREFERENCIAS
+
+
+;; Pantalla de inicio
+(setq inhibit-startup-screen t)
+(setq inhibit-startup-message t)
+(setq inhibit-startup-echo-area-message t)
+(setq initial-scratch-message ";; !Bienvenido a Emacs!\n\n\n")
+
 
 ;; Respaldos
 (setq backup-directory-alist `(("." . "~/.emacs.d/saves")))
@@ -202,6 +203,44 @@
                             (add-hook 'before-save-hook
                                       'elpy-format-code nil t)))
 
+;; Answers
+(fset 'yes-or-no-p 'y-or-n-p)
+
+;; Ibuffer
+(require 'ibuf-ext)
+(add-to-list 'ibuffer-never-show-predicates "^\\*")
+
+(setq ido-ignore-buffers '("\\` " "^\*"))
+
+(defun next-code-buffer ()
+  (interactive)
+  (let (( bread-crumb (buffer-name) ))
+    (next-buffer)
+    (while
+        (and
+         (string-match-p "^\*" (buffer-name))
+         (not ( equal bread-crumb (buffer-name) )) )
+      (next-buffer))))
+
+;; Modify the default ibuffer-formats
+  (setq ibuffer-formats
+	'((mark modified read-only " " filename-and-process)))
+
+
+(setq ibuffer-display-summary nil)
+(defadvice ibuffer-update-title-and-summary (after remove-column-titles)
+   (with-current-buffer
+      (read-only-mode 0)
+      (goto-char 1)
+      (search-forward "-\n" nil t)
+      (delete-region 1 (point))
+      (let ((window-min-height 1)) 
+        ;; save a little screen estate
+        (shrink-window-if-larger-than-buffer))
+      (read-only-mode)))
+  
+(ad-activate 'ibuffer-update-title-and-summary)
+
 
 ;; LENGUAJES
 
@@ -212,23 +251,16 @@
   :init
   (elpy-enable))
 
+;; FREEBASIC
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+(require 'freebasic-mode)
 
 ;; Familias de C
 (setq c-basic-offset 4)
 
-;; Markdown
-(autoload 'markdown-mode "markdown-mode"
-  "Major mode for editing Markdown files" t)
-(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
-(autoload 'gfm-mode "markdown-mode"
-  "Major mode for editing GitHub Flavored Markdown files" t)
-(add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
-
-
 ;; HOOKS
 
-(add-hook 'after-init-hook #'global-flycheck-mode)  ;; Linter
+;; (add-hook 'after-init-hook #'global-flycheck-mode)  ;; Linter
 (add-hook 'after-init-hook 'global-company-mode)	;; Autocompletado
 (add-hook 'after-init-hook 'electric-pair-mode 1)	;; Cerrar corchetes
 
@@ -248,6 +280,17 @@
             (add-to-list 'write-file-functions
                          'delete-trailing-whitespace)))
 
+;; Ibuffer
+(add-hook 'ibuffer-mode-hook
+          (lambda ()
+            (ibuffer-switch-to-saved-filter-groups "default")))
+
+;; Eliminar buffer *Completions*
+(add-hook 'minibuffer-exit-hook
+      '(lambda ()
+         (let ((buffer "*Completions*"))
+           (and (get-buffer buffer)
+                (kill-buffer buffer)))))
 
 ;; COMPILACION y EJECUCION
 
@@ -285,8 +328,6 @@
         (t
          (message "Compilation exited abnormally: %s" string))))
 
-(setq compilation-finish-functions 'cyco:compile-autoclose)
-
 
 (defun start-cmd (file-run)
   (interactive)
@@ -295,7 +336,7 @@
 
 (defun start-cmd-console (file-run)
   (interactive)
-  (let ((proc (start-process "cmd" nil "cmd.exe" "/c" "start" "C:\\Users\\josue\\AppData\\Roaming\\run-script.cmd" file-run)))
+  (let ((proc (start-process "cmd" nil "cmd.exe" "/c" "start" "C:\\Users\\josue\\AppData\\Roaming\\.emacs.d\\run-script.cmd" file-run)))
     (set-process-query-on-exit-flag proc nil)))
 
 (defun run-file ()
@@ -348,5 +389,11 @@
 (global-set-key [f6] 'run-file)
 
 ;; Compilado
+(setq compilation-finish-functions 'cyco:compile-autoclose)
 (global-set-key [f8] 'code-compile-console)
 (global-set-key [f9] 'code-compile)
+
+;; Ibuffer
+(global-set-key [remap next-buffer] 'next-code-buffer)
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+(global-set-key (kbd "<C-tab>") 'next-code-buffer)
