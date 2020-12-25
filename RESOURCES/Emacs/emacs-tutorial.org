@@ -24,6 +24,7 @@
   una palabra                             C-h a
 - Describir función de una tecla          C-h k
 - Describir una función                   C-h f
+- Describir propiedades                   C-h v
 - Obtener información de un modo          C-h m
 
 ** Recuperación de errores
@@ -265,6 +266,8 @@ Tipo de caracter                    Este                Otros
 - Mostrar todos los sistemas de codificación    M-x list-coding-systems
 - Elegir sistema de codificación preferido      M-x prefer-coding-system
 
+- Mostrar encodificación del archivo        C-h v buffer-file-coding-system
+
 ** Información
 
 - Ingresar a la documentación                   C-h i
@@ -389,4 +392,7 @@ With prefix argument LINE, put point on LINE."
 - Ejecutar un comando de shell para el proyecto         M-!
 - Refrescar el proyecto                                 g, r, g r
 - Cerrar el frame                                       q
-- Eliminar el buffer de treemacs                       
+- Eliminar el buffer de treemacs                        Q
+
+- Cambiar codificacion                                  C-x RET f
+- Cambiar idioma de entorno                             C-x RET l
