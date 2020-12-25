@@ -3,14 +3,14 @@
 current=$PWD
 
 # Install yay
-git clone https://aur.archlinux.org/yay.git /tmp/yay
-cd /tmp/yay
-makepkg -si
-cd $current
+# git clone https://aur.archlinux.org/yay.git /tmp/yay
+# cd /tmp/yay
+# makepkg -si
+# cd $current
 
 ## Repositories
 sudo sed -i -e  '92,93 s/\#//' /etc/pacman.conf
-sudo cp -r configurations/pacman .conf /etc/pacman.conf && sudo pacman --noconfirm  -Syyy
+sudo cp -r configurations/pacman.conf /etc/pacman.conf && sudo pacman  -Syyy
 
 # Xorg and fonts
 sudo pacman --noconfirm  -S - < packages/xorg.txt
@@ -29,9 +29,6 @@ yay --noconfirm -S exa
 
 # Vi is vim
 sudo ln -sf /usr/bin/vim /usr/bin/vi
-
-# Install Xfce4
-sh xfce4-install.sh
 
 # Install libreoffice
 sudo pacman --noconfirm -S - < packages/libreoffice.txt
@@ -73,7 +70,7 @@ sudo cp -r backgrounds/* /usr/share/backgrounds/
 # winetricks settings fontsmooth=rgb
 
 # Vim installation
-bash vim-install.sh
+#bash vim-install.sh
 
 # Zsh installation
 bash zsh-install.sh
