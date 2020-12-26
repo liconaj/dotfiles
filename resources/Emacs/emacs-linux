@@ -20,8 +20,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
-
- '(highlight-indent-guides-method 'bitmap)
+ '(highlight-indent-guides-method 'bitmap))
  
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -45,14 +44,22 @@
    (unless (package-installed-p package)
        (package-install package)))
 
-(use-package company                 :ensure t)
-(use-package treemacs                :ensure t)
-(use-package treemacs-icons-dired    :ensure t)
-(use-package flycheck                :ensure t)
-(use-package multiple-cursors        :ensure t)
-(use-package highlight-indent-guides :ensure t)
-(use-package smart-mode-line         :ensure t)
-(use-package elpy                    :ensure t)
+(use-package company
+	     :ensure t)
+(use-package treemacs
+	     :ensure t)
+(use-package treemacs-icons-dired
+	     :ensure t)
+(use-package flycheck
+	     :ensure t)
+(use-package multiple-cursors
+	     :ensure t)
+(use-package highlight-indent-guides
+	     :ensure t)
+(use-package smart-mode-line
+	     :ensure t)
+(use-package elpy
+	     :ensure t)
 
 
 ;; INTERFAZ
