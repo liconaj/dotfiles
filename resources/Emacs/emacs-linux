@@ -7,7 +7,7 @@
 ;; - flycheck
 ;; - elpy
 ;; - multiple-cursors
-;; - hightlight-indent-guides
+;; - highlight-indent-guides
 ;; - smart-mode-line
 ;; - yasnippet
 ;; - yasnippet-snippet
@@ -20,14 +20,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" default))
 
  '(highlight-indent-guides-method 'bitmap)
  
- '(package-selected-packages
-   '(smart-mode-line highlight-indent-guides elpy multiple-cursors flycheck treemacs-icons-dired treemacs company use-package)))
-
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -36,11 +31,29 @@
  )
 
 
-;; MELPA
+;; PACKAGES
 
+
+;; MELPA
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
+(unless package-archive-contents (package-refresh-contents))
+
+;; Instalar use-package
+(dolist (package '(use-package))
+   (unless (package-installed-p package)
+       (package-install package)))
+
+(use-package company                 :ensure t)
+(use-package treemacs                :ensure t)
+(use-package treemacs-icons-dired    :ensure t)
+(use-package flycheck                :ensure t)
+(use-package multiple-cursors        :ensure t)
+(use-package highlight-indent-guides :ensure t)
+(use-package smart-mode-line         :ensure t)
+(use-package elpy                    :ensure t)
+
 
 ;; INTERFAZ
 
