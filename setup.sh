@@ -27,8 +27,6 @@ yay --noconfirm -S - < packages/aur-fonts.txt
 # Replace ls with exa
 yay --noconfirm -S exa
 
-# Vi is vim
-sudo ln -sf /usr/bin/vim /usr/bin/vi
 
 # Install libreoffice
 sudo pacman --noconfirm -S - < packages/libreoffice.txt
@@ -64,10 +62,6 @@ sudo cp -r configurations/99-swappiness.conf /etc/sysctl.d/
 
 # Backgrounds
 sudo cp -r backgrounds/* /usr/share/backgrounds/
-
-
-# Zsh installation
-bash zsh-install.sh
 
 echo ""
 echo OK
