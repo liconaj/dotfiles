@@ -7,21 +7,6 @@ yay --noconfirm -S elementary-xfce-icons-git xfce-theme-greybird-git
 
 # Aplicaciones
 sudo pacman --noconfirm -S - < packages/xfce4-apps.txt
-yay --noconfirm -S appmenu-gtk-module-git
-
-# Global app menu settings
-xfconf-query -c xsettings -p /Gtk/ShellShowsMenuBar -n -t bool -s true
-xfconf-query -c xsettings -p /Gtk/ShellShowsAppmenu -n -t bool -s true
-xfconf-query -c xsettings -p /Gtk/Modules -n -t string -s "appmenu-gtk-module"
-
-# Appmenu
-git clone https://gitlab.com/vala-panel-project/vala-panel-appmenu.git
-cd vala-panel-appmenu
-mkdir build
-meson -Dxfce=enabled -Dbudgie=disabled -Dvalapanel=disabled -Dmate=disabled -Djayatana=disabled build
-cd build
-sudo ninja && sudo ninja install
-cd ../../
 
 # Images
 sudo cp *.svg /usr/share/pixmaps
@@ -39,7 +24,7 @@ sudo systemctl enable lightdm.service
 
 # Script for change theme
 mkdir -p ~/.local/bin
-cp scripts/settheme ~/.local/bin
+cp -r scripts/settheme ~/.local/bin
 chmod +x ~/.local/bin/settheme
 
 # Delete xfwm4 theme folders

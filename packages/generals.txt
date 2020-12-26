@@ -3,7 +3,6 @@ neofetch
 vlc
 wget
 texstudio
-texlive-most
 audacity
 nodejs
 redshift
@@ -20,8 +19,6 @@ python-pip
 packagekit
 gimp
 nano
-nano-syntax-highlighting
-python-pip
 tk
 htop
 freebasic

@@ -3,10 +3,10 @@
 current=$PWD
 
 # Install yay
-# git clone https://aur.archlinux.org/yay.git /tmp/yay
-# cd /tmp/yay
-# makepkg -si
-# cd $current
+git clone https://aur.archlinux.org/yay.git /tmp/yay
+cd /tmp/yay
+makepkg -si
+cd $current
 
 ## Repositories
 sudo sed -i -e  '92,93 s/\#//' /etc/pacman.conf
@@ -34,7 +34,6 @@ sudo ln -sf /usr/bin/vim /usr/bin/vi
 sudo pacman --noconfirm -S - < packages/libreoffice.txt
 
 # Install some AUR-applications
-# gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 8FD3D9A8D3800305A9FFF259D1742AD60D811D58
 yay --noconfirm -S - < packages/aurs.txt
 
 
@@ -66,11 +65,6 @@ sudo cp -r configurations/99-swappiness.conf /etc/sysctl.d/
 # Backgrounds
 sudo cp -r backgrounds/* /usr/share/backgrounds/
 
-# Wine
-# winetricks settings fontsmooth=rgb
-
-# Vim installation
-#bash vim-install.sh
 
 # Zsh installation
 bash zsh-install.sh

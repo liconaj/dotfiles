@@ -20,7 +20,7 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'psliwka/vim-smoothie'
 Plug 'preservim/nerdtree'
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+"Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 call plug#end()
 
 " ----------------------------------------------------------------
@@ -98,18 +98,19 @@ let g:python_highlight_all = 1
 " THEME:
 let g:gruvbox_material_background = 'hard'
 set background=dark
-colorscheme gruvbox-material
-if !has('gui_running')
-     set t_Co=256
-endif
 
-if has('gui_running')
-    set lines=30
-    set columns=95
-    set guioptions-=aegimrLtT
-    set guifont=Victor\ Mono\ SemiBold\ 11
-    set shortmess+=at
-endif
+"colorscheme gruvbox-material
+"if !has('gui_running')
+"     set t_Co=256
+"endif
+
+"if has('gui_running')
+"    set lines=30
+"    set columns=95
+"    set guioptions-=aegimrLtT
+"    set guifont=Victor\ Mono\ SemiBold\ 11
+"    set shortmess+=at
+"endif
 
 " COMPLETION:
 

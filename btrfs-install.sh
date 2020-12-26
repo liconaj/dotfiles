@@ -1,6 +1,8 @@
+#!/bin/bash
+
 # Mount partition
-ROOT=/dev/sda5
-BOOT=/dev/sda1
+#ROOT=
+#BOOT=
 
 mount $ROOT /mnt
 
@@ -75,6 +77,8 @@ echo ""
 echo "Set a password for root with 'passwd'"
 echo "Create a new user with 'useradd -mG wheel username -c \"Real Name\"'"
 echo "and set a password with 'passwd username'"
+echo ""
+echo "Don't forget to habilite wheel group in sudoers!"
 echo ""
 echo "Go out with 'exit', then umount all the partitions with 'umount -a'"
 echo "and reboot"

@@ -1,10 +1,5 @@
-sublime-text-3
 google-chrome
-ulauncher
-snapd
 archey4
 typora
 unrar
-zoom
-teams
 scrcpy
