@@ -1,26 +1,27 @@
-;; List of packages:
+;; List of packages
 ;; - use-package
 ;; - company
 ;; - doom-themes
 ;; - treemacs
 ;; - treemacs-icons-dired
-;; - flycheck
+;; -flycheck
 ;; - elpy
 ;; - multiple-cursors
 ;; - highlight-indent-guides
 ;; - smart-mode-line
 ;; - yasnippet
-;; - yasnippet-snippet
-;; - yasnippet-classic-snippets
 ;; - markdown-mode
-
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(highlight-indent-guides-method 'bitmap))
+ '(custom-safe-themes
+   '("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "5dce18a59b0636f36f637d286f8ed85c9e0deb998dbb0e49b3e32fc6bc042489" default))
+ '(highlight-indent-guides-method 'bitmap)
+ '(package-selected-packages
+   '(doom-themes elpy smart-mode-line highlight-indent-guides multiple-cursors flycheck treemacs-icons-dired treemacs company use-package)))
  
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -28,7 +29,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-
 
 ;; PACKAGES
 
@@ -45,24 +45,26 @@
        (package-install package)))
 
 (use-package company
-	     :ensure t)
+         :ensure t)
 (use-package treemacs
-	     :ensure t)
+         :ensure t)
 (use-package treemacs-icons-dired
-	     :ensure t)
+         :ensure t)
 (use-package flycheck
-	     :ensure t)
+         :ensure t)
 (use-package multiple-cursors
-	     :ensure t)
+         :ensure t)
 (use-package highlight-indent-guides
-	     :ensure t)
+         :ensure t)
 (use-package smart-mode-line
-	     :ensure t)
+         :ensure t)
 (use-package elpy
-	     :ensure t)
-
+         :ensure t)
 
 ;; INTERFAZ
+
+;; Tema
+(load-theme 'doom-gruvbox)
 
 ;; Bordes
 (fringe-mode 0)
@@ -70,7 +72,7 @@
 
 (tool-bar-mode -1)
 ;; (menu-bar-mode -1)
-;; (toggle-scroll-bar -1)
+(toggle-scroll-bar -1)
 
 ;; Tipografías
 (set-face-attribute 'default nil :font "Victor Mono SemiBold" :height 110)
@@ -95,7 +97,6 @@
       nil
     (highlight-indent-guides--highlighter-default level responsive display)))
 (setq highlight-indent-guides-highlighter-function 'my-highlighter)
-
 
 ;; PREFERENCIAS
 
@@ -241,7 +242,7 @@
 
 ;; Modify the default ibuffer-formats
   (setq ibuffer-formats
-	'((mark modified read-only " " filename-and-process)))
+    '((mark modified read-only " " filename-and-process)))
 
 
 (setq ibuffer-display-summary nil)
@@ -275,15 +276,21 @@
 ;; Familias de C
 (setq c-basic-offset 4)
 
+;; Chordpro
+(setq auto-mode-alist (cons '("\\.pro$" . chordpro-mode) auto-mode-alist))
+(setq auto-mode-alist (cons '("\\.cho$" . chordpro-mode) auto-mode-alist))
+(autoload 'chordpro-mode "chordpro-mode")
+
 ;; HOOKS
 
 ;; (add-hook 'after-init-hook #'global-flycheck-mode)  ;; Linter
-(add-hook 'after-init-hook 'global-company-mode)	;; Autocompletado
-(add-hook 'after-init-hook 'electric-pair-mode 1)	;; Cerrar corchetes
+(add-hook 'after-init-hook 'global-company-mode)    ;; Autocompletado
+(add-hook 'after-init-hook 'electric-pair-mode 1)   ;; Cerrar corchetes
 
 (add-hook 'prog-mode-hook #'yas-minor-mode)
 (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
+(add-hook 'freebasic-mode-hook 'display-line-numbers-mode)
 
 ;; Elpy
 (when (load "flycheck" t t)
@@ -309,7 +316,8 @@
            (and (get-buffer buffer)
                 (kill-buffer buffer)))))
 
-;; COMPILACION y EJECUCION
+
+;; COMPILACION Y EJECUCION
 
 (defun code-compile ()
   (interactive)
@@ -317,10 +325,10 @@
        (let ((file (file-name-nondirectory buffer-file-name)))
          (if (equal (file-name-extension file) "bas")
              (format "fbc -s gui %s" file)
-             (format "%s -o %s %s"
-                     (if (equal (file-name-extension file) "cpp") "g++" "gcc")
-                     (file-name-sans-extension file)
-                     file))))
+           (format "%s -o %s %s"
+                   (if (equal (file-name-extension file) "cpp") "g++" "gcc")
+                   (file-name-sans-extension file)
+                   file))))
   (compile compile-command))
 
 (defun code-compile-console ()
@@ -329,38 +337,31 @@
        (let ((file (file-name-nondirectory buffer-file-name)))
          (if (equal (file-name-extension file) "bas")
              (format "fbc %s" file)
-             (format "%s -o %s %s"
-                     (if (equal (file-name-extension file) "cpp") "g++" "gcc")
-                     (file-name-sans-extension file)
-                     file))))
+           (format "%s -o %s %s"
+                   (if (equal (file-name-extension file) "cpp") "g++" "gcc")
+                   (file-name-sans-extension file)
+                   file))))
   (compile compile-command))
-
 
 (defun cyco:compile-autoclose (buffer string)
   (cond ((string-match "finished" string)
-         (message "Build maybe successful: closing window.")
+         (message "Build maybe succesful: clossing window.")
          (run-with-timer 1 nil
                          'delete-window
                          (get-buffer-window buffer t)))
         (t
          (message "Compilation exited abnormally: %s" string))))
 
-
-;; Con xfce4-terminal: "xfce4-terminal" "-e" "bash" "-c"
-;; (defun open-in-terminal ()
-;;   (interactive)
-;;   (let ((proc (start-process "bash" nil "gnome-terminal" "--" "bash" "-c" (shell-quote-argument (concat "~/.emacs.d/execute.sh '" buffer-file-name "'")))))
-;;     (set-process-query-on-exit-flag proc nil)))
-
 (defun open-in-terminal ()
   (interactive)
-  (let ((proc (start-process "bash" nil "gnome-terminal" "--" "bash" "-c" (concat "~/.emacs.d/execute.sh " "'" buffer-file-name "'"))))
-                             (set-process-query-on-exit-flag proc nil)))
+  (let ((proc (start-process "bash" nil "xfce4-terminal" "-e" (concat " bash -c \"/home/josue/.emacs.d/execute.sh '" buffer-file-name "'\""))))
+    (set-process-query-on-exit-flag proc nil)))
 
 (defun execute-file ()
   (interactive)
   (let ((proc (start-process "bash" nil (file-name-sans-extension buffer-file-name))))
-(set-process-query-on-exit-flag proc nil)))
+    (set-process-query-on-exit-flag proc nil)))
+
 
 ;; COMBINACIONES DE TECLAS
 

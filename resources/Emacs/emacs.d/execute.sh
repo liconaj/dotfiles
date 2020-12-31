@@ -20,16 +20,17 @@ case $extension in
             fbc $file -x $temp &>/dev/null
             $temp
         else
-            $file
+            $filename
         fi
         retorno=$?
+	read
         ;;
     cpp)
         if [ ! -f "$filename" ]; then
             g++ -o $temp $file &>/dev/null
             $temp
         else
-            $file
+            $filename
         fi
         retorno=$?
         ;;
@@ -38,7 +39,7 @@ case $extension in
             gcc -o $temp $file &>/dev/null
             $temp
         else
-            $file
+            $filename
         fi
         retorno=$?
         ;;
@@ -50,11 +51,12 @@ esac
 
 
 echo -e "\n"
+echo "-----------------------------------"
 
 if [ $retorno -eq 0 ]; then
-echo "[Process finished with exit code 0]"
+    echo "[Process finished with exit code 0]"
 else
-echo "[Procees finished with error(s)]"
+    echo "[Procees finished with error(s)]"
 fi
 
 # Hide cursor
