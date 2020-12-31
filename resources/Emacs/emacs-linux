@@ -354,7 +354,7 @@
 
 (defun open-in-terminal ()
   (interactive)
-  (let ((proc (start-process "bash" nil "xfce4-terminal" "-e" (concat " bash -c \"/home/josue/.emacs.d/execute.sh '" buffer-file-name "'\""))))
+  (let ((proc (start-process "bash" nil "xfce4-terminal" "-e" (concat " bash -c \"~/.emacs.d/execute.sh '" buffer-file-name "'\""))))
     (set-process-query-on-exit-flag proc nil)))
 
 (defun execute-file ()
