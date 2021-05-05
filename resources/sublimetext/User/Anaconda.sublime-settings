@@ -1,0 +1,35 @@
+{
+	"auto_formatting": true,
+    "swallow_startup_errors": true,
+	"pyflakes_ignore":
+    [
+    ],
+    "pep8_ignore":
+    [
+        "E309","E501","W504","E201","E241",
+        "E221","E222","E231","E226","E225",
+        "E303", "W293", "E722"
+    ],
+    "pylint_ignore":
+    [
+        // "0201"
+    ],
+    "pyflakes_explicit_ignore":
+    [
+        // "Redefined",
+        // "UnusedImport"
+        // "UndefinedName",
+        // "UndefinedLocal",
+        // "UnusedVariable,",
+        // "UndefinedExport",
+        // "DuplicateArgument",
+        // "RedefinedWhileUnused"
+    ],
+
+    "enable_signatures_tooltip": true,
+    "enable_docstrings_tooltip": true,
+    "merge_signatures_and_doc": true,
+    "display_signatures": false,
+    "anaconda_linter_underlines": false,
+    "anaconda_linter_mark_style": "none",
+}

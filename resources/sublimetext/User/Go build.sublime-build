@@ -1,0 +1,7 @@
+{
+	"cmd": ["go build $file_name && xfce4-terminal -e 'bash -c \"./$file_base_name;echo;echo Proceso terminado; read line\"'"],
+	"shell":true,
+	"working_dir": "$file_path",
+ 	"file_regex": "^[ ]File \"(...?)\", line ([0-9]*)",
+ 	"selector": "source.go"
+}

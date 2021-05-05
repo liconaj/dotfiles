@@ -1,0 +1,12 @@
+export GTK_OVERLAY_SCROLLING=0
+export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
+#export BW_SESSION="FYqGyDBN52t8daVAJO8c7H6+rjwwR4TvZhMEvxjrufy1KIEk8PKD2TlPBS3x/V3zOHkUBC7brqCGY7TbKuJLoA=="
+export ANDROID_SDK_ROOT='/opt/android-sdk'
+export CHROME_EXECUTABLE='/usr/bin/google-chrome-stable'
+export JAVA_HOME='/usr/lib/jvm/java-8-openjdk'
+#export JAVA_OPTS='-XX:+IgnoreUnrecognizedVMOptions --add-modules java.se.ee'
+
+export PATH=$PATH:~/.local/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools/
+export PATH=$PATH:$ANDROID_HOME/tools/bin/
+export PATH=$PATH:$ANDROID_HOME/tools/

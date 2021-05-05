@@ -1,0 +1,7 @@
+ttf-courier-prime
+ttf-inconsolata-g
+ttf-iosevka
+ttf-monaco
+ttf-anonymous-pro
+ttf-inconsolata
+font-victor-mono

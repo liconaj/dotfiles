@@ -1,0 +1,399 @@
+
+;; List of packages:
+;; - use-package
+;; - company
+;; - doom-themes
+;; - treemacs
+;; - treemacs-icons-dired
+;; - flycheck
+;; - elpy
+;; - multiple-cursors
+;; - hightlight-indent-guides
+;; - smart-mode-line
+;; - yasnippet
+;; - yasnippet-snippet
+;; - yasnippet-classic-snippets
+;; - markdown-mode
+
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" default))
+ '(highlight-indent-guides-method 'bitmap)
+ '(package-selected-packages
+   '(smart-mode-line multiple-cursors elpy treemacs-icons-dired treemacs company use-package highlight-indent-guides)))
+
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
+
+
+;; MELPA
+
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(package-initialize)
+
+
+;; INTERFAZ
+
+;; Bordes
+(fringe-mode 0)
+(setq-default left-margin-width 1 right-margin-width 1)
+
+(tool-bar-mode -1)
+;; (menu-bar-mode -1)
+;; (toggle-scroll-bar -1)
+
+;; Tipografías
+(set-face-attribute 'default nil :font "Victor Mono SemiBold" :height 110)
+(set-face-attribute 'variable-pitch
+                    nil
+                    :family "Victor Mono")
+
+;; Líneas
+(global-visual-line-mode)
+
+;; Modeline
+(smart-mode-line-enable)
+(setq sml/no-confirm-load-theme t)
+
+;; IDO
+(ido-mode 1)
+(setq ido-enable-flex-matching t)
+
+;; Guías de indentación
+(defun my-highlighter (level responsive display)
+  (if (> 1 level)
+      nil
+    (highlight-indent-guides--highlighter-default level responsive display)))
+(setq highlight-indent-guides-highlighter-function 'my-highlighter)
+
+;; PREFERENCIAS
+
+
+;; Pantalla de inicio
+(setq inhibit-startup-screen t)
+(setq inhibit-startup-message t)
+(setq inhibit-startup-echo-area-message t)
+(setq initial-scratch-message ";; !Bienvenido a Emacs!\n\n\n")
+
+
+;; Respaldos
+(setq backup-directory-alist `(("." . "~/.emacs.d/saves")))
+
+;; Tabulación
+(setq-default tab-width 4)
+(setq-default indent-tabs-mode nil)
+
+;; Resaltar paréntesis
+(show-paren-mode t)
+
+;; Snippets
+(add-to-list 'load-path
+             "~/.emacs.d/plugins/yasnippet")
+(require 'yasnippet)
+(yas-reload-all)
+
+;; Habilitar formato mayúsculas y minúsculas
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+
+;; Cursores múltiples
+(require 'multiple-cursors)
+
+;; Desplazamiento de página
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
+(setq mouse-wheel-progressive-speed nil)
+(setq mouse-wheel-follow-mouse 't)
+(setq scroll-step 1)
+(setq scroll-preserve-screen-position 1)
+
+;; Barra lateral
+(use-package treemacs
+  :ensure t
+  :defer t
+  :init
+  (with-eval-after-load 'winum
+    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+  :config
+  (progn
+    (setq treemacs-collapse-dirQs                 (if treemacs-python-executable 3 0)
+          treemacs-deferred-git-apply-delay      0.5
+          treemacs-directory-name-transformer    #'identity
+          treemacs-display-in-side-window        t
+          treemacs-eldoc-display                 t
+          treemacs-file-event-delay              5000
+          treemacs-file-extension-regex          treemacs-last-period-regex-value
+          treemacs-file-follow-delay             0.2
+          treemacs-file-name-transformer         #'identity
+          treemacs-follow-after-init             t
+          treemacs-git-command-pipe              ""
+          treemacs-goto-tag-strategy             'refetch-index
+          treemacs-indentation                   2
+          treemacs-indentation-string            " "
+          treemacs-is-never-other-window         nil
+          treemacs-max-git-entries               5000
+          treemacs-missing-project-action        'ask
+          treemacs-move-forward-on-expand        nil
+          treemacs-no-png-images                 nil
+          treemacs-no-delete-other-windows       t
+          treemacs-project-follow-cleanup        nil
+          treemacs-persist-file                  (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
+          treemacs-position                      'left
+          treemacs-recenter-distance             0.1
+          treemacs-recenter-after-file-follow    nil
+          treemacs-recenter-after-tag-follow     nil
+          treemacs-recenter-after-project-jump   'always
+          treemacs-recenter-after-project-expand 'on-distance
+          treemacs-show-cursor                   nil
+          treemacs-show-hidden-files             nil
+          treemacs-silent-filewatch              t
+          treemacs-silent-refresh                t
+          treemacs-sorting                       'alphabetic-asc
+          treemacs-space-between-root-nodes      nil
+          treemacs-tag-follow-cleanup            t
+          treemacs-tag-follow-delay              1.5
+          treemacs-user-mode-line-format         nil
+          treemacs-user-header-line-format       nil
+          treemacs-width                         25
+          treemacs-workspace-switch-cleanup      nil)
+
+    (treemacs-resize-icons 16)
+    (treemacs-follow-mode t)
+    (treemacs-filewatch-mode t)
+    (treemacs-fringe-indicator-mode nil)
+    (pcase (cons (not (null (executable-find "git")))
+                 (not (null treemacs-python-executable)))
+      (`(t . t)
+       (treemacs-git-mode 'deferred))
+      (`(t . _)
+       (treemacs-git-mode 'simple))))
+  :bind
+  (:map global-map
+        ("C-x t t"   . treemacs)
+        ("M-0"       . treemacs-select-window)
+        ("C-x t 1"   . treemacs-delete-other-windows)
+        ("C-x t B"   . treemacs-bookmark)
+        ("C-x t C-t" . treemacs-find-file)
+        ("C-x t M-t" . treemacs-find-tag)))
+
+(use-package treemacs-icons-dired
+  :after treemacs dired
+  :ensure t
+  :config (treemacs-icons-dired-mode))
+
+;; Elpy
+(use-package elpy
+  :ensure t
+  :init
+  (elpy-enable))
+(when (load "flycheck" t t)
+  (add-hook 'elpy-mode-hook 'flycheck-mode))
+(add-hook 'elpy-mode-hook (lambda ()
+                            (add-hook 'before-save-hook
+                                      'elpy-format-code nil t)))
+
+;; Answers
+(fset 'yes-or-no-p 'y-or-n-p)
+
+;; Ibuffer
+(require 'ibuf-ext)
+(add-to-list 'ibuffer-never-show-predicates "^\\*")
+
+(setq ido-ignore-buffers '("\\` " "^\*"))
+
+(defun next-code-buffer ()
+  (interactive)
+  (let (( bread-crumb (buffer-name) ))
+    (next-buffer)
+    (while
+        (and
+         (string-match-p "^\*" (buffer-name))
+         (not ( equal bread-crumb (buffer-name) )) )
+      (next-buffer))))
+
+;; Modify the default ibuffer-formats
+  (setq ibuffer-formats
+	'((mark modified read-only " " filename-and-process)))
+
+
+(setq ibuffer-display-summary nil)
+(defadvice ibuffer-update-title-and-summary (after remove-column-titles)
+   (with-current-buffer
+      (read-only-mode 0)
+      (goto-char 1)
+      (search-forward "-\n" nil t)
+      (delete-region 1 (point))
+      (let ((window-min-height 1)) 
+        ;; save a little screen estate
+        (shrink-window-if-larger-than-buffer))
+      (read-only-mode)))
+  
+(ad-activate 'ibuffer-update-title-and-summary)
+
+
+;; LENGUAJES
+
+;; Python
+(setq-default python-indent 4)
+(use-package elpy
+  :ensure t
+  :init
+  (elpy-enable))
+
+;; FREEBASIC
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+(require 'freebasic-mode)
+
+;; Familias de C
+(setq c-basic-offset 4)
+
+;; HOOKS
+
+;; (add-hook 'after-init-hook #'global-flycheck-mode)  ;; Linter
+(add-hook 'after-init-hook 'global-company-mode)	;; Autocompletado
+(add-hook 'after-init-hook 'electric-pair-mode 1)	;; Cerrar corchetes
+
+(add-hook 'prog-mode-hook #'yas-minor-mode)
+(add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+
+;; Elpy
+(when (load "flycheck" t t)
+  (add-hook 'elpy-mode-hook 'flycheck-mode))
+(add-hook 'elpy-mode-hook (lambda ()
+                            (add-hook 'before-save-hook
+                                      'elpy-format-code nil t)))
+(add-hook 'python-mode-hook
+          (lambda ()
+            (setq-default indent-tabs-mode nil)
+            (add-to-list 'write-file-functions
+                         'delete-trailing-whitespace)))
+
+;; Ibuffer
+(add-hook 'ibuffer-mode-hook
+          (lambda ()
+            (ibuffer-switch-to-saved-filter-groups "default")))
+
+;; Eliminar buffer *Completions*
+(add-hook 'minibuffer-exit-hook
+      '(lambda ()
+         (let ((buffer "*Completions*"))
+           (and (get-buffer buffer)
+                (kill-buffer buffer)))))
+
+;; COMPILACION y EJECUCION
+
+(defun code-compile ()
+  (interactive)
+  (set (make-local-variable 'compile-command)
+       (let ((file (file-name-nondirectory buffer-file-name)))
+         (if (equal (file-name-extension file) "bas")
+             (format "fbc -s gui %s" file)
+             (format "%s -o %s %s"
+                     (if (equal (file-name-extension file) "cpp") "g++" "gcc")
+                     (file-name-sans-extension file)
+                     file))))
+  (compile compile-command))
+
+(defun code-compile-console ()
+  (interactive)
+  (set (make-local-variable 'compile-command)
+       (let ((file (file-name-nondirectory buffer-file-name)))
+         (if (equal (file-name-extension file) "bas")
+             (format "fbc %s" file)
+             (format "%s -o %s %s"
+                     (if (equal (file-name-extension file) "cpp") "g++" "gcc")
+                     (file-name-sans-extension file)
+                     file))))
+  (compile compile-command))
+
+
+(defun cyco:compile-autoclose (buffer string)
+  (cond ((string-match "finished" string)
+         (message "Build maybe successful: closing window.")
+         (run-with-timer 1 nil
+                         'delete-window
+                         (get-buffer-window buffer t)))
+        (t
+         (message "Compilation exited abnormally: %s" string))))
+
+
+(defun start-cmd (file-run)
+  (interactive)
+  (let ((proc (start-process "cmd" nil "cmd.exe" "/c" "start" file-run)))
+    (set-process-query-on-exit-flag proc nil)))
+
+(defun start-cmd-console (file-run)
+  (interactive)
+  (let ((proc (start-process "cmd" nil "cmd.exe" "/c" "start" "C:\\Users\\josue\\AppData\\Roaming\\.emacs.d\\run-script.cmd" file-run)))
+    (set-process-query-on-exit-flag proc nil)))
+
+(defun run-file ()
+  (interactive)
+  (set (make-local-variable 'file-run)
+       (let ((file (file-name-nondirectory buffer-file-name)))
+         (if (or (equal (file-name-extension file) "cpp")
+                 (equal (file-name-extension file) "bas"))
+             (concat (file-name-sans-extension buffer-file-name) ".exe")
+           (buffer-file-name))))
+  (start-cmd file-run))
+
+(defun run-file-console ()
+  (interactive)
+  (set (make-local-variable 'file-run)
+       (let ((file (file-name-nondirectory buffer-file-name)))
+         (if (or (equal (file-name-extension file) "cpp")
+                 (equal (file-name-extension file) "bas"))
+             (concat (file-name-sans-extension buffer-file-name) ".exe")
+           (buffer-file-name))))
+  (start-cmd-console file-run))
+
+(defun run-cmd ()
+  (interactive)
+  (let ((proc (start-process "cmd" nil "cmd.exe" "/c" "start" "cmd.exe" "/k" "cd" (file-name-directory (buffer-file-name)))))
+    (set-process-query-on-exit-flag proc nil)))
+
+
+;; COMBINACIONES DE TECLAS
+
+;; Opciones de completado
+(global-set-key (kbd "M-_") 'company-complete-common-or-cycle)
+
+;; Indentación
+(global-set-key (kbd "C->") 'indent-rigidly-right-to-tab-stop)
+(global-set-key (kbd "C-<") 'indent-rigidly-left-to-tab-stop)
+
+;; Cursores múltiples
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "<M-S-up>") 'mc/mark-previous-like-this)
+(global-set-key (kbd "<M-S-down>") 'mc/mark-next-like-this)
+
+;; Desplazamiento de página
+(global-set-key (kbd "M-n") (kbd "C-u 1 C-v"))
+(global-set-key (kbd "M-p ") (kbd "C-u 1 M-v"))
+
+;; Ejecucion
+(global-set-key [f4] 'run-cmd)
+(global-set-key [f5] 'run-file-console)
+(global-set-key [f6] 'run-file)
+
+;; Compilado
+(setq compilation-finish-functions 'cyco:compile-autoclose)
+(global-set-key [f8] 'code-compile-console)
+(global-set-key [f9] 'code-compile)
+
+;; Ibuffer
+(global-set-key [remap next-buffer] 'next-code-buffer)
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+(global-set-key (kbd "<C-tab>") 'next-code-buffer)

@@ -1,0 +1,258 @@
+" ----------------------------------------------------------------
+" 					 INITIALIZATION OF PLUGINS
+" ----------------------------------------------------------------
+
+" VIM PLUG AUTOINSTALLATION:
+
+" Install vim-plug if doesn't exist
+" if empty(glob('~/.vim/autoload/plug.vim'))
+"  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+"    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+"  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+" endif
+
+call plug#begin('~/.vim/plugged')
+Plug 'sainnhe/gruvbox-material'
+Plug 'kh3phr3n/python-syntax'
+Plug 'eapache/auto-pairs'
+Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
+Plug 'maralla/completor.vim', { 'do': 'make js' }
+Plug 'kyouryuukunn/completor-necovim'
+Plug 'tpope/vim-surround'
+Plug 'ervandew/supertab'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'psliwka/vim-smoothie'
+Plug 'preservim/nerdtree'
+call plug#end()
+
+" ----------------------------------------------------------------
+" 					  GENERAL OPTIONS
+" ----------------------------------------------------------------
+
+set nocompatible
+filetype plugin indent on
+
+syntax on
+set termguicolors
+set encoding=utf-8
+scriptencoding utf-8
+set number
+set ttyfast
+set linebreak
+set hidden
+set showmode
+set showcmd
+set lazyredraw
+set wildmenu
+set title
+set titlestring=
+set backup
+set backupskip=
+set undofile
+set expandtab
+set tabstop=4
+set shiftround
+set shiftwidth=4
+set softtabstop=4
+set autoindent
+set smartindent
+set splitbelow
+set splitright
+set autochdir
+set hlsearch
+set incsearch
+set display=lastline
+set clipboard=unnamedplus
+set backspace=indent,eol,start whichwrap+=<,>,[,]
+set titlestring+=%(%{expand('%:r')}\ \ %)
+set backupdir=~/.vim/files/backup/
+set undodir=~/.vim/files/undo/
+
+" ----------------------------------------------------------------
+" 					 PLUGINS AND CUSTOMIZATION
+" ----------------------------------------------------------------
+
+" STATUS LINE:
+set laststatus=2
+let g:airline_extensions = []
+
+if has("statusline")
+    set statusline=%<%f\ %h%m%r%=%{\"[\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\",B\":\"\").\"]\ \"}%k\ %-14.(%l,%c%V%)\ %P
+endif
+
+" AUTO PAIRS:
+let g:AutoPairsUseInsertedCount = 1
+let g:AutoPairsSmartQuotes = 1
+let g:AutoPairsMapCR = 1
+let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`','<':'>'}
+let g:AutoPairsOnlyWhitespace = 1
+let g:AutoPairsMapBS = 1
+
+" PYTHON SYNTAXIS:
+let g:python_highlight_all = 1
+
+" THEME:
+let g:gruvbox_material_background = 'hard'
+set background=dark
+colorscheme gruvbox-material
+if !has('gui_running')
+     set t_Co=256
+endif
+
+if has('gui_running')
+    set lines=30
+    set columns=95
+    set guioptions-=aegimrLtT
+    set guifont=Victor\ Mono\ SemiBold\ 11
+    set shortmess+=at
+endif
+
+" COMPLETION:
+
+let g:UltiSnipsExpandTrigger           = '<c-k>'
+let g:UltiSnipsJumpForwardTrigger      = '<c-k>'
+let g:UltiSnipsJumpBackwardTrigger     = '<c-j>'
+let g:UltiSnipsEditSplit="vertical"
+
+function! Tab_Or_Complete() abort
+    if pumvisible()
+        return "\<C-N>"
+    elseif col('.')>1 && strpart( getline('.'), col('.')-2, 3 ) =~ '^[[:keyword:][:ident:]]'
+        return "\<C-R>=completor#do('complete')\<CR>"
+    else
+        return "\<Tab>"
+    endif
+endfunction
+
+let g:completor_auto_trigger = 1
+inoremap <expr> <Tab> Tab_Or_Complete()
+
+" FILE BROWSING:
+let NERDTreeShowBookmarks=1
+let NERDTreeShowHidden=0
+let g:netrw_menu=0
+
+" ----------------------------------------------------------------
+" 							 BINDINGS
+" ----------------------------------------------------------------
+
+" LEADER KEY:
+let mapleader=' '
+
+" COPY AND PASTE:
+nnoremap <leader>y "+y
+nnoremap <leader>p "+p
+nnoremap <leader>d "+d
+vnoremap <leader>y "+y
+vnoremap <leader>p "+p
+vnoremap <leader>d "+d
+
+" HOME MAP:
+nnoremap <Home> ^
+inoremap <Home> <C-o>^
+vnoremap <Home> ^
+
+" BUFFER NAVIGATION:
+nnoremap <leader>l :bnext<CR>
+nnoremap <leader>j :bprevious<CR>
+nnoremap <leader>q :bdelete<CR>
+
+" SIDEBAR:
+nnoremap <leader>b :NERDTreeToggle<CR>
+
+" TRILLING WHITESPACES:
+nnoremap <C-s> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
+
+" TERMINAL:
+tmap <S-Insert> <C-W>"+
+
+" RUN SCRIPTS:
+command! -nargs=1 Silent
+\   execute 'silent !' . <q-args>
+\ | execute 'redraw!'
+
+nnoremap <F5> :w<CR>:Silent xfce4-terminal -e "bash -c 'python -u \"%:p\";echo;read'" &<CR>
+inoremap <F5> <ESC>:w<CR>:Silent xfce4-terminal -e "bash -c 'python -u \"%:p\";echo;read'" &<CR>
+nnoremap <F6> :w<CR>:Silent xfce4-terminal -e "bash -c 'node \"%:p\";echo;read'" &<CR>
+inoremap <F6> <ESC>:w<CR>:Silent xfce4-terminal -e "bash -c 'node \"%:p\";echo;read'" &<CR>
+
+
+" FIND AND REPLACE:
+if has("gui")
+  noremap  <expr> <F3> has("gui_running") ? ":promptfind\<CR>" : "/"
+  inoremap <expr> <F3> has("gui_running") ? "\<C-\>\<C-O>:promptfind\<CR>" : "\<C-\>\<C-O>/"
+  cnoremap <expr> <F3> has("gui_running") ? "\<C-\>\<C-C>:promptfind\<CR>" : "\<C-\>\<C-O>/"
+  nnoremap <expr> <C-H> has("gui_running") ? ":promptrepl\<CR>" : "\<C-H>"
+  inoremap <expr> <C-H> has("gui_running") ? "\<C-\>\<C-O>:promptrepl\<CR>" : "\<C-H>"
+  cnoremap <expr> <C-H> has("gui_running") ? "\<C-\>\<C-C>:promptrepl\<CR>" : "\<C-H>"
+endif
+
+" TEXT SELECTION:
+inoremap <S-Left> <C-o>vh
+nnoremap <S-Left> vh
+inoremap <S-Right> <C-o>vl
+nnoremap <S-Right> vl
+inoremap <S-Up> <C-o>vk
+nnoremap <S-Up> vk
+inoremap <S-Down> <C-o>vj
+nnoremap <S-Down> vj
+inoremap <S-End> <C-o>v$
+nnoremap <S-End> v$
+inoremap <S-Home> <C-o>v0
+nnoremap <S-Home> v0
+vnoremap h          <Esc><Left>
+vnoremap j          <Esc><Down>
+vnoremap k          <Esc><Up>
+vnoremap l          <Esc><Right>
+vnoremap <Left>     <Esc><Left>
+vnoremap <Down>     <Esc><Down>
+vnoremap <Up>       <Esc><Up>
+vnoremap <Right>    <Esc><Right>
+vnoremap <S-h>      <Left>
+vnoremap <S-j>      <Down>
+vnoremap <S-k>      <Up>
+vnoremap <S-l>      <Right>
+vnoremap <S-Left>   <Left>
+vnoremap <S-Down>   <Down>
+vnoremap <S-Up>     <Up>
+vnoremap <S-Right>  <Right>
+
+" ----------------------------------------------------------------
+" 					    MORE OPTIONS
+" ----------------------------------------------------------------
+
+
+" ADITIONAL PLUGINS:
+"Plug 'itchyny/lightline.vim'
+"Plug 'vim-airline/vim-airline'
+"Plug 'mg979/vim-visual-multi'
+"Plug 'sheerun/vim-polyglot'
+"Plug 'Yggdroot/indentLine'
+
+
+" PLUGIN CONFIGURATIONS:
+
+"let g:lightline = {
+"      \ 'colorscheme': 'gruvbox_material',
+"      \ 'active': {
+"      \   'right': [ [ 'lineinfo' ],
+"      \              [ 'percent' ],
+"      \              [ 'fileencoding', 'filetype']]
+"      \ },
+"      \ }
+
+
+
+"" WINDOWS:
+"noremap <C-Tab> <C-W>w
+"inoremap <C-Tab> <C-O><C-W>w
+"cnoremap <C-Tab> <C-C><C-W>w
+"onoremap <C-Tab> <C-C><C-W>w
+
+" COMPLETION:
+"let g:SuperTabDefaultCompletionType    = '<C-n>'
+"let g:SuperTabCrMapping                = 0
+" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+

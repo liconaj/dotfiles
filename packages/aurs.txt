@@ -1,0 +1,5 @@
+google-chrome
+archey4
+typora
+unrar
+scrcpy

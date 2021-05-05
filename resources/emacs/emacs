@@ -1,0 +1,359 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                       VARIABLES                          ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("0685ffa6c9f1324721659a9cd5a8931f4bb64efae9ce43a3dba3801e9412b4d8" default))
+ '(package-selected-packages
+   '(lua-mode treemacs doom-themes undo-tree company-ctags company use-package)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                       PACKAGES                           ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(package-initialize)
+(unless package-archive-contents (package-refresh-contents))
+
+(dolist (package '(use-package))
+  (unless (package-installed-p package)
+    (package-install package)))
+
+(use-package company
+  :ensure t
+  :hook (after-init . global-company-mode))
+(use-package company-ctags
+  :ensure t)
+(use-package undo-tree
+  :ensure t)
+(use-package doom-themes
+  :ensure t)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                    APPEARANCE                            ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq doom-themes-enable-italic nil)
+(load-theme 'doom-horizon)
+
+
+
+;; FONT
+(set-face-attribute 'default nil :font "Iosevka" :height 120)
+(set-face-attribute 'variable-pitch
+            nil
+            :family "Victor Mono")
+
+;; WORD WRAPPING
+(global-visual-line-mode)
+
+;; SPLASH SCREEN
+(setq inhibit-startup-screen t)
+(setq inhibit-startup-message t)
+(setq inhibit-startup-echo-area-message t)
+(setq initial-scratch-message ";; Emacs!\n\n\n")
+
+;; WINDOW SIZE
+(if (display-graphic-p)
+    (progn
+      (setq inital-frame-alist
+            '(
+              (tool-bar-lines . 0)
+              (width . 80)
+              (height . 25)))
+      (setq default-frame-alist
+            '(
+              (tool-bar-lines . 0)
+              (width . 80)
+              (height . 25))))
+  (progn
+    (setq inital-frame-alist '( (tool-bar-lines . 0)))
+    (setq inital-frame-alist '( (tool-bar-lines . 0)))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                          TOOLS                           ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+(toggle-scroll-bar -1)
+
+(ido-mode 1)
+(setq ido-enable-flex-matching t)
+(setq ido-ignore-buffers '("^ " "*Completions*" "*Shell Command Output*" "*Messages*" "Async Shell Command" "KILL"))
+(setq ido-file-extensions-order '(".org" ".tex" ".emacs" ".pdf" ".txt"))
+
+(global-undo-tree-mode)
+(savehist-mode 1)
+
+(setq backup-directory-alist `(("." . "~/.emacs.d/saves")))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                       OPTIONS                            ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; HIGHLIGHT PAIRS
+(show-paren-mode t)
+
+;; TABULATION
+(setq-default tab-width 4)
+(setq-default indent-tabs-mode nil)
+
+;; AUTOPAIR
+(add-hook 'after-init-hook 'electric-pair-mode 1)
+
+;; WORD CASE
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+
+;; SAVE HISTORY
+(savehist-mode 1)
+(setq history-length 1000)
+  
+;; SCROLL
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
+(setq mouse-wheel-progressive-speed nil)
+(setq mouse-wheel-follow-mouse 't)
+(setq scroll-step 1)
+(setq scroll-preserve-screen-position 1)
+
+;; SHORT ANSWERS
+(fset 'yes-or-no-p 'y-or-n-p)
+
+;; BUFFERS
+(require 'ibuf-ext)
+(add-to-list 'ibuffer-never-show-predicates "^\\*")
+(setq ido-ignore-buffers '("\\` " "^\*"))
+(defun next-code-buffer ()
+  (interactive)
+  (let (( bread-crumb (buffer-name) ))
+    (next-buffer)
+    (while
+        (and
+         (string-match-p "^\*" (buffer-name))
+         (not ( equal bread-crumb (buffer-name) )) )
+      (next-buffer))))
+  (setq ibuffer-formats
+    '((mark modified read-only " " filename-and-process)))
+(setq ibuffer-display-summary nil)
+(defadvice ibuffer-update-title-and-summary (after remove-column-titles)
+  (with-current-buffer
+      (read-only-mode 0)
+    (goto-char 1)
+    (search-forward "-\n" nil t)
+    (delete-region 1 (point))
+    (let ((window-min-height 1)) 
+      ;; save a little screen estate
+      (shrink-window-if-larger-than-buffer))
+    (read-only-mode)))
+(ad-activate 'ibuffer-update-title-and-summary)
+(add-hook 'ibuffer-mode-hook
+      (lambda ()
+        (ibuffer-switch-to-saved-filter-groups "default")))
+
+;; DELETE BUFFER *Completions*
+(add-hook 'minibuffer-exit-hook
+      '(lambda ()
+         (let ((buffer "*Completions*"))
+           (and (get-buffer buffer)
+            (kill-buffer buffer)))))
+
+;; INDENTATION
+(electric-indent-mode 1)
+(dolist (command '(yank yank-pop))
+  (eval `(defadvice ,command (after indent-region activate)
+       (and (not current-prefix-arg)
+        (member major-mode '(emacs-lisp-mode
+                     lisp-mode
+                     c-mode
+                     plain-tex-mode
+                     ruby-mode
+                     python-mode
+                     c++-mode
+                     latex-mode))
+        (let ((mark-even-if-inactive transient-mark-mode))
+          (indent-region (region-beginning) (region-end) nil))))))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                         TREEMACS                         ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package treemacs
+  :ensure t
+  :defer t
+  :init
+  (with-eval-after-load 'winum
+    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+  :config
+  (progn
+    (setq treemacs-collapse-dirQs                 (if treemacs-python-executable 3 0)
+          treemacs-deferred-git-apply-delay      0.5
+          treemacs-directory-name-transformer    #'identity
+          treemacs-display-in-side-window        t
+          treemacs-eldoc-display                 t
+          treemacs-file-event-delay              5000
+          treemacs-file-extension-regex          treemacs-last-period-regex-value
+          treemacs-file-follow-delay             0.2
+          treemacs-file-name-transformer         #'identity
+          treemacs-follow-after-init             t
+          treemacs-git-command-pipe              ""
+          treemacs-goto-tag-strategy             'refetch-index
+          treemacs-indentation                   2
+          treemacs-indentation-string            " "
+          treemacs-is-never-other-window         nil
+          treemacs-max-git-entries               5000
+          treemacs-missing-project-action        'ask
+          treemacs-move-forward-on-expand        nil
+          treemacs-no-png-images                 t
+          treemacs-no-delete-other-windows       t
+          treemacs-project-follow-cleanup        nil
+          treemacs-persist-file                  (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
+          treemacs-position                      'left
+          treemacs-recenter-distance             0.1
+          treemacs-recenter-after-file-follow    nil
+          treemacs-recenter-after-tag-follow     nil
+          treemacs-recenter-after-project-jump   'always
+          treemacs-recenter-after-project-expand 'on-distance
+          treemacs-show-cursor                   nil
+          treemacs-show-hidden-files             nil
+          treemacs-silent-filewatch              t
+          treemacs-silent-refresh                t
+          treemacs-sorting                       'alphabetic-asc
+          treemacs-space-between-root-nodes      nil
+          treemacs-tag-follow-cleanup            t
+          treemacs-tag-follow-delay              1.5
+          treemacs-user-mode-line-format         nil
+          treemacs-user-header-line-format       nil
+          treemacs-width                         25
+          treemacs-workspace-switch-cleanup      nil)
+
+    (treemacs-resize-icons nil)
+    (treemacs-follow-mode t)
+    (treemacs-filewatch-mode t)
+    (treemacs-fringe-indicator-mode nil)
+    (pcase (cons (not (null (executable-find "git")))
+                 (not (null treemacs-python-executable)))
+      (`(t . t)
+       (treemacs-git-mode 'deferred))
+      (`(t . _)
+       (treemacs-git-mode 'simple))))
+  :bind
+  (:map global-map
+        ("C-x t t"   . treemacs)
+        ("M-0"       . treemacs-select-window)
+        ("C-x t 1"   . treemacs-delete-other-windows)
+        ("C-x t B"   . treemacs-bookmark)
+        ("C-x t C-t" . treemacs-find-file)
+        ("C-x t M-t" . treemacs-find-tag)))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                        MODELINE                          ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(define-minor-mode minor-mode-blackout-mode
+  "Hides minor modes from the modeline"
+  t)
+(catch 'done
+  (mapc (lambda (x)
+          (when (and (consp x)
+                     (equal (cadr x) '("" minor-mode-alist)))
+            (let ((original (copy-sequence x)))
+              (setcar x 'minor-mode-blackout-mode)
+              (setcdr x (list "" original)))
+            (throw 'done t)))
+        mode-line-modes))
+
+(setq-default mode-line-format
+              (list
+               "  "
+               mode-line-mule-info
+               mode-line-modified
+               mode-line-frame-identification
+               mode-line-buffer-identification
+               "   "
+               mode-line-position
+               " ----- "
+               mode-line-modes
+               "-----"))
+;;(set-face-background 'mode-line "black")
+;;(set-face-background 'mode-line-inactive "black")
+(setq column-number-mode t)
+(force-mode-line-update t)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                         COMPILE                          ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun tofu-run-console ()
+  (interactive)
+  (let ((proc (start-process "bash" nil "xfce4-terminal" "-e" (concat " bash -c \"~/.emacs.d/tofu.sh '" default-directory "'\""))))
+    (set-process-query-on-exit-flag proc nil)))
+
+(defun tofu-run ()
+  (interactive)
+  (set (make-local-variable 'compile-command)
+       (let ((file (file-name-nondirectory buffer-file-name)))
+         (if (equal (file-name-extension file) "lua")
+             (format "tofu ." file))))
+  (compile compile-command))
+
+(defun cyco:compile-autoclose (buffer string)
+  (cond ((string-match "finished" string)
+         (message "Build maybe succesful: clossing window.")
+         (run-with-timer 1 nil
+                         'delete-window
+                         (get-buffer-window buffer t)))
+        (t
+         (message "Compilation exited abnormally: %s" string))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                       KEYBINDINGS                        ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; INDENT
+(global-set-key (kbd "C->") 'indent-rigidly-right-to-tab-stop)
+(global-set-key (kbd "C-<") 'indent-rigidly-left-to-tab-stop)
+
+;; SCROLL
+(global-set-key (kbd "M-n") (kbd "C-u 1 C-v"))
+(global-set-key (kbd "M-p ") (kbd "C-u 1 M-v"))
+
+;; IBUFFER
+(global-set-key [remap next-buffer] 'next-code-buffer)
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+(global-set-key (kbd "<C-tab>") 'next-code-buffer)
+
+;; TERMINAL
+(defun open-external-terminal ()
+  (interactive)
+  (let ((proc (start-process "bash" nil "xfce4-terminal")))
+    (set-process-query-on-exit-flag proc nil)))
+
+(defun open-ansi-terminal ()
+  (interactive)
+  (let ((w (split-window-below 2)))
+    (select-window w)
+    (ansi-term "/bin/zsh")
+    (switch-to-buffer "*ansi-term*")))
+
+(setq compilation-finish-functions 'cyco:compile-autoclose)
+(global-set-key (kbd "C-c t") 'open-external-terminal)
+(global-set-key (kbd "C-c C-t") 'open-ansi-terminal)
+(global-set-key [f5] 'tofu-run-console)
+(global-set-key [f6] 'tofu-run)

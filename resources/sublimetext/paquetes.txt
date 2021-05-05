@@ -1,0 +1,10 @@
+A File Icon.sublime-package
+Alignment.sublime-package
+ayu.sublime-package
+gruvbox.sublime-package
+Language - Spanish.sublime-package
+Material Theme.sublime-package
+One Dark Material - Theme.sublime-package
+Package Control.sublime-package
+SideBarEnhancements.sublime-package
+Terminus.sublime-package

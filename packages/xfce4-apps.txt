@@ -1,0 +1,15 @@
+lightdm
+lightdm-gtk-greeter
+lightdm-gtk-greeter-settings
+evince
+xdotool
+gvfs
+blueman
+pavucontrol
+glib2
+gvfs-gphoto2
+gvfs-mtp
+file-roller
+xclip
+gucharmap
+gnome-calculator

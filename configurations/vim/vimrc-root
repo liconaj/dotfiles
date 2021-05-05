@@ -1,0 +1,114 @@
+" ----------------------------------------------------------------
+" 		    INITIALIZATION OF PLUGINS
+" ----------------------------------------------------------------
+
+" VIM PLUG AUTOINSTALLATION:
+
+" Install vim-plug if doesn't exist
+if empty(glob('~/.vim/autoload/plug.vim'))
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin('~/.vim/plugged')
+Plug 'kh3phr3n/python-syntax'
+Plug 'eapache/auto-pairs'
+Plug 'tpope/vim-surround'
+Plug 'ervandew/supertab'
+Plug 'preservim/nerdtree'
+call plug#end()
+
+" ----------------------------------------------------------------
+" 			 GENERAL OPTIONS
+" ----------------------------------------------------------------
+
+set nocompatible
+filetype plugin indent on
+
+syntax on
+set termguicolors
+set encoding=utf-8
+scriptencoding utf-8
+set number
+set ttyfast
+set linebreak
+set hidden
+set showmode
+set showcmd
+set lazyredraw
+set wildmenu
+set title
+set titlestring=
+set backup
+set backupskip=
+set undofile
+set expandtab
+set tabstop=4
+set shiftround
+set shiftwidth=4
+set softtabstop=4
+set autoindent
+set smartindent
+set splitbelow
+set splitright
+set autochdir
+set hlsearch
+set incsearch
+set display=lastline
+set clipboard=unnamedplus
+set backspace=indent,eol,start whichwrap+=<,>,[,]
+set titlestring+=%(%{expand('%:r')}\ \ %)
+set backupdir=~/.vim/files/backup/
+set undodir=~/.vim/files/undo/
+
+" ----------------------------------------------------------------
+" 		    PLUGINS AND CUSTOMIZATION
+" ----------------------------------------------------------------
+
+if has("statusline")
+    set statusline=%<%f\ %h%m%r%=%{\"[\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\",B\":\"\").\"]\ \"}%k\ %-14.(%l,%c%V%)\ %P
+endif
+
+" AUTO PAIRS:
+let g:AutoPairsUseInsertedCount = 1
+let g:AutoPairsSmartQuotes = 1
+let g:AutoPairsMapCR = 1
+let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`','<':'>'}
+let g:AutoPairsOnlyWhitespace = 1
+let g:AutoPairsMapBS = 1
+
+
+" FILE BROWSING:
+let NERDTreeShowBookmarks=1
+let NERDTreeShowHidden=0
+let g:netrw_menu=0
+
+" ----------------------------------------------------------------
+" 			    BINDINGS
+" ----------------------------------------------------------------
+
+" LEADER KEY:
+let mapleader=' '
+
+" COPY AND PASTE:
+nnoremap <leader>y "+y
+nnoremap <leader>p "+p
+nnoremap <leader>d "+d
+vnoremap <leader>y "+y
+vnoremap <leader>p "+p
+vnoremap <leader>d "+d
+
+" HOME MAP:
+nnoremap <Home> ^
+inoremap <Home> <C-o>^
+vnoremap <Home> ^
+
+" BUFFER NAVIGATION:
+nnoremap <leader>l :bnext<CR>
+nnoremap <leader>j :bprevious<CR>
+nnoremap <leader>q :bdelete<CR>
+
+" SIDEBAR:
+nnoremap <leader>b :NERDTreeToggle<CR>
+
