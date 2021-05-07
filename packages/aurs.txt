@@ -10,3 +10,4 @@ sfxr
 zoom
 veusz
 sip4
+puddletag

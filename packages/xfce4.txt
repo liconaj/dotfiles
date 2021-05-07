@@ -15,3 +15,4 @@ xclip
 gucharmap
 gnome-calculator
 xfce4-docklike-plugin
+xfmpc

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=PICO-8
+Exec=/home/josue/.local/share/pico-8/pico8
+Icon=/home/josue/.local/share/pico-8/lexaloffle-pico8.png
+GenericName=Fantasy console
+Categories=Development;
+Terminal=false
+StartupNotify=false
+
