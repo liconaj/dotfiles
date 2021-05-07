@@ -1,0 +1,10 @@
+gnome-2048
+gnome-chess
+gnuchess
+gnome-mines
+gnome-sudoku
+dwarffortress
+openal
+lib32-openal
+supertuxkart
+tiled

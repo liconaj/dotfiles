@@ -22,7 +22,7 @@ NoDisplay=false
 Icon=libreoffice-math
 Type=Application
 Categories=Office;Spreadsheet;Education;Science;Math;X-Red-Hat-Base;X-MandrivaLinux-Office-Other;
-Exec=env GTK_THEME="Lim Blue" libreoffice --math %U
+Exec=env GTK_THEME="Lim-Blue" libreoffice --math %U
 MimeType=application/vnd.oasis.opendocument.formula;application/vnd.sun.xml.math;application/vnd.oasis.opendocument.formula-template;text/mathml;application/mathml+xml;
 Name=LibreOffice Math
 GenericName=Formula Editor
@@ -41,4 +41,4 @@ Actions=NewDocument;
 Name=New Formula
 Name[en]=New Formula
 Icon=libreoffice-document-new
-Exec=env GTK_THEME="Lim Blue" libreoffice --math
+Exec=env GTK_THEME="Lim-Blue" libreoffice --math

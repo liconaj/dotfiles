@@ -21,7 +21,7 @@ Terminal=false
 Icon=libreoffice-base
 Type=Application
 Categories=Office;Database;X-Red-Hat-Base;X-MandrivaLinux-MoreApplications-Databases;
-Exec=env GTK_THEME="Lim Blue" libreoffice --base %U
+Exec=env GTK_THEME="Lim-Blue" libreoffice --base %U
 MimeType=application/vnd.oasis.opendocument.database;application/vnd.sun.xml.base;
 Name=LibreOffice Base
 GenericName=Database Development
@@ -40,4 +40,4 @@ Actions=NewDocument;
 Name=New Database
 Name[en]=New Database
 Icon=libreoffice-document-new
-Exec=env GTK_THEME="Lim Blue" libreoffice --base
+Exec=env GTK_THEME="Lim-Blue" libreoffice --base

@@ -1,5 +1,12 @@
 google-chrome
+visual-studio-code-bin
+sublime-text-3
+aseprite
 archey4
 typora
 unrar
 scrcpy
+sfxr
+zoom
+veusz
+sip4

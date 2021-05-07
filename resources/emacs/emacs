@@ -1,3 +1,4 @@
+(server-start)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                       VARIABLES                          ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -41,21 +42,26 @@
   :ensure t)
 (use-package doom-themes
   :ensure t)
+(use-package lua-mode
+  :ensure t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                    APPEARANCE                            ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq doom-themes-enable-italic nil)
-(load-theme 'doom-horizon)
-
-
 
 ;; FONT
 (set-face-attribute 'default nil :font "Iosevka" :height 120)
 (set-face-attribute 'variable-pitch
             nil
-            :family "Victor Mono")
+            :family "Iosevka")
+
+(tool-bar-mode -1)
+(scroll-bar-mode -1)    
+(menu-bar-mode -1)
+(global-hl-line-mode)
+(blink-cursor-mode)
 
 ;; WORD WRAPPING
 (global-visual-line-mode)
@@ -66,22 +72,98 @@
 (setq inhibit-startup-echo-area-message t)
 (setq initial-scratch-message ";; Emacs!\n\n\n")
 
-;; WINDOW SIZE
-(if (display-graphic-p)
-    (progn
-      (setq inital-frame-alist
-            '(
-              (tool-bar-lines . 0)
-              (width . 80)
-              (height . 25)))
-      (setq default-frame-alist
-            '(
-              (tool-bar-lines . 0)
-              (width . 80)
-              (height . 25))))
-  (progn
-    (setq inital-frame-alist '( (tool-bar-lines . 0)))
-    (setq inital-frame-alist '( (tool-bar-lines . 0)))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                       EMACSCLIENT                        ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defvar nox/fonts '(("Iosevka" . 12) ("DejaVu Sans Mono" . 11) ("Inconsolata" . 13) ("VictorMono SemiBold" . 11))
+  "List of fonts and sizes. The first one available will be used.")
+
+(defun nox/change-font ()
+  (interactive)
+  (let* (available-fonts font-name font-size font-setting)
+    (dolist (font nox/fonts (setq available-fonts (nreverse available-fonts)))
+      (when (member (car font) (font-family-list))
+        (push font available-fonts)))
+
+    (if (not available-fonts)
+        (error "No fonts from the chosen set are available")
+      (if (called-interactively-p 'interactive)
+          (let* ((chosen (assoc-string (completing-read "What font to use? " available-fonts nil t)
+                                       available-fonts)))
+            (setq font-name (car chosen)
+                  font-size (read-number "Font size: " (cdr chosen))))
+        (setq font-name (caar available-fonts)
+              font-size (cdar available-fonts)))
+
+      (setq font-setting (format "%s-%d" font-name font-size))
+      (set-frame-font font-setting nil t)
+      (add-to-list 'default-frame-alist (cons 'font font-setting)))))
+
+(defun nox/setup-appearance (frame)
+  (with-selected-frame frame
+    (remove-hook 'after-make-frame-functions 'nox/setup-appearance)
+    
+    ;; Remove this if you want the scroll and toolbars
+    (when (functionp 'scroll-bar-mode) (scroll-bar-mode -1))
+    (when (functionp 'tool-bar-mode) (tool-bar-mode -1))
+    (when (functionp 'menu-bar-mode) (menu-bar-mode -1))
+
+    (load-theme 'doom-horizon t)
+    (nox/change-font)
+
+    ;; Window size
+    (if (display-graphic-p)
+        (progn
+          (setq-default inital-frame-alist
+                '(
+                  (width . 80)
+                  (height . 25)))
+          (setq-default default-frame-alist
+                '(
+                  (tool-bar-lines . 0)
+                  (width . 80)
+                  (height . 25)))))
+    
+    (when (> (window-width) 100)
+      (split-window-right))
+
+    ;; Modify the next section as you wish
+    (tool-bar-mode -1)
+    (scroll-bar-mode -1)    
+    (menu-bar-mode -1)
+    (global-hl-line-mode)
+    (blink-cursor-mode)
+
+    ;; NOTE(nox): This needs to be here, else it doesn't work
+    (setq-default system-time-locale "C")))
+
+(if (daemonp)
+    (add-hook 'after-make-frame-functions 'nox/setup-appearance)
+  (nox/setup-appearance (car (frame-list))))
+
+(defun server-shutdown ()
+  "Save buffers, Quit, and Shutdown (kill) server"
+  (interactive)
+  (save-some-buffers)
+  (kill-emacs))
+
+(defun signal-restart-server ()
+  "Handler for SIGUSR1 signal, to (re)start an emacs server.
+
+Can be tested from within emacs with:
+  (signal-process (emacs-pid) 'sigusr1)
+
+or from the command line with:
+$ kill -USR1 <emacs-pid>
+$ emacsclient -c
+"
+  (interactive)
+  (server-force-delete)
+  (server-start))
+(define-key special-event-map [sigusr1] 'signal-restart-server)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                          TOOLS                           ;;
