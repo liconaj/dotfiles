@@ -16,3 +16,4 @@ gucharmap
 gnome-calculator
 xfce4-docklike-plugin
 xfmpc
+gnome-disk-utility

@@ -16,3 +16,4 @@ emacs
 gparted
 mpd
 youtube-dl
+crda

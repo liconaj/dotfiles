@@ -1,6 +1,5 @@
 (server-start)
-(desktop-save-mode 1)
-
+;;(desktop-save-mode t)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                       VARIABLES                          ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -10,10 +9,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("0685ffa6c9f1324721659a9cd5a8931f4bb64efae9ce43a3dba3801e9412b4d8" default))
  '(package-selected-packages
-   '(lua-mode treemacs doom-themes undo-tree company-ctags company use-package)))
+   '(go-mode go-autocomplete go rust-mode haxe-mode lua-mode treemacs doom-themes undo-tree company-ctags company use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -67,7 +64,6 @@
 
 ;; WORD WRAPPING
 (global-visual-line-mode)
-
 ;; SPLASH SCREEN
 (setq inhibit-startup-screen t)
 (setq inhibit-startup-message t)
@@ -112,7 +108,7 @@
     (when (functionp 'tool-bar-mode) (tool-bar-mode -1))
     (when (functionp 'menu-bar-mode) (menu-bar-mode -1))
 
-    (load-theme 'doom-horizon t)
+    (load-theme 'doom-tomorrow-night t)
     (nox/change-font)
 
     ;; Window size
@@ -170,6 +166,10 @@ $ emacsclient -c
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                          TOOLS                           ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; REDO M-_
+;; UNDO C-_
+(global-undo-tree-mode)
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -323,7 +323,7 @@ $ emacsclient -c
           treemacs-tag-follow-delay              1.5
           treemacs-user-mode-line-format         nil
           treemacs-user-header-line-format       nil
-          treemacs-width                         25
+          treemacs-width                         30
           treemacs-workspace-switch-cleanup      nil)
 
     (treemacs-resize-icons nil)
@@ -371,9 +371,9 @@ $ emacsclient -c
                mode-line-buffer-identification
                "   "
                mode-line-position
-               " ----- "
+               "        :"
                mode-line-modes
-               "-----"))
+               ))
 ;;(set-face-background 'mode-line "black")
 ;;(set-face-background 'mode-line-inactive "black")
 (setq column-number-mode t)
@@ -384,17 +384,17 @@ $ emacsclient -c
 ;;                         COMPILE                          ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun tofu-run-console ()
+(defun dragonruby-run-console ()
   (interactive)
-  (let ((proc (start-process "bash" nil "xfce4-terminal" "-e" (concat " bash -c \"~/.emacs.d/tofu.sh '" default-directory "'\""))))
+  (let ((proc (start-process "bash" nil "xfce4-terminal" "-e" (concat " bash -c \"~/.emacs.d/dragonruby.sh '" ".." "'\""))))
     (set-process-query-on-exit-flag proc nil)))
 
-(defun tofu-run ()
+(defun dragonruby-run ()
   (interactive)
   (set (make-local-variable 'compile-command)
        (let ((file (file-name-nondirectory buffer-file-name)))
-         (if (equal (file-name-extension file) "lua")
-             (format "tofu ." file))))
+         (if (equal (file-name-extension file) "rb")
+             (format "dragonruby .." file))))
   (compile compile-command))
 
 (defun cyco:compile-autoclose (buffer string)
@@ -426,18 +426,18 @@ $ emacsclient -c
 ;; TERMINAL
 (defun open-external-terminal ()
   (interactive)
-  (let ((proc (start-process "bash" nil "xfce4-terminal")))
+  (let ((proc (start-process "fish" nil "xfce4-terminal")))
     (set-process-query-on-exit-flag proc nil)))
 
 (defun open-ansi-terminal ()
   (interactive)
   (let ((w (split-window-below 2)))
     (select-window w)
-    (ansi-term "/bin/zsh")
+    (ansi-term "/bin/fish")
     (switch-to-buffer "*ansi-term*")))
 
 (setq compilation-finish-functions 'cyco:compile-autoclose)
 (global-set-key (kbd "C-c t") 'open-external-terminal)
 (global-set-key (kbd "C-c C-t") 'open-ansi-terminal)
-(global-set-key [f5] 'tofu-run-console)
-(global-set-key [f6] 'tofu-run)
+(global-set-key [f5] 'dragonruby-run-console)
+(global-set-key [f6] 'dragonruby-run)
