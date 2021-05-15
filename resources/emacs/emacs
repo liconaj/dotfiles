@@ -10,7 +10,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(go-mode go-autocomplete go rust-mode haxe-mode lua-mode treemacs doom-themes undo-tree company-ctags company use-package)))
+   '(yasnippet-snippets elpy multiple-cursors flycheck treemacs-icons-dired treemacs-projectile go-mode go-autocomplete go rust-mode haxe-mode lua-mode treemacs doom-themes undo-tree company-ctags company use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -41,7 +41,17 @@
   :ensure t)
 (use-package doom-themes
   :ensure t)
+(use-package flycheck
+  :ensure t)
+(use-package multiple-cursors
+  :ensure t)
 (use-package lua-mode
+  :ensure t)
+(use-package yasnippet
+  :ensure t)
+(use-package yasnippet-snippets
+  :ensure t)
+(use-package yasnippet-classic-snippets
   :ensure t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -171,6 +181,24 @@ $ emacsclient -c
 ;; UNDO C-_
 (global-undo-tree-mode)
 
+;; LINTER
+(add-hook 'after-init-hook #'global-flycheck-mode)
+
+;; SNIPPETS
+(add-hook 'prog-mode-hook #'yas-minor-mode)
+(defvar company-mode/enable-yas t
+  "Enable yasnippet for all backends.")
+(defun company-mode/backend-with-yas (backend)
+  (if (or (not company-mode/enable-yas) (and (listp backend) (member 'company-yasnippet backend)))
+      backend
+    (append (if (consp backend) backend (list backend))
+            '(:with company-yasnippet))))
+(setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
+(add-to-list 'load-path
+             "~/.emacs.d/plugins/yasnippet")
+(require 'yasnippet)
+(yas-reload-all)
+
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (toggle-scroll-bar -1)
@@ -272,6 +300,10 @@ $ emacsclient -c
         (let ((mark-even-if-inactive transient-mark-mode))
           (indent-region (region-beginning) (region-end) nil))))))
 
+;; LINE NUMBERS
+;;(global-display-line-numbers-mode)
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                         TREEMACS                         ;;
@@ -285,7 +317,7 @@ $ emacsclient -c
     (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
   :config
   (progn
-    (setq treemacs-collapse-dirQs                 (if treemacs-python-executable 3 0)
+    (setq treemacs-collapse-dirs                 (if treemacs-python-executable 3 0)
           treemacs-deferred-git-apply-delay      0.5
           treemacs-directory-name-transformer    #'identity
           treemacs-display-in-side-window        t
@@ -297,17 +329,18 @@ $ emacsclient -c
           treemacs-follow-after-init             t
           treemacs-git-command-pipe              ""
           treemacs-goto-tag-strategy             'refetch-index
-          treemacs-indentation                   2
+          treemacs-indentation                   2          
           treemacs-indentation-string            " "
           treemacs-is-never-other-window         nil
           treemacs-max-git-entries               5000
           treemacs-missing-project-action        'ask
           treemacs-move-forward-on-expand        nil
-          treemacs-no-png-images                 t
+          treemacs-no-png-images                 nil
           treemacs-no-delete-other-windows       t
           treemacs-project-follow-cleanup        nil
           treemacs-persist-file                  (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
           treemacs-position                      'left
+          treemacs-read-string-input             'from-child-frame
           treemacs-recenter-distance             0.1
           treemacs-recenter-after-file-follow    nil
           treemacs-recenter-after-tag-follow     nil
@@ -315,21 +348,23 @@ $ emacsclient -c
           treemacs-recenter-after-project-expand 'on-distance
           treemacs-show-cursor                   nil
           treemacs-show-hidden-files             nil
-          treemacs-silent-filewatch              t
-          treemacs-silent-refresh                t
+          treemacs-silent-filewatch              nil
+          treemacs-silent-refresh                nil
           treemacs-sorting                       'alphabetic-asc
           treemacs-space-between-root-nodes      nil
           treemacs-tag-follow-cleanup            t
           treemacs-tag-follow-delay              1.5
           treemacs-user-mode-line-format         nil
           treemacs-user-header-line-format       nil
-          treemacs-width                         30
+          treemacs-width                         35
           treemacs-workspace-switch-cleanup      nil)
 
-    (treemacs-resize-icons nil)
+    ;; The default width and height of the icons is 22 pixels. If you are
+    (treemacs-resize-icons 16)
+
     (treemacs-follow-mode t)
     (treemacs-filewatch-mode t)
-    (treemacs-fringe-indicator-mode nil)
+    (treemacs-fringe-indicator-mode -1)
     (pcase (cons (not (null (executable-find "git")))
                  (not (null treemacs-python-executable)))
       (`(t . t)
@@ -338,12 +373,22 @@ $ emacsclient -c
        (treemacs-git-mode 'simple))))
   :bind
   (:map global-map
-        ("C-x t t"   . treemacs)
         ("M-0"       . treemacs-select-window)
         ("C-x t 1"   . treemacs-delete-other-windows)
+        ("C-x t t"   . treemacs)
         ("C-x t B"   . treemacs-bookmark)
         ("C-x t C-t" . treemacs-find-file)
         ("C-x t M-t" . treemacs-find-tag)))
+
+(use-package treemacs-projectile
+  :after (treemacs projectile)
+  :ensure t)
+
+(use-package treemacs-icons-dired
+  :after (treemacs dired)
+  :ensure t
+  :config (treemacs-icons-dired-mode))
+
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -378,6 +423,42 @@ $ emacsclient -c
 ;;(set-face-background 'mode-line-inactive "black")
 (setq column-number-mode t)
 (force-mode-line-update t)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                           LANG                           ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Elpy
+(use-package elpy
+  :ensure t
+  :init
+  (elpy-enable))
+(when (load "flycheck" t t)
+  (add-hook 'elpy-mode-hook 'flycheck-mode))
+(add-hook 'elpy-mode-hook (lambda ()
+                            (add-hook 'before-save-hook
+                                      'elpy-format-code nil t)))
+
+;; Python
+(setq-default python-indent 4)
+(use-package elpy
+  :ensure t
+  :init
+  (elpy-enable))
+
+;; Familias de C
+(setq c-basic-offset 4)
+
+;; Chordpro
+(setq auto-mode-alist (cons '("\\.pro$" . chordpro-mode) auto-mode-alist))
+(setq auto-mode-alist (cons '("\\.cho$" . chordpro-mode) auto-mode-alist))
+(autoload 'chordpro-mode "chordpro-mode")
+
+;; FREEBASIC
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+(require 'freebasic-mode)
+(add-hook 'freebasic-mode-hook 'display-line-numbers-mode)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -441,3 +522,8 @@ $ emacsclient -c
 (global-set-key (kbd "C-c C-t") 'open-ansi-terminal)
 (global-set-key [f5] 'dragonruby-run-console)
 (global-set-key [f6] 'dragonruby-run)
+
+;; Multicursors
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "<M-S-up>") 'mc/mark-previous-like-this)
+(global-set-key (kbd "<M-S-down>") 'mc/mark-next-like-this)
