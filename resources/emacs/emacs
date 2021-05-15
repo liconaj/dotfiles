@@ -1,5 +1,6 @@
-(server-start)
+;;(server-start)
 ;;(desktop-save-mode t)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                       VARIABLES                          ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -9,8 +10,13 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(font-use-system-font t)
+ '(highlight-indent-guides-method 'bitmap)
  '(package-selected-packages
-   '(yasnippet-snippets elpy multiple-cursors flycheck treemacs-icons-dired treemacs-projectile go-mode go-autocomplete go rust-mode haxe-mode lua-mode treemacs doom-themes undo-tree company-ctags company use-package)))
+   '(elpy treemacs-icons-dired treemacs yasnippet-classic-snippets yasnippet-snippets yasnippet lua-mode highlight-indent-guides multiple-cursors flycheck doom-themes undo-tree company-ctags company use-package)))
+
+
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -45,6 +51,8 @@
   :ensure t)
 (use-package multiple-cursors
   :ensure t)
+(use-package highlight-indent-guides
+  :ensure t)
 (use-package lua-mode
   :ensure t)
 (use-package yasnippet
@@ -66,14 +74,9 @@
             nil
             :family "Iosevka")
 
-(tool-bar-mode -1)
-(scroll-bar-mode -1)    
-(menu-bar-mode -1)
-(global-hl-line-mode)
-(blink-cursor-mode)
-
 ;; WORD WRAPPING
 (global-visual-line-mode)
+
 ;; SPLASH SCREEN
 (setq inhibit-startup-screen t)
 (setq inhibit-startup-message t)
@@ -112,7 +115,7 @@
 (defun nox/setup-appearance (frame)
   (with-selected-frame frame
     (remove-hook 'after-make-frame-functions 'nox/setup-appearance)
-    
+
     ;; Remove this if you want the scroll and toolbars
     (when (functionp 'scroll-bar-mode) (scroll-bar-mode -1))
     (when (functionp 'tool-bar-mode) (tool-bar-mode -1))
@@ -133,14 +136,14 @@
                   (tool-bar-lines . 0)
                   (width . 80)
                   (height . 25)))))
-    
+
     (when (> (window-width) 100)
       (split-window-right))
 
     ;; Modify the next section as you wish
     (tool-bar-mode -1)
-    (scroll-bar-mode -1)    
-    (menu-bar-mode -1)
+    (scroll-bar-mode -1)
+    (menu-bar-mode)
     (global-hl-line-mode)
     (blink-cursor-mode)
 
@@ -213,6 +216,20 @@ $ emacsclient -c
 
 (setq backup-directory-alist `(("." . "~/.emacs.d/saves")))
 
+;; INDENT GUIDES
+(defun my-highlighter (level responsive display)
+  (if (> 1 level)
+      nil
+    (highlight-indent-guides--highlighter-default level responsive display)))
+(setq highlight-indent-guides-highlighter-function 'my-highlighter)
+(add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+
+;; DELETE TRAILING WHITESPACES
+(add-hook 'before-save-hook 'my-prog-nuke-trailing-whitespace)
+(defun my-prog-nuke-trailing-whitespace ()
+  (when (derived-mode-p 'prog-mode)
+    (delete-trailing-whitespace)))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                       OPTIONS                            ;;
@@ -235,7 +252,7 @@ $ emacsclient -c
 ;; SAVE HISTORY
 (savehist-mode 1)
 (setq history-length 1000)
-  
+
 ;; SCROLL
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
 (setq mouse-wheel-progressive-speed nil)
@@ -268,7 +285,7 @@ $ emacsclient -c
     (goto-char 1)
     (search-forward "-\n" nil t)
     (delete-region 1 (point))
-    (let ((window-min-height 1)) 
+    (let ((window-min-height 1))
       ;; save a little screen estate
       (shrink-window-if-larger-than-buffer))
     (read-only-mode)))
@@ -329,7 +346,7 @@ $ emacsclient -c
           treemacs-follow-after-init             t
           treemacs-git-command-pipe              ""
           treemacs-goto-tag-strategy             'refetch-index
-          treemacs-indentation                   2          
+          treemacs-indentation                   2
           treemacs-indentation-string            " "
           treemacs-is-never-other-window         nil
           treemacs-max-git-entries               5000
@@ -356,7 +373,7 @@ $ emacsclient -c
           treemacs-tag-follow-delay              1.5
           treemacs-user-mode-line-format         nil
           treemacs-user-header-line-format       nil
-          treemacs-width                         35
+          treemacs-width                         30
           treemacs-workspace-switch-cleanup      nil)
 
     ;; The default width and height of the icons is 22 pixels. If you are
@@ -379,10 +396,6 @@ $ emacsclient -c
         ("C-x t B"   . treemacs-bookmark)
         ("C-x t C-t" . treemacs-find-file)
         ("C-x t M-t" . treemacs-find-tag)))
-
-(use-package treemacs-projectile
-  :after (treemacs projectile)
-  :ensure t)
 
 (use-package treemacs-icons-dired
   :after (treemacs dired)
