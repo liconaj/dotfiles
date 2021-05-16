@@ -18,3 +18,4 @@ export PATH=$PATH:$HOME/.local/share/color-scripts/color-scripts
 export PATH=$PATH:$HOME/.local/share/dragonruby
 export PATH=$PATH:$HOME/.local/share/gem/ruby/3.0.0/bin
 
+export WINEPREFIX=$HOME/.wine
