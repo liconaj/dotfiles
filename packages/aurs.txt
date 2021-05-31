@@ -11,3 +11,5 @@ zoom
 veusz
 sip4
 puddletag
+fisher
+mcos-mjv-nordic-theme

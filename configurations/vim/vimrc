@@ -96,7 +96,6 @@ let g:AutoPairsMapBS = 1
 let g:python_highlight_all = 1
 
 " THEME:
-let g:gruvbox_material_background = 'hard'
 set background=dark
 
 "colorscheme gruvbox-material

@@ -3,7 +3,7 @@ xfce4-goodies
 lightdm
 lightdm-gtk-greeter
 lightdm-gtk-greeter-settings
-evince
+xreader
 gvfs
 blueman
 pavucontrol
@@ -14,6 +14,5 @@ file-roller
 xclip
 gucharmap
 gnome-calculator
-xfce4-docklike-plugin
 xfmpc
 gnome-disk-utility

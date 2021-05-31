@@ -15,5 +15,11 @@ htop
 emacs
 gparted
 mpd
+code
 youtube-dl
 crda
+bc
+transmission-gtk
+fish
+shellcheck
+fd

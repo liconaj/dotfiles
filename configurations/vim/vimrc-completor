@@ -19,6 +19,7 @@ Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
 Plug 'maralla/completor.vim', { 'do': 'make js' }
 Plug 'kyouryuukunn/completor-necovim'
 Plug 'tpope/vim-surround'
+Plug 'honza/vim-snippets'
 Plug 'ervandew/supertab'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
