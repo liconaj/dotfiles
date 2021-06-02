@@ -6,7 +6,6 @@ gnome-sudoku
 dwarffortress
 openal
 lib32-openal
-supertuxkart
 tiled
 lib32-openssl-1.0
 openssl-1.0

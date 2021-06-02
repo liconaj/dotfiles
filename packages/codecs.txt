@@ -30,6 +30,6 @@ libvpx
 ffmpeg
 gst-libav
 glslang
-libplaebo
+libplacebo
 libmatroska
 libtar

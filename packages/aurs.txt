@@ -1,7 +1,4 @@
 google-chrome
-visual-studio-code-bin
-sublime-text-3
-aseprite
 archey4
 typora
 unrar
@@ -11,5 +8,3 @@ zoom
 veusz
 sip4
 puddletag
-fisher
-mcos-mjv-nordic-theme

@@ -6,7 +6,7 @@
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
-(setq user-full-name "Josue Licona"
+(setq user-full-name "Josué Licona Mármol"
       user-mail-address "liconaj215@gmail.com")
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
@@ -25,11 +25,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-
-;;(setq doom-theme 'doom-opera-light)
 (setq doom-theme 'doom-tomorrow-night)
-(use-package! solaire-mode
-  :config (solaire-global-mode +1))
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -38,6 +34,7 @@
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
+
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
@@ -57,18 +54,18 @@
 ;; they are implemented.
 
 (setq confirm-kill-emacs nil)
-
 (setq fancy-splash-image "~/.doom.d/logo.png")
 
 (use-package! treemacs
   :config
   (setq treemacs-width 30)
-  (treemacs-resize-icons 16))
+  (treemacs-resize-icons 16)
+  (define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action))
 
 ;; Default TAB key behavior
 (setq-default tab-always-indent t)
 
-;; Defoalt delete pairs behavior
+;; Default delete pairs behavior
 (after! smartparens
   (dolist (brace '("(" "{" "["))
     (sp-pair brace nil :unless '(:rem sp-point-before-word-p sp-point-before-same-p))))
@@ -77,6 +74,41 @@
 (custom-set-faces!
   ;;'(font-lock-comment-face :slant italic)
   '(font-lock-variable-name-face :slant italic))
+
+;; Buffers
+(defun next-code-buffer ()
+  (interactive)
+  (let (( bread-crumb (buffer-name) ))
+    (next-buffer)
+    (while
+        (and
+         (string-match-p "^\*" (buffer-name))
+         (not ( equal bread-crumb (buffer-name) )) )
+      (next-buffer))))
+(global-set-key (kbd "<C-tab>") 'next-code-buffer)
+
+(after! doom-modeline
+  (doom-modeline-def-modeline 'main
+    '(bar matches buffer-info remote-host buffer-position parrot selection-info)
+    '(misc-info minor-modes checker input-method buffer-encoding major-mode process vcs "   ")))
+
+;; Indent guides
+(use-package! highlight-indent-guides
+  :config
+  (setq highlight-indent-guides-method 'bitmap)
+  (setq highlight-indent-guides-highlighter-function 'my-highlighter))
+(defun my-highlighter (level responsive display)
+  (if (> 1 level)
+      nil
+    (highlight-indent-guides--highlighter-default level responsive display)))
+
+(after! centaur-tabs
+  (setq centaur-tabs-set-bar 'over) ;; 'over, 'above, 'under, nil
+  (setq x-underline-at-descent-line t)
+  (setq centaur-tabs-style "bar")  ;; alternate, bar, box, chamfer, slant, wave, rounded
+  (setq centaur-tabs-height 34)
+  (setq centaur-tabs-set-icons nil))
+
 
 ;; Building system
 (defun cyco:compile-autoclose (buffer string)
@@ -101,32 +133,16 @@
 (global-set-key [f5] 'multi-compile-run)
 
 
-;; Buffers
-(defun next-code-buffer ()
-  (interactive)
-  (let (( bread-crumb (buffer-name) ))
-    (next-buffer)
-    (while
-        (and
-         (string-match-p "^\*" (buffer-name))
-         (not ( equal bread-crumb (buffer-name) )) )
-      (next-buffer))))
-(global-set-key (kbd "<C-tab>") 'next-code-buffer)
 
-
-(add-hook 'go-mode-hook (lambda ()
-                          ;; (push '("struct{}" . ?ε) prettify-symbols-alist)
-                          (setq tab-width 4)
-                          (add-hook 'before-save-hook
-                                    'gofmt-before-save)))
-
-(global-prettify-symbols-mode 't)
-
-(after! doom-modeline
-  (doom-modeline-def-modeline 'main
-    '(bar matches buffer-info remote-host buffer-position parrot selection-info)
-    '(misc-info minor-modes checker input-method buffer-encoding major-mode process vcs "   ")))
-
-(use-package! treemacs
+(use-package! ligature
   :config
-  (define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action))
+  (ligature-set-ligatures ;; Victor Mono
+  't '("</" "</>" "/>" "~-" "-~" "~@" "<~" "<~>" "<~~" "~>" "~~"
+       "~~>" ">=" "<=" "<!--" "##" "###" "####" "|-" "-|" "|->"
+       "<-|" ">-|" "|-<" "|=" "|=>" ">-" "<-" "<--" "-->" "->" "-<"
+       ">->" ">>-" "<<-" "<->" "->>" "-<<" "<-<" "==>" "=>" "=/="
+       "!==" "!=" "<==" ">>=" "=>>" ">=>" "<=>" "<=<" "<<=" "=<<"
+       ".-" ".=" "=:=" "=!=" "==" "===" "::" ":=" ":>" ":<" ">:"
+       ";;" "<|" "<|>" "|>" "<>" "<$" "<$>" "$>" "<+" "<+>" "+>"
+       "?=" "/=" "/==" "/\\" "\\/" "__" "&&" "++" "+++")))
+(add-hook 'prog-mode-hook 'ligature-mode)
