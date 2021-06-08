@@ -125,8 +125,9 @@
 (setq multi-compile-alist '(
                             (ruby-mode . (("DragonRuby run" . "dragonruby ..")))
 
-                            (go-mode . (("Go run" . "go run .")
-                                        ("Go build" . "go build -v .")))
+                            (go-mode . (("Go run" . "go run .")))
+
+                            (lua-mode . (("Love run" . "love .")))
 
                             (python-mode . (("Python run" . "python %file-name")))
                             ))

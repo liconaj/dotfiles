@@ -15,7 +15,6 @@ htop
 emacs
 gparted
 mpd
-code
 youtube-dl
 crda
 bc

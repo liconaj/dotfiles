@@ -13,6 +13,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-surround'
 Plug 'sainnhe/edge'
 Plug 'sainnhe/everforest'
+Plug 'dracula/vim', { 'as': 'dracula' }
 
 Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
@@ -25,6 +26,7 @@ Plug 'skywind3000/asyncrun.vim'
 Plug 'eapache/auto-pairs'
 
 Plug 'fatih/vim-go'
+Plug 'davisdude/vim-love-docs', {'branch': 'build', 'do': 'rm -r after'}
 Plug 'sheerun/vim-polyglot'
 call plug#end()
 
@@ -37,9 +39,10 @@ filetype plugin indent on
 syntax on
 
 set autoindent
-set softtabstop=4
-set shiftwidth=4
-set shiftround
+set smartindent
+"set softtabstop=4
+"set shiftwidth=4
+"set shiftround
 
 set backspace=indent,eol,start
 set virtualedit=block,onemore
@@ -114,6 +117,9 @@ endif
 set autoread
 set autowrite
 
+" Quit ~ from empty lines
+set fillchars=eob:\ ,
+
 
 " TRAILING WHITESPACES
 "autocmd FileType c,cpp,go,py,lua autocmd BufWritePre <buffer> %s/\s\+$//e
@@ -163,7 +169,7 @@ let g:lightline = {
       \ },
       \ 'component': { 'text': 'BUFFERS' },
       \ }
-let g:lightline#bufferline#filename_modifier = ':t'
+"let g:lightline#bufferline#filename_modifier = ':t'
 let g:lightline#bufferline#show_number  = 0
 
 " COC:
@@ -185,6 +191,7 @@ let g:coc_global_extensions = [
 	    \ 'coc-vimlsp',
 	    \ 'coc-snippets',
 	    \ 'coc-prettier',
+      \ 'coc-lua'
 	    \ ]
 
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
@@ -263,17 +270,20 @@ let g:netrw_menu=0
 nnoremap <leader>n :NERDTreeToggle<CR>
 
 " ASYNCRUN:
-nnoremap <silent> <expr> & ':AsyncRun -post=cw ' . input('>') . '<CR>'
-nnoremap <silent> <expr> g& ':AsyncRun -save -post=copen -strip ' . input('>', 'rg --vimgrep ' . expand('<cword>') . ' %') . '<CR>
+nnoremap <silent> <expr> & ':AsyncRun -post=cw ' . input('> ') . '<CR>'
+nnoremap <silent> <expr> g& ':AsyncRun -save -post=copen -strip ' . input('> ', 'rg --vimgrep ' . expand('<cword>') . ' %') . '<CR>
 
+" LOVE2D:
+autocmd FileType lua nmap <buffer> ,r :AsyncRun love . <CR>
+" autocmd FileType lua nmap <buffer> ,r :AsyncRun amulet . <CR>
+autocmd BufNewFile,BufRead *.lua setlocal expandtab tabstop=2 shiftwidth=2
 
 " GOLANG:
 
 autocmd BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
-autocmd BufNewFile,BufRead *.go setlocal expandtab tabstop=4 shiftwidth=4
-autocmd FileType go nmap <buffer> ,b  <Plug>(go-build)
-autocmd FileType go nmap <buffer> ,r  <Plug>(go-run)
-autocmd FileType go nmap <buffer> ,t  <Plug>(go-test)
+autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
+autocmd FileType go nmap <buffer> ,b  :AsyncRun -post=cw go run . <CR>
+autocmd FileType go nmap <buffer> ,r  :AsyncRun -post=cw go build . <CR>
 autocmd FileType go setlocal expandtab
 
 let g:go_highlight_types=1
@@ -290,8 +300,8 @@ let g:go_textobj_include_function_doc = 0
 nnoremap ,s :Startify<CR>
 let g:startify_custom_header=[]
 let g:startify_lists=[
-	    \ { 'type': 'files', 'header': ['    Recent files']},
-	    \ ]
+            \ { 'type': 'files', 'header': ['    Recent files']},
+            \ ]
 
 " SAVE FILE AS SUDO:
 if !has('win32')
@@ -306,6 +316,9 @@ let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"'}
 let g:AutoPairsOnlyWhitespace = 0
 let g:AutoPairsShortcutToggle = '<M-ñ>'
 let g:AutoPairsMapBS = 1
+
+" SELECT ALL:
+map <C-a> <esc>gg0vG$<CR>
 
 " COPY PASTE:
 nnoremap <M-p> "+P=']
@@ -353,4 +366,3 @@ nmap <Leader>c7 <Plug>lightline#bufferline#delete(7)
 nmap <Leader>c8 <Plug>lightline#bufferline#delete(8)
 nmap <Leader>c9 <Plug>lightline#bufferline#delete(9)
 nmap <Leader>c0 <Plug>lightline#bufferline#delete(10)
-
