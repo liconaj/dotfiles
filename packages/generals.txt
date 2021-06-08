@@ -21,4 +21,5 @@ bc
 transmission-gtk
 fish
 shellcheck
+geogebra
 fd
