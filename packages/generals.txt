@@ -23,3 +23,5 @@ fish
 shellcheck
 geogebra
 fd
+sox
+soundconverter

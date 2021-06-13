@@ -1,11 +1,13 @@
-"source $VIMRUNTIME/mswin.vim
-"behave mswin
+source $VIMRUNTIME/mswin.vim
+behave mswin
+
+let g:light_theme = 0
 
 " VIM PLUG AUTOINSTALLATION:
 
 if empty(glob('~/.vim/autoload/plug.vim'))
     silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-		\ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
@@ -13,7 +15,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-surround'
 Plug 'sainnhe/edge'
 Plug 'sainnhe/everforest'
-Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'sainnhe/sonokai'
 
 Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
@@ -24,6 +26,8 @@ Plug 'honza/vim-snippets'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'skywind3000/asyncrun.vim'
 Plug 'eapache/auto-pairs'
+Plug 'ryanoasis/vim-devicons'
+Plug 'thaerkh/vim-indentguides'
 
 Plug 'fatih/vim-go'
 Plug 'davisdude/vim-love-docs', {'branch': 'build', 'do': 'rm -r after'}
@@ -46,12 +50,13 @@ set smartindent
 
 set backspace=indent,eol,start
 set virtualedit=block,onemore
-set scrolloff=3
-set sidescroll=1
-set sidescrolloff=10
 set hidden
 set laststatus=2
 set display=lastline
+
+"set scrolloff=3
+"set sidescroll=1
+"set sidescrolloff=10
 
 set showmode
 set showcmd
@@ -80,7 +85,7 @@ set clipboard=unnamedplus
 set formatoptions+=rnlmM
 
 if &shell =~# 'fish$'
-  set shell=/bin/bash
+    set shell=/bin/bash
 endif
 
 set nobackup
@@ -94,7 +99,7 @@ set undofile
 set undodir=$HOME/.vim/files/undo
 set viminfo='100,n$HOME/.vim/files/info/viminfo
 
-set encoding=utf8
+set encoding=UTF-8
 set fileencodings=ucs-bom,utf-8,default,cp936,big5,latin1
 set fileformats=unix,mac,dos
 
@@ -111,14 +116,14 @@ else
 end
 
 if (has('termguicolors'))
-		set termguicolors
+    set termguicolors
 endif
 
 set autoread
 set autowrite
 
 " Quit ~ from empty lines
-set fillchars=eob:\ ,
+"set fillchars=eob:\ ,
 
 
 " TRAILING WHITESPACES
@@ -126,7 +131,6 @@ set fillchars=eob:\ ,
 autocmd BufWritePre <buffer> %s/\s\+$//e
 
 " THEME:
-let g:light_theme = 0
 let g:everforest_hide_endofbuffer=0
 
 if !has('gui_running')
@@ -135,42 +139,56 @@ endif
 
 if has('gui_running')
     set t_CO=256
-		set lines=30
+    set lines=30
     set columns=90
     set guioptions-=aegimrLtT
     set guioptions+=m
-    set guifont=Iosevka\ Medium\ 12
+    set guifont=FantasqueSansMono\ NF\ Regular\ 12
+    "set guifont=VictorMono\ NF\ SemiBold\ 11
 endif
 
+let g:edge_style = "aura"
+let g:sonokai_style = "atlantis"
+
 if g:light_theme
-		set background=light
-		colorscheme edge
-		let b:lightline_theme = 'edge'
+    set background=light
+    colorscheme edge
+    let b:lightline_theme = 'edge'
 else
-		set background=dark
-		colorscheme everforest
-		let b:lightline_theme = 'everforest'
+    set background=dark
+    colorscheme everforest
+    let b:lightline_theme = 'everforest'
 endif
 
 let g:lightline = {
-		  \ 'colorscheme' : b:lightline_theme,
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ], [ 'readonly', 'filename', 'modified' ] ]
-      \ },
-      \ 'tabline': {
-      \   'left': [ ['buffers'] ],
-      \   'right': [ ['text'] ]
-      \ },
-      \ 'component_expand': {
-      \   'buffers': 'lightline#bufferline#buffers'
-      \ },
-      \ 'component_type': {
-      \   'buffers': 'tabsel'
-      \ },
-      \ 'component': { 'text': 'BUFFERS' },
-      \ }
+            \ 'colorscheme' : b:lightline_theme,
+            \ 'active': {
+            \   'left': [[ 'mode', 'paste' ], [ 'readonly', 'filename', 'modified' ]]
+            \ },
+            \ 'tabline': {
+            \   'left': [ ['buffers'] ],
+            \   'right': [ ['text'] ]
+            \ },
+            \ 'component_expand': {
+            \   'buffers': 'lightline#bufferline#buffers'
+            \ },
+            \ 'component_type': {
+            \   'buffers': 'tabsel'
+            \ },
+            \ 'component': { 'text': 'BUFFERS' },
+            \ }
+
 "let g:lightline#bufferline#filename_modifier = ':t'
 let g:lightline#bufferline#show_number  = 0
+
+" AUTO PAIRS:
+let g:AutoPairsUseInsertedCount = 1
+let g:AutoPairsSmartQuotes = 1
+let g:AutoPairsMapCR = 1
+let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"'}
+let g:AutoPairsOnlyWhitespace = 1
+let g:AutoPairsShortcutToggle = '<M-ñ>'
+let g:AutoPairsMapBS = 1
 
 " COC:
 
@@ -181,45 +199,45 @@ set shortmess+=c
 set signcolumn=number
 
 let g:coc_global_extensions = [
-	    \ 'coc-json',
-	    \ 'coc-git',
-	    \ 'coc-go',
-	    \ 'coc-html',
-	    \ 'coc-jedi',
-	    \ 'coc-toml',
-	    \ 'coc-python',
-	    \ 'coc-vimlsp',
-	    \ 'coc-snippets',
-	    \ 'coc-prettier',
-      \ 'coc-lua'
-	    \ ]
+            \ 'coc-json',
+            \ 'coc-git',
+            \ 'coc-go',
+            \ 'coc-html',
+            \ 'coc-jedi',
+            \ 'coc-toml',
+            \ 'coc-python',
+            \ 'coc-vimlsp',
+            \ 'coc-snippets',
+            \ 'coc-prettier',
+            \ 'coc-lua'
+            \ ]
 
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 command! -nargs=0 Format :call CocAction('format')
 
 
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
+            \ pumvisible() ? "\<C-n>" :
+            \ <SID>check_back_space() ? "\<TAB>" :
+            \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
 " Use <c-space> to trigger completion.
 if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
+    inoremap <silent><expr> <c-space> coc#refresh()
 else
-  inoremap <silent><expr> <c-@> coc#refresh()
+    inoremap <silent><expr> <c-@> coc#refresh()
 endif
 
 if exists('*complete_info')
-		inoremap <silent><expr> <cr> complete_info(['selected'])['selected'] != -1 ? "\<C-y>" : "\<C-g>u\<CR>"
+    inoremap <silent><expr> <cr> complete_info(['selected'])['selected'] != -1 ? "\<C-y>" : "\<C-g>u\<CR>"
 else
-		inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+    inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 endif
 
 
@@ -245,9 +263,9 @@ nmap <leader>rn <Plug>(coc-rename)
 xmap <leader>f <Plug>(coc-format-selected)
 nmap <leader>f <Plug>(coc-format-selected)
 augroup mygroup
-		autocmd!
-		autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-		autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+    autocmd!
+    autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
 " Applying codeAction to the selected region.
@@ -275,7 +293,7 @@ nnoremap <silent> <expr> g& ':AsyncRun -save -post=copen -strip ' . input('> ', 
 
 " LOVE2D:
 autocmd FileType lua nmap <buffer> ,r :AsyncRun love . <CR>
-" autocmd FileType lua nmap <buffer> ,r :AsyncRun amulet . <CR>
+"autocmd FileType lua nmap <buffer> ,r :AsyncRun amulet . <CR>
 autocmd BufNewFile,BufRead *.lua setlocal expandtab tabstop=2 shiftwidth=2
 
 " GOLANG:
@@ -303,19 +321,16 @@ let g:startify_lists=[
             \ { 'type': 'files', 'header': ['    Recent files']},
             \ ]
 
+" INDENT GUIDES:
+let g:indentguides_ignorelist = ['startify']
+let g:indentguides_spacechar = ""
+let g:indentguides_tabchar = ""
+"┊ 
+
 " SAVE FILE AS SUDO:
 if !has('win32')
-    command! W w !sudo tee % > /dev/null
+    command! SuW w !sudo tee % > /dev/null
 endif
-
-" AUTO PAIRS:
-let g:AutoPairsUseInsertedCount = 1
-let g:AutoPairsSmartQuotes = 1
-let g:AutoPairsMapCR = 1
-let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"'}
-let g:AutoPairsOnlyWhitespace = 0
-let g:AutoPairsShortcutToggle = '<M-ñ>'
-let g:AutoPairsMapBS = 1
 
 " SELECT ALL:
 map <C-a> <esc>gg0vG$<CR>
@@ -339,7 +354,7 @@ vnoremap <M-m> ^
 
 " BUFFER NAVIGATION:
 
-"hi! EndOfBuffer ctermbg=bg ctermfg=bg guibg=bg guifg=bg
+hi! EndOfBuffer ctermbg=bg ctermfg=bg guibg=bg guifg=bg
 
 nnoremap <leader>l :bnext<CR>
 nnoremap <leader>h :bprevious<CR>
