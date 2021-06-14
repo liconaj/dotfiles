@@ -1,0 +1,23 @@
+{
+    "workbench.iconTheme": "material-icon-theme",
+    "everforest.darkContrast": "hard",
+    "workbench.startupEditor": "none",
+    "editor.semanticHighlighting.enabled": true,
+    "Lua.telemetry.enable": false,
+    "Lua.diagnostics.globals": [
+        "love"
+    ],
+    "Lua.diagnostics.disable": [
+        "lowercase-global"
+    ],
+    "editor.fontFamily": "'Victor Mono SemiBold'",
+    "editor.fontLigatures": true,
+    "pixelbyte.love2d.path": "/usr/bin/love",
+    "[lua]": {
+        "editor.tabSize": 2,
+        "editor.insertSpaces": true,
+        "editor.detectIndentation": true
+    },
+    "files.trimTrailingWhitespace": true,
+    "workbench.colorTheme": "One Dark Pro"
+}
