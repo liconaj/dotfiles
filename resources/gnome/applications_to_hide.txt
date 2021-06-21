@@ -1,0 +1,10 @@
+qv4l2
+qvidcap
+lstopo
+bvnc
+bssh
+avahi-discover
+droidcam
+deskreen
+fish
+sfxr

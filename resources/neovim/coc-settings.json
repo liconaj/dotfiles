@@ -1,8 +1,8 @@
 {
 	"Lua.diagnostics.globals": ["love"],
-	"Lua.diagnostics.disable" : ["lowercase-global"],
+	"Lua.diagnostics.disable": ["lowercase-global"],
 	"Lua.workspace.preloadFileSize": 500,
 	"Lua.workspace.library": {
-		"/home/josue/.vim/langs/love-api" : true
+		"/home/josue/.config/nvim/languages/love-api": true
 	}
 }
