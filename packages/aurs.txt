@@ -7,4 +7,6 @@ sfxr
 zoom
 veusz
 sip4
+deskreen
 puddletag
+rx

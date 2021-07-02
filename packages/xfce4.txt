@@ -16,3 +16,4 @@ gucharmap
 gnome-calculator
 xfmpc
 gnome-disk-utility
+network-manager-applet
