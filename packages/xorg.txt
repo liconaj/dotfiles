@@ -1,5 +1,4 @@
 xorg
 xorg-server
 xorg-xinit
-xorg-server-xwayland
 xf86-input-libinput

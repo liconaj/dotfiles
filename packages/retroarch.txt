@@ -1,0 +1,8 @@
+retroarch
+retroarch-assets-glui
+retroarch-assets-ozone
+retroarch-assets-xmb
+libretro-overlays
+libretro-shaders
+libretro-mesen
+libretro-mesen-s

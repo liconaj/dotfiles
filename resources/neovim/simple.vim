@@ -1,3 +1,6 @@
+source $VIMRUNTIME/mswin.vim
+behave mswin
+
 call plug#begin(stdpath('data') . '/plugged')
 Plug 'tpope/vim-surround'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -9,7 +12,6 @@ call plug#end()
 
 let mapleader = ' '
 set nocompatible
-
 
 filetype plugin indent on
 syntax on
@@ -54,7 +56,7 @@ set report=0
 
 set number
 set autochdir
-set clipboard=unnamedplus
+set clipboard+=unnamedplus
 set formatoptions+=rnlmM
 
 if &shell =~# 'fish$'

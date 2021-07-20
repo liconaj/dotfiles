@@ -9,13 +9,15 @@ touch $CONFIGDIR/mpd.log
 touch $CONFIGDIR/mpd.db
 mkdir $CONFIGDIR/playlists
 
-AUTOSTART=$HOME/.config/autostart
-[[ ! -d $AUTOSTART ]] && mkdir $AUTOSTART
-cp MPD.desktop $AUTOSTART
+#AUTOSTART=$HOME/.config/autostart
+#[[ ! -d $AUTOSTART ]] && mkdir $AUTOSTART
+#cp MPD.desktop $AUTOSTART
+#
+#if ! command -v mpd &> /dev/null; then
+#    sudo pacman -S mpd
+#fi
 
-if ! command -v mpd &> /dev/null; then
-    sudo pacman -S mpd
-fi
+systemctl --user enable mpd.socket
 
 sudo gpasswd -a $USER mpd
 #sudo gpasswd -a mpd $USER

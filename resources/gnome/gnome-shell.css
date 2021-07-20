@@ -1,0 +1,27 @@
+/* Dash */
+#dash {
+	padding: 12px 12px 0;
+}
+
+#dash .overview-icon {
+	padding: 6px;
+}
+
+#dash .placeholder {
+	height: 24px;
+	background-size: contain;
+}
+
+#dash .empty-dash-drop-target {
+	width: 24px;
+	height: 24px;
+}
+
+.dash-item-container .app-well-app,
+.show-apps {
+	padding: 6px 3px; 
+}
+
+.dash-separator {
+	width: 0px;
+}

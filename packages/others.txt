@@ -1,0 +1,10 @@
+shotcut
+discord
+texlive-most
+recordmydesktop
+dosbox
+ghex
+ccache
+rebuild-detector
+pacman-contrib
+aria2

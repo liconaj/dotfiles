@@ -1,13 +1,9 @@
 cmatrix
 neofetch
-vlc
 wget
-texstudio
 audacity
-redshift
 gthumb
 inkscape
-simplescreenrecorder
 python-pip
 gimp
 tk
@@ -25,3 +21,4 @@ geogebra
 fd
 sox
 soundconverter
+xclip

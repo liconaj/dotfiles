@@ -1,0 +1,6 @@
+Using imagemagick:
+	$ convert document1.pdf[page] document2.pdf[initialpage-finalpage] output.pdf
+
+Usign pdfunite:
+	$ pdfunite document1.pdf document2.pdf output.pdf
+

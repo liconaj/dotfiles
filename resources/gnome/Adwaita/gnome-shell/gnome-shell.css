@@ -1,0 +1,36 @@
+/* Dash */
+
+#dash .empty-dash-drop-target {
+  width: 32px;
+  height: 32px;
+}
+
+#dash {
+  margin-top: 8px;
+  padding: 0 8px;
+}
+
+#dash .placeholder {
+  background-image: none;
+  background-size: contain;
+  height: 32px;
+}
+
+#dash .overview-icon {
+  padding: 4px;
+}
+
+.dash-background {
+  margin-bottom: 12px;
+  padding: 8px;
+}
+
+.dash-item-container .app-well-app, .show-apps {
+  padding: 8px 2px 20px;
+}
+
+.dash-separator {
+  width: 0px;
+  margin: 0 0px 0px;
+}
+

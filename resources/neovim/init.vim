@@ -1,7 +1,7 @@
 source $VIMRUNTIME/mswin.vim
 behave mswin
 
-let g:light_theme = 1
+let g:light_theme = 0
 
 " VIM PLUG:
 
@@ -84,7 +84,7 @@ set report=0
 
 set number
 set autochdir
-set clipboard=unnamedplus
+set clipboard+=unnamedplus
 set formatoptions+=rnlmM
 
 if &shell =~# 'fish$'
@@ -330,6 +330,9 @@ nnoremap <silent> <expr> g& ':AsyncRun -save -post=copen -strip ' . input('> ', 
 autocmd FileType lua nmap <buffer> ,r :AsyncRun love . <CR>
 "autocmd FileType lua nmap <buffer> ,r :AsyncRun amulet . <CR>
 autocmd BufNewFile,BufRead *.lua setlocal expandtab tabstop=2 shiftwidth=2
+
+" PICO8:
+autocmd BufNewFile,BufRead *.p8 setlocal tabstop=2 shiftwidth=2
 
 " GOLANG:
 

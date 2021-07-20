@@ -1,6 +1,5 @@
 {
     "workbench.iconTheme": "material-icon-theme",
-    "everforest.darkContrast": "hard",
     "workbench.startupEditor": "none",
     "editor.semanticHighlighting.enabled": true,
     "Lua.telemetry.enable": false,

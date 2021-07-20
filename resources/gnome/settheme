@@ -1,0 +1,22 @@
+#!/bin/sh
+
+change_theme() {
+	gsettings set org.gnome.desktop.interface gtk-theme $1
+	gsettings set org.gnome.desktop.interface icon-theme $2
+}
+
+
+case "$1" in
+	light)
+	change_theme Adwaita Papirus
+	;;
+
+	dark)
+	change_theme Adwaita-dark Papirus-Dark
+	;;
+
+	*)
+	echo "Usage"
+	echo "  $ settheme {light|dark}"
+esac
+

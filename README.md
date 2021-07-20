@@ -40,7 +40,7 @@ Este proceso esta basado en la guía de https://ermannoferrari.net para instalar
 5. **Instalación sistema base**
 
    ~~~
-   pacstrap /mnt base linux linux-firmware micro intel-ucode # amd-ucode
+   pacstrap /mnt base linux linux-firmware micro intel-ucode terminus-font # amd-ucode
    ~~~
 
 6. **Generar File System Table (fstab)**
@@ -84,7 +84,10 @@ Este proceso esta basado en la guía de https://ermannoferrari.net para instalar
     micro /etc/locale.gen # descomentar region en archivo
     locale-gen
     echo "LANG=es_CO.UTF-8" >> /etc/locale.conf
-    echo KEYMAP=la-latin1 > /etc/vconsole.conf
+    echo "KEYMAP=la-latin1
+	      FONT=ter-114n
+		  FONT_MAP=8859-2
+		  " > /etc/vconsole.conf
     localectl set-x11-keymap latam
     ~~~
     
