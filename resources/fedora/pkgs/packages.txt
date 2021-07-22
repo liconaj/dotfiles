@@ -1,0 +1,4 @@
+util-linux-user
+gnome-tweak-tool
+gnome-extensions-app
+texlive-scheme-full

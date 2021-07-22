@@ -1,0 +1,62 @@
+== GRUB ==
+
+- Resolution
+
+>> /etc/default/grub
+"""
+GRUB_GFXMODE=1366x768,auto
+GRUB_GFXPAYLOAD="keep"
+GRUB_DISABLE_SUBMENU=true
+GRUB_TERMINAL_OUTPUT="gfxterm"
+"""
+# grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
+
+
+- Locale error es.gmo missing file
+
+# mkdir /boot/efi/EFI/fedora/locale/
+# cp /usr/share/locae/es/LC_MESSAGES/grub.mo /boot/efi/EFI/fedora/locale/es.gmo
+
+
+== GDM ==
+
+- Use icon theme face icon
+
+>> /var/lib/AccountServices/$USER
+"""
+Icon=
+"""
+
+== DNF ==
+
+- Use fastest mirror
+
+> /etc/dnf/dnf.conf
+"""
+fastestmirror=True
+deltarpm=true
+"""
+
+- Assume yes by default
+> /etc/dnf/dnf.conf
+"""
+defaultyes=True
+"""
+
+
+== Shell ==
+
+- Change default shell
+
+# dnf install util-linux-user
+$ chsh -s /bin/shell
+
+# lchsh -i $USER
+
+# usermod -s /bin/shell $USER
+
+
+
+
+
+

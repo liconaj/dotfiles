@@ -22,6 +22,8 @@ StartupNotify=true
 Keywords=pico8;pico;pico-8;lexaloffle;gamedev;
 " > pico-8.desktop
 
+sudo ln -s /opt/lexaloffle/pico-8/PICO-8 /opt/lexaloffle/pico-8/pico8
+
 sudo mv pico-8.desktop /usr/local/share/applications/pico-8.desktop
 sudo mv /opt/lexaloffle/pico-8/pico8 /opt/lexaloffle/pico-8/PICO-8
 
