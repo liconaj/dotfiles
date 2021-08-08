@@ -1,6 +1,6 @@
 [
     {
-        "keys": ["ctrl+alt+b"], "command": "toggle_terminus_panel", "args": {
+        "keys": ["ctrl+alt+t"], "command": "toggle_terminus_panel", "args": {
             "cwd": "${file_path:${folder}}"
         }
     }

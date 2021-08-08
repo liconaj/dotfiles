@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Thonny
+GenericName=Python IDE
+Icon=thonny
+Exec=thonny
+Categories=Development;
+Terminal=false

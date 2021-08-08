@@ -22,7 +22,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'skywind3000/asyncrun.vim'
 Plug 'eapache/auto-pairs'
 Plug 'ryanoasis/vim-devicons'
-Plug 'thaerkh/vim-indentguides'
+"Plug 'thaerkh/vim-indentguides'
 
 Plug 'fatih/vim-go'
 Plug 'davisdude/vim-love-docs', {'branch': 'build', 'do': 'rm -r after'}
@@ -195,7 +195,7 @@ let g:AutoPairsUseInsertedCount = 1
 let g:AutoPairsSmartQuotes = 1
 let g:AutoPairsMapCR = 1
 let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"'}
-let g:AutoPairsOnlyWhitespace = 1
+let g:AutoPairsOnlyWhitespace = 0
 let g:AutoPairsShortcutToggle = '<M-ñ>'
 let g:AutoPairsMapBS = 1
 

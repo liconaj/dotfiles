@@ -1,0 +1,9 @@
+{
+	"target": "terminus_exec",
+	"cancel": "terminus_cancel_build",
+	"focus":false,
+	"shell_cmd": "nimble runr",
+	"file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
+	"selector": "source.nim",
+	"working_dir": "$project_path",
+}

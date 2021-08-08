@@ -21,12 +21,9 @@ gnome-terminal
 gnome-themes-extra
 gnome-tweaks
 gnome-user-docs
-gnome-books
 gnome-contacts
-gnome-documents
 gnome-keyring
 gnome-settings-daemon
-gnome-remote-desktop
 gnome-user-share
 gnome-logs
 gnome-photos

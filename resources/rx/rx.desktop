@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=0.4.0
+Type=Application
+Name=Pixel Editor
+Comment=A modern & extensible pixel editor
+Exec=rx
+TryExec=rx
+Icon=pixelorama
+Categories=Graphics;2DGraphics;RasterGraphics;
+Terminal=false
+MimeType=image/png;

@@ -1,0 +1,11 @@
+{
+	"theme": "Default Dark.sublime-theme",
+	"font_face": "Victor Mono SemiBold",
+	"font_size": 11,
+	"dark_theme": "Default.sublime-theme",
+	"light_theme": "Default.sublime-theme",
+	"ignored_packages":
+	[
+		"Vintage",
+	],
+}

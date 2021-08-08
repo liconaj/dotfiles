@@ -1,0 +1,12 @@
+// Documentation at https://www.sublimetext.com/docs/themes.html
+{
+	"variables":
+	{
+		"font_face": "Cantarell",
+		"font_size_sm": 14
+	},
+	"rules":
+	[
+		
+	]
+}
