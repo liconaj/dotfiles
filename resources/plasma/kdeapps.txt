@@ -1,10 +1,13 @@
 ark
+cantor
 dolphin
+gwenview
 kalgebra
 kamoso
 kate
 kcalc
 kcolorchooser
+kdenlive
 kig
 kmahjongg
 kmines

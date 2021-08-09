@@ -1,0 +1,14 @@
+Add the following lines into `/etc/inputrc` file
+
+
+set completion-ignore-case on
+set colored-stats on
+set completion-prefix-display-length 3
+set mark-symlinked-directories on
+set show-all-if-ambiguous on
+set show-all-if-unmodified on
+set visible-stats on
+
+"\C-p":history-search-backward
+"\C-n":history-search-forward
+

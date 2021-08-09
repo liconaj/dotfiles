@@ -9,6 +9,8 @@ kscreen
 kscreenlocker
 kwin
 kwrited
+kwalletmanager
+kwallet-pam
 plasma-desktop
 plasma-disks
 plasma-nm

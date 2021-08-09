@@ -2,14 +2,13 @@
 # See fstab(5) for details.
 
 # <file system> <dir> <type> <options> <dump> <pass>
+# /dev/sda7
+UUID=dae8d6e4-cc85-49db-ace7-c3ac48dc8256   /          ext4      rw,relatime                                                                                             0 1 
+
 # /dev/sda5
-UUID=dfcb4f05-4dee-4b1c-8dc8-fe500ec949af	/         	ext4      	rw,relatime	0 1
+UUID=4A82-B3E3                              /boot      vfat      rw,relatime,fmask=0022,dmask=0022,codepage=437,iocharset=ascii,shortname=mixed,utf8,errors=remount-ro   0 2 
 
-# /dev/sda1
-UUID=D891-5DF2      	/boot/efi 	vfat      	rw,relatime,fmask=0022,dmask=0022,codepage=437,iocharset=ascii,shortname=mixed,utf8,errors=remount-ro	0 2
+# /dev/sda6
+UUID=d8c70a50-4744-4453-acbd-50bde5058bb8   none       swap      defaults                                                                                                0 0 
 
-# swapfile
-/swapfile	none	swap	defaults	0 0
-
-# windows
-/dev/sda3	/mnt/windows	ntfs-3g		nosuid,nodev,nofail,nls=utf-8,uid=1000,gid=1000,dmask=022,windows_names	0 0
+UUID=7C58AED958AE9186                       /windows   ntfs-3g   nosuid,nodev,nofail,uid=josue,dmask=022,fmask=133                                                       0 0 
