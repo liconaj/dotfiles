@@ -1,0 +1,17 @@
+ark
+dolphin
+kalgebra
+kamoso
+kate
+kcalc
+kcolorchooser
+kig
+kmahjongg
+kmines
+kmplot
+kolourpaint
+ktorrent
+kturtle
+kwave
+okular
+partitionmanager

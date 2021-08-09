@@ -5,9 +5,9 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-
-export PATH=$PATH:$HOME/.local/bin
-export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
+_GREEN=$(tput setaf 2)
+_RESET=$(tput sgr0)
+_BOLD=$(tput bold)
 
 alias ls='ls --color=auto'
-PS1='\[\e[1;32m\][\u@\h \W]\$ \[\e[0m\]'
+PS1='\[${_BOLD}${_GREEN}\][\u@\h \W]\$ \[${_RESET}\]'
