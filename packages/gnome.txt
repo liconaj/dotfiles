@@ -27,7 +27,6 @@ gnome-settings-daemon
 gnome-user-share
 gnome-logs
 gnome-photos
-gnome-music
 gnome-session
 gnome-video-effects
 gnome-color-manager
@@ -41,10 +40,6 @@ vino
 yelp
 gvfs
 gvfs-mtp
-gvfs-afc
-gvfs-goa
-gvfs-google
-gvfs-smb
 mutter
 nautilus
 sushi

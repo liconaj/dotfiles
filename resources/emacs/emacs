@@ -1,22 +1,10 @@
-;;(server-start)
-;;(desktop-save-mode t)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                       VARIABLES                          ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("e1ef2d5b8091f4953fe17b4ca3dd143d476c106e221d92ded38614266cea3c8b" "7a994c16aa550678846e82edc8c9d6a7d39cc6564baaaacc305a3fdc0bd8725f" default))
- '(highlight-indent-guides-method 'bitmap)
  '(package-selected-packages
-   '(solaire-mode multi-compile treemacs-all-the-icons all-the-icons-dired flycheck-rust rust-mode golint go-mode elpy treemacs-icons-dired treemacs yasnippet-classic-snippets yasnippet-snippets yasnippet lua-mode highlight-indent-guides multiple-cursors flycheck doom-themes undo-tree company-ctags company use-package)))
-
-
+   '(all-the-icons-dired treemacs-all-the-icons treemacs maxima pdf-tools multi-compile crux all-the-icons dashboard highlight-indent-guides use-package undo-tree doom-themes company)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -26,204 +14,95 @@
  )
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                       PACKAGES                           ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Packages ;;;;
 
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+
+;; Melpa
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 (unless package-archive-contents (package-refresh-contents))
 
+;; use-package
 (dolist (package '(use-package))
   (unless (package-installed-p package)
     (package-install package)))
 
-(add-to-list 'load-path "~/.emacs.d/lisp/")
-
 (use-package company
   :ensure t
   :hook (after-init . global-company-mode))
-(use-package company-ctags
-  :ensure t)
+
 (use-package undo-tree
   :ensure t)
-(use-package doom-themes
-  :ensure t)
-(use-package flycheck
-  :ensure t)
-(use-package multiple-cursors
-  :ensure t)
-(use-package highlight-indent-guides
-  :ensure t)
-(use-package yasnippet
-  :ensure t)
-(use-package yasnippet-snippets
-  :ensure t)
-(use-package yasnippet-classic-snippets
-  :ensure t)
+
 (use-package multi-compile
   :ensure t)
-(use-package solaire-mode
+
+(use-package highlight-indent-guides
   :ensure t)
 
-(use-package lua-mode
-  :ensure t)
-(use-package go-mode
+(use-package doom-themes
   :ensure t)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                    APPEARANCE                            ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package dashboard
+  :ensure t
+  :diminish dashboard-mode
+  :config
+  (setq dashboard-center-content nil)
+  (setq dashboard-show-shortcuts nil)
+  (setq dashboard-set-init-info nil)
+  (setq dashboard-set-footer nil)
+  (setq dashboard-set-navigator t)
+  (setq dashboard-banner-logo-title "The editor of gods!")
+  (setq dashboard-startup-banner "~/.emacs.d/logo.png")
+  (setq dashboard-init-info "Welcome to the church of Emacs!")
+  (setq dashboard-items '((recents  . 5)
+                          (bookmarks . 5)))
+  (dashboard-setup-startup-hook)
+  (setq dashboard-item-names '(("Recent Files:" . "    Recent Files:")
+                               ("Bookmarks:" . "    Bookmarks:"))))
 
-(setq doom-themes-enable-italic t)
-(load-theme 'doom-tomorrow-night)
 
-(solaire-global-mode)
-(advice-add #'persp-load-state-from-file :after #'solaire-mode-restore-persp-mode-buffers)
+;;;; APARIENCIA ;;;;
 
-(menu-bar-mode -1)
-;;(global-hl-line-mode)
-(blink-cursor-mode)
+;;(load-theme 'doom-plain)
 
-;; FONT
-(defvar my-font)
-(setq my-font "Victor Mono SemiBold 11")
-(set-frame-font my-font nil t)
-(add-to-list 'default-frame-alist `(font . ,my-font))
+;; Separador de ventanas
+(set-face-foreground 'vertical-border "gray75")
 
+;; Fringes
+(setq left-fringe-width 20)
+(setq right-fringe-width 20)
+
+;; Tipografías
+(setq font-use-system-font t)
+(set-face-attribute 'default nil :font "Victor Mono SemiBold"
+		    :height 110)
+(set-face-attribute 'variable-pitch
+		    nil
+		    :family "Victor Mono")
 (set-face-attribute 'font-lock-comment-face nil :slant 'italic)
 (set-face-attribute 'font-lock-variable-name-face nil  :slant 'italic)
 
-;; WORD WRAPPING
-(global-visual-line-mode)
-
-(require 'ligature)
-(global-ligature-mode t)
-(ligature-set-ligatures 'prog-mode '("|||>" "<|||" "<==>" "<!--"
-                                     "####" "~~>" "***" "||=" "||>"
-                                     ":::" "::=" "=:=" "===" "==>"
-                                     "=!=" "=>>" "=<<" "=/=" "!=="
-                                     "!!." ">=>" ">>=" ">>>" ">>-"
-                                     ">->" "->>" "-->" "---" "-<<"
-                                     "<~~" "<~>" "<*>" "<||" "<|>"
-                                     "<$>" "<==" "<=>" "<=<" "<->"
-                                     "<--" "<-<" "<<=" "<<-" "<<<"
-                                     "<+>" "</>" "###" "#_(" "..<"
-                                     "..." "+++" "/==" "///" "_|_"
-                                     "www" "&&" "^=" "~~" "~@" "~="
-                                     "~>" "~-" "**" "*>" "*/" "||"
-                                     "|}" "|]" "|=" "|>" "|-" "{|"
-                                     "[|" "]#" "::" ":=" ":>" ":<"
-                                     "$>" "==" "=>" "!=" "!!" ">:"
-                                     ">=" ">>" ">-" "-~" "-|" "->"
-                                     "--" "-<" "<~" "<*" "<|" "<:"
-                                     "<$" "<=" "<>" "<-" "<<" "<+"
-                                     "</" "#{" "#[" "#:" "#=" "#!"
-                                     "##" "#(" "#?" "#_" "%%" ".="
-                                     ".-" ".." ".?" "+>" "++" "?:"
-                                     "?=" "?." "??" ";;" "/*" "/="
-                                     "/>" "//" "__" "~~" "(*" "*)"
-                                     "\\\\" "://"))
-
-(defun nox/setup-appearance (frame)
-  (with-selected-frame frame
-    (remove-hook 'after-make-frame-functions 'nox/setup-appearance)
-
-    ;; Remove this if you want the scroll and toolbars
-	(when (functionp 'menu-bar-mode) (menu-bar-mode -1))
-    (when (functionp 'scroll-bar-mode) (scroll-bar-mode -1))
-    (when (functionp 'tool-bar-mode) (tool-bar-mode -1))
-
-	(when (> (window-width) 100)
-	  (split-window-right))
-
-    ;; NOTE(nox): This needs to be here, else it doesn't work
-    (setq-default system-time-locale "C")))
-
-(if (daemonp)
-    (add-hook 'after-make-frame-functions 'nox/setup-appearance)
-  (nox/setup-appearance (car (frame-list))))
-
+;; Bordes
+(fringe-mode)
+(set-face-attribute 'fringe
+                    nil
+                    :background nil)
 
 ;; (if (display-graphic-p)
-;; 	(progn
-;; 	  (setq-default inital-frame-alist
-;; 					'(
-;; 					  (width . 80)
-;; 					  (height . 25)))
-;; 	  (setq-default default-frame-alist
-;; 					'(
-;; 					  (tool-bar-lines . 0)
-;; 					  (width . 80)
-;; 					  (height . 25)))))
+;;     (progn
+;;       (setq-default initial-frame-alist
+;;                     '((internal-border-width . 15)))
+;;       (setq-default default-frame-alist
+;;                     '((internal-border-width . 15)))))
 
-;; SPLASH SCREEN
-(setq inhibit-startup-screen t)
-(setq inhibit-startup-message t)
-(setq inhibit-startup-echo-area-message t)
-(setq initial-scratch-message ";; Emacs!\n\n\n")
+;; Wrapping
+(global-visual-line-mode)
 
-
-(defun server-shutdown ()
-  "Save buffers, Quit, and Shutdown (kill) server"
-  (interactive)
-  (save-some-buffers)
-  (kill-emacs))
-
-(defun signal-restart-server ()
-  "Handler for SIGUSR1 signal, to (re)start an emacs server.
-
-Can be tested from within emacs with:
-  (signal-process (emacs-pid) 'sigusr1)
-
-or from the command line with:
-$ kill -USR1 <emacs-pid>
-$ emacsclient -c
-"
-  (interactive)
-  (server-force-delete)
-  (server-start))
-(define-key special-event-map [sigusr1] 'signal-restart-server)
-
-;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                          TOOLS                           ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; REDO M-_
-;; UNDO C-_
-(global-undo-tree-mode)
-
-;; LINTER
-(add-hook 'after-init-hook #'global-flycheck-mode)
-
-;; SNIPPETS
-(add-hook 'prog-mode-hook #'yas-minor-mode)
-(defvar company-mode/enable-yas t
-  "Enable yasnippet for all backends.")
-(defun company-mode/backend-with-yas (backend)
-  (if (or (not company-mode/enable-yas) (and (listp backend) (member 'company-yasnippet backend)))
-      backend
-    (append (if (consp backend) backend (list backend))
-            '(:with company-yasnippet))))
-(setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
-(add-to-list 'load-path
-             "~/.emacs.d/plugins/yasnippet")
-(require 'yasnippet)
-(yas-reload-all)
-
-(ido-mode 1)
-(setq ido-enable-flex-matching t)
-(setq ido-ignore-buffers '("^ " "*Completions*" "*Shell Command Output*" "*Messages*" "Async Shell Command" "KILL"))
-(setq ido-file-extensions-order '(".org" ".tex" ".emacs" ".pdf" ".txt"))
-
-(global-undo-tree-mode)
-(savehist-mode 1)
-
-(setq backup-directory-alist `(("." . "~/.emacs.d/saves")))
-
-;; INDENT GUIDES
+;; Guias de indentación
+(setq highlight-indent-guides-method 'bitmap)
 (defun my-highlighter (level responsive display)
   (if (> 1 level)
       nil
@@ -231,47 +110,32 @@ $ emacsclient -c
 (setq highlight-indent-guides-highlighter-function 'my-highlighter)
 (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
 
-;; DELETE TRAILING WHITESPACES
-(add-hook 'before-save-hook 'my-prog-nuke-trailing-whitespace)
-(defun my-prog-nuke-trailing-whitespace ()
-  (when (derived-mode-p 'prog-mode)
-    (delete-trailing-whitespace)))
+;; Pantalla de inicio
+(setq inhibit-startup-screen t)
+(setq inhibit-startup-message t)
+(setq inhibit-startup-echo-area-message t)
+(setq initial-scratch-message "")
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                       OPTIONS                            ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; PREFERENCIAS ;;;;
 
-;; HIGHLIGHT PAIRS
-(show-paren-mode t)
-
-;; TABULATION
-(setq-default tab-width 4)
-(setq-default indent-tabs-mode t)
-
-;; AUTOPAIR
+;; Autopair
 (add-hook 'after-init-hook 'electric-pair-mode 1)
 
-;; WORD CASE
-(put 'upcase-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
+;; Deshacer (C-_) y rehacer (M-_)
+(global-undo-tree-mode)
 
-;; SAVE HISTORY
+;; Historial
 (savehist-mode 1)
 (setq history-length 1000)
 
-;; SCROLL
-(setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
-(setq mouse-wheel-progressive-speed nil)
-(setq mouse-wheel-follow-mouse 't)
-(setq scroll-step 1)
-(setq scroll-preserve-screen-position 1)
+;; Respaldos
+(setq backup-directory-alist `(("." . "~/.emacs.d/saves")))
 
-;; SHORT ANSWERS
-(fset 'yes-or-no-p 'y-or-n-p)
+;; Indentación
+(setq-default tab-width 4)
+(setq-default indent-tabs-mode nil)
 
-
-;; INDENTATION
 (electric-indent-mode 1)
 (dolist (command '(yank yank-pop))
   (eval `(defadvice ,command (after indent-region activate)
@@ -287,62 +151,78 @@ $ emacsclient -c
                 (let ((mark-even-if-inactive transient-mark-mode))
                   (indent-region (region-beginning) (region-end) nil))))))
 
-;; LINE NUMBERS
-;;(global-display-line-numbers-mode)
-(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+;; Herramientas
+;(menu-bar-mode -1)
+(tool-bar-mode -1)
+(toggle-scroll-bar -1)
+
+;; Números de línea
+;(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+
+;; Quitar alarmas
+(setq ring-bell-function 'ignore)
+
+;; Resaltar paréntesis
+(show-paren-mode t)
+
+;; Habilitar formato de mayúsculas y minúsculas
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+
+;; Desplazamiento
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
+(setq mouse-wheel-progressive-speed nil)
+(setq mouse-wheel-follow-mouse 't)
+(setq scroll-step 1)
+(setq scroll-preserve-screen-position 1)
+
+;; Respuestas
+(fset 'yes-or-no-p 'y-or-n-p)
+
+;; Espacios de fin de linea
+(add-hook 'before-save-hook 'my-prog-nuke-trailing-whitespace)
+;(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(defun my-prog-nuke-trailing-whitespace ()
+  (when (derived-mode-p 'prog-mode)
+    (delete-trailing-whitespace)))
+
+;; Borrado seguro
+(setq-default delete-by-moving-to-trash t)
+
+;; Autorefrescar cuando el archivo se ha cambiado
+(global-auto-revert-mode t)
+
+;;;; IDO ;;;;
+(ido-mode 1)
+(setq ido-enable-flex-matching t)
+(setq ido-ignore-buffers '("^ " "*Completions*" "*Shell Command Output*" "*Messages*" "Async Shell Command" "KILL"))
+(setq ido-file-extensions-order '(".org" ".tex" ".emacs" ".pdf" ".txt"))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                       BUFFERS                            ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; ARCHIVOS RECIENTES ;;;;
 
-(defun only-current-buffer ()
-  "Kill other buffers."
+(require 'recentf)
+(recentf-mode nil)
+
+;; get rid of `find-file-read-only' and replace it with something
+;; more useful.
+
+(global-set-key (kbd "C-x C-r") 'ido-recentf-open)
+;; enable recent files mode.
+(setq recentf-max-saved-items 10)
+
+(add-to-list 'recentf-exclude (format "%s/\\.emacs\\.d/elpa/.*" (getenv "HOME")))
+(add-to-list 'recentf-exclude
+             (expand-file-name "~/.emacs.d/recentf"))
+
+(defun ido-recentf-open ()
+  "Use `ido-completing-read' to \\[find-file] a recent file"
   (interactive)
-  (mapc 'kill-buffer (cdr (buffer-list (current-buffer)))))
+  (if (find-file (ido-completing-read "Find recent file: " recentf-list))
+      (message "Opening file...")
+    (message "Aborting")))
 
-;; BUFFERS
-(require 'ibuf-ext)
-(add-to-list 'ibuffer-never-show-predicates "^\\*")
-(setq ido-ignore-buffers '("\\` " "^\*"))
-(defun next-code-buffer ()
-  (interactive)
-  (let (( bread-crumb (buffer-name) ))
-    (next-buffer)
-    (while
-        (and
-         (string-match-p "^\*" (buffer-name))
-         (not ( equal bread-crumb (buffer-name) )) )
-      (next-buffer))))
-  (setq ibuffer-formats
-    '((mark modified read-only " " filename-and-process)))
-(setq ibuffer-display-summary nil)
-(defadvice ibuffer-update-title-and-summary (after remove-column-titles)
-  (with-current-buffer
-      (read-only-mode 0)
-    (goto-char 1)
-    (search-forward "-\n" nil t)
-    (delete-region 1 (point))
-    (let ((window-min-height 1))
-      ;; save a little screen estate
-      (shrink-window-if-larger-than-buffer))
-    (read-only-mode)))
-(ad-activate 'ibuffer-update-title-and-summary)
-(add-hook 'ibuffer-mode-hook
-      (lambda ()
-        (ibuffer-switch-to-saved-filter-groups "default")))
-
-;; DELETE BUFFER *Completions*
-(add-hook 'minibuffer-exit-hook
-      '(lambda ()
-         (let ((buffer "*Completions*"))
-           (and (get-buffer buffer)
-            (kill-buffer buffer)))))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                         TREEMACS                         ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+;;;; TREEMACS ;;;;
 (use-package treemacs
   :ensure t
   :defer t
@@ -391,7 +271,7 @@ $ emacsclient -c
           treemacs-tag-follow-delay              1.5
           treemacs-user-mode-line-format         nil
           treemacs-user-header-line-format       nil
-          treemacs-width                         30
+          treemacs-width                         40
           treemacs-workspace-switch-cleanup      nil)
 
     ;; The default width and height of the icons is 22 pixels. If you are
@@ -424,10 +304,138 @@ $ emacsclient -c
   :ensure t)
 (setq inhibit-compacting-font-caches t)
 
+;;;; BUFFERS ;;;;
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                        MODELINE                          ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun only-current-buffer ()
+  "Kill other buffers."
+  (interactive)
+  (mapc 'kill-buffer (cdr (buffer-list (current-buffer)))))
+
+;; BUFFERS
+
+(require 'ibuf-ext)
+(add-to-list 'ibuffer-never-show-predicates "^\\*")
+
+(setq ido-ignore-buffers '("\\` " "^\*"))
+
+(defun next-code-buffer ()
+  (interactive)
+  (let (( bread-crumb (buffer-name) ))
+    (next-buffer)
+    (while
+        (and
+         (string-match-p "^\*" (buffer-name))
+         (not ( equal bread-crumb (buffer-name) )) )
+      (next-buffer))))
+
+(setq ibuffer-formats
+      '((mark modified read-only " " filename-and-process)))
+
+(setq ibuffer-display-summary nil)
+(defadvice ibuffer-update-title-and-summary (after remove-column-titles)
+  (with-current-buffer
+      (read-only-mode 0)
+    (goto-char 1)
+    (search-forward "-\n" nil t)
+    (delete-region 1 (point))
+    (let ((window-min-height 1))
+      ;; save a little screen estate
+      (shrink-window-if-larger-than-buffer))
+    (read-only-mode)))
+
+(ad-activate 'ibuffer-update-title-and-summary)
+
+(add-hook 'ibuffer-mode-hook
+          (lambda ()
+            (ibuffer-switch-to-saved-filter-groups "default")))
+
+;; Delete *Completions*
+(add-hook 'minibuffer-exit-hook
+          '(lambda ()
+             (let ((buffer "*Completions*"))
+               (and (get-buffer buffer)
+                    (kill-buffer buffer)))))
+
+;;;; LENGUAJES ;;;;
+
+;; Chordpro
+(setq auto-mode-alist (cons '("\\.pro$" . chordpro-mode) auto-mode-alist))
+(setq auto-mode-alist (cons '("\\.cho$" . chordpro-mode) auto-mode-alist))
+(autoload 'chordpro-mode "chordpro-mode")
+
+
+;;;; COMPILE ;;;;
+
+(setq multi-compile-alist '(
+                            (chordpro-mode . (("Chordpro compile songbook" .
+                                               "chordpro *.cho -o songbook.pdf")
+                                              ("Chordpro compile file" .
+                                               "chordpro %file-name")))
+                            ))
+
+(defun cyco:compile-autoclose (buffer string)
+  (cond ((string-match "finished" string)
+         (message "Build maybe succesful: clossing window.")
+         (run-with-timer 1 nil
+                         'delete-window
+                         (get-buffer-window buffer t)))
+        (
+         (message "Compilation exited abnormally: %s" string))))
+
+(setq compilation-finish-functions 'cyco:compile-autoclose)
+(global-set-key [f5] 'multi-compile-run)
+
+
+;;;; TERMINAL ;;;;
+
+(require 'term)
+
+(defun open-external-terminal ()
+  (interactive)
+  (let ((proc (start-process "bash" nil "gnome-terminal")))
+    (set-process-query-on-exit-flag proc nil)))
+
+(defun open-ansi-terminal ()
+  (interactive)
+  (let ((w (split-window-below 2)))
+    (select-window w)
+    (if (eq (get-buffer "*ansi-term*") nil)
+        (ansi-term "/bin/bash")
+      (switch-to-buffer "*ansi-term*"))))
+
+(defun set-no-process-query-on-exit ()
+
+  (let ((proc (get-buffer-process (current-buffer))))
+    (when (processp proc)
+      (set-process-query-on-exit-flag proc nil))))
+
+(global-set-key (kbd "C-c t") 'open-external-terminal)
+(global-set-key (kbd "C-c C-t") 'open-ansi-terminal)
+
+(add-hook 'term-exec-hook 'set-no-process-query-on-exit)
+(add-hook 'shell-mode-hook 'set-no-process-query-on-exit)
+
+(define-key term-raw-map (kbd "C-c C-t") 'delete-window)
+(define-key term-raw-map (kbd "C-c t") 'kill-buffer-and-window)
+
+
+;;;; KEYBINDINGS ;;;;
+
+;; Indentar
+(global-set-key (kbd "C->") 'indent-rigidly-right-to-tab-stop)
+(global-set-key (kbd "C-<") 'indent-rigidly-left-to-tab-stop)
+
+;; Scroll
+(global-set-key (kbd "M-n") (kbd "C-u 1 C-v"))
+(global-set-key (kbd "M-p ") (kbd "C-u 1 M-v"))
+
+;; Cambiar de buffer
+(global-set-key [remap next-buffer] 'next-code-buffer)
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+(global-set-key (kbd "<C-tab>") 'next-code-buffer)
+
+;; Modeline
+
 (define-minor-mode minor-mode-blackout-mode
   "Hides minor modes from the modeline"
   t)
@@ -441,6 +449,12 @@ $ emacsclient -c
             (throw 'done t)))
         mode-line-modes))
 
+(defun my-modeline-padding (right-segments)
+  (propertize
+   " " 'display
+   `((space :align-to (- (+ right right-fringe right-margin)
+                         ,(+ 1 (string-width right-segments)))))))
+
 (setq-default mode-line-format
               (list
                "  "
@@ -448,164 +462,32 @@ $ emacsclient -c
                mode-line-modified
                mode-line-frame-identification
                mode-line-buffer-identification
-               "   "
+               "  "
                mode-line-position
-               "        :"
+               '(:eval (my-modeline-padding (format-mode-line
+                                             mode-line-modes)))
                mode-line-modes
                ))
-;;(set-face-background 'mode-line "black")
-;;(set-face-background 'mode-line-inactive "black")
-(setq column-number-mode t)
+
+(set-face-attribute 'mode-line nil
+                    :background "gray75"
+                    :foreground "black"
+                    ;;:box '(:line-width -1 :color "gray60")
+                    :box nil
+                    :overline nil
+                    :underline nil)
+
+(set-face-attribute 'mode-line-inactive nil
+                    :background "gray90"
+                    :foreground "gray20"
+                    ;;:box '(:line-width -1 :color "gray50")
+                    :box nil
+                    :overline nil
+                    :underline nil)
+
+(set-face-attribute 'mode-line-highlight nil
+                    :box nil
+                    :background nil
+                    :foreground "white")
+(setq column-number-mode nil)
 (force-mode-line-update t)
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                           LANG                           ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Elpy
-(use-package elpy
-  :ensure t
-  :init
-  (elpy-enable))
-(when (load "flycheck" t t)
-  (add-hook 'elpy-mode-hook 'flycheck-mode))
-(add-hook 'elpy-mode-hook (lambda ()
-                            (add-hook 'before-save-hook
-                                      'elpy-format-code nil t)))
-
-;; Python
-(setq-default python-indent 4)
-(use-package elpy
-  :ensure t
-  :init
-  (elpy-enable))
-
-;; Go
-(add-hook 'before-save-hook 'gofmt-before-save)
-(add-hook 'go-mode-hook (lambda ()
-                          ;; (push '("struct{}" . ?ε) prettify-symbols-alist)
-                          (setq tab-width 4)
-                          (add-hook 'before-save-hook
-                                    'gofmt-before-save)))
-(global-prettify-symbols-mode 't)
-
-
-;; Familias de C
-(setq c-basic-offset 4)
-
-;; Chordpro
-(setq auto-mode-alist (cons '("\\.pro$" . chordpro-mode) auto-mode-alist))
-(setq auto-mode-alist (cons '("\\.cho$" . chordpro-mode) auto-mode-alist))
-(autoload 'chordpro-mode "chordpro-mode")
-
-;; Rust
-(with-eval-after-load 'rust-mode
-  (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
-
-;; FreeBASIC
-(require 'freebasic-mode)
-(add-hook 'freebasic-mode-hook 'display-line-numbers-mode)
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                         COMPILE                          ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(setq multi-compile-alist '(
-                            (ruby-mode . (("DragonRuby run" . "dragonruby ..")))
-
-                            (go-mode . (("Go run" . "go run .")
-                                        ("Go build" . "go build -v .")))
-
-                            (python-mode . (("Python run" . "python %file-name")))
-                            ))
-
-
-(defun cyco:compile-autoclose (buffer string)
-  (cond ((string-match "finished" string)
-         (message "Build maybe succesful: clossing window.")
-         (run-with-timer 1 nil
-                         'delete-window
-                         (get-buffer-window buffer t)))
-        (
-         (message "Compilation exited abnormally: %s" string))))
-
-(setq compilation-finish-functions 'cyco:compile-autoclose)
-
-(global-set-key [f5] 'multi-compile-run)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                        TERMINAL                          ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'term)
-
-(defun open-external-terminal ()
-  (interactive)
-  (let ((proc (start-process "fish" nil "xfce4-terminal")))
-    (set-process-query-on-exit-flag proc nil)))
-
-(defun open-ansi-terminal ()
-  (interactive)
-  (let ((w (split-window-below 2)))
-    (select-window w)
-    (if (eq (get-buffer "*ansi-term*") nil)
-        (ansi-term "/bin/fish")
-      (switch-to-buffer "*ansi-term*"))))
-
-(global-set-key (kbd "C-c t") 'open-external-terminal)
-(global-set-key (kbd "C-c C-t") 'open-ansi-terminal)
-(defun set-no-process-query-on-exit ()
-
-  (let ((proc (get-buffer-process (current-buffer))))
-    (when (processp proc)
-      (set-process-query-on-exit-flag proc nil))))
-
-(add-hook 'term-exec-hook 'set-no-process-query-on-exit)
-(add-hook 'shell-mode-hook 'set-no-process-query-on-exit)
-
-(define-key term-raw-map (kbd "C-c C-t") 'delete-window)
-(define-key term-raw-map (kbd "C-c t") 'kill-buffer-and-window)
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                       KEYBINDINGS                        ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; INDENT
-(global-set-key (kbd "C->") 'indent-rigidly-right-to-tab-stop)
-(global-set-key (kbd "C-<") 'indent-rigidly-left-to-tab-stop)
-
-;; SCROLL
-(global-set-key (kbd "M-n") (kbd "C-u 1 C-v"))
-(global-set-key (kbd "M-p ") (kbd "C-u 1 M-v"))
-
-;; IBUFFER
-(global-set-key [remap next-buffer] 'next-code-buffer)
-(global-set-key (kbd "C-x C-b") 'ibuffer)
-(global-set-key (kbd "<C-tab>") 'next-code-buffer)
-
-;; Multicursors
-(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-(global-set-key (kbd "<M-S-up>") 'mc/mark-previous-like-this)
-(global-set-key (kbd "<M-S-down>") 'mc/mark-next-like-this)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                         OLD CODE                         ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; (defun dragonruby-run-console ()
-;;   (interactive)
-;;   (let ((proc (start-process "bash" nil "xfce4-terminal" "-e" (concat " bash -c \"~/.emacs.d/dragonruby.sh '" ".." "'\""))))
-;;     (set-process-query-on-exit-flag proc nil)))
-
-;; (defun dragonruby-run ()
-;;   (interactive)
-;;   (set (make-local-variable 'compile-command)
-;;        (let ((file (file-name-nondirectory buffer-file-name)))
-;;          (if (equal (file-name-extension file) "rb")
-;;              (format "dragonruby .." file))))
-;;   (compile compile-command))
-
-;; (global-set-key [f5] 'dragonruby-run-console)
-;; (global-set-key [f6] 'dragonruby-run)

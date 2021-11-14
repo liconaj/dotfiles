@@ -1,0 +1,23 @@
+Settings 
+=> Developer Settings 
+=> Personal Access Token 
+=> Generate New Token (Give your password) 
+=> Fillup the form => click Generate token 
+=> Copy the generated Token,
+
+
+$ git config --global user.name "your_github_username"
+$ git config --global user.email "your_github_email"
+$ git config -l
+
+$ git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY
+> Cloning into `Spoon-Knife`...
+$ Username for 'https://github.com' : username
+$ Password for 'https://github.com' : give your personal access token here
+
+Remembers the previously written toke
+$ git config --global credential.helper cache
+
+Deletes saved token
+$ git config --global --unset credential.helper
+$ git config --system --unset credential.helper

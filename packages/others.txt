@@ -9,3 +9,4 @@ rebuild-detector
 pacman-contrib
 aria2
 sagemath
+pdfslicer

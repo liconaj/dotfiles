@@ -1,0 +1,8 @@
+// Settings in here override those in "LSP-lua/LSP-lua.sublime-settings"
+{
+	"selector": "source.lovely | source.lua",
+	"settings": {
+		"Lua.diagnostics.globals": ["love"]
+	}
+}
+

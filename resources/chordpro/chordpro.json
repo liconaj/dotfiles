@@ -1,0 +1,136 @@
+{
+	"user": {
+		"name": "josue",
+		"fullname": "Josué Licona Mármol",
+	},
+
+	"settings": {
+		"titles": "center",
+		"columns": 2,
+		"notenames": true,
+	},
+
+	"pdf": {
+		"papersize": [792, 612],
+		"margintop": 90,
+		"marginbottom": 40,
+		"marginleft": 40,
+		"marginright": 40,
+		"headspace": 60,
+		"footspace": 30,
+		"columnspace": 30,
+		"head-first-only": true,
+		"even-odd-pages": 1,
+		"capoheading": "%{capo| Capo: %{} }",
+		"showlayout": false,
+
+		"info": {
+			"title": "%{title}",
+			"author": "%{author}",
+			"subject": "%{SonkBook}",
+			"keywords": "",
+		},
+
+		"fontdir": [
+			"/usr/share/fonts/TTF",
+			"/usr/share/fonts/font-victor-mono",
+		],
+
+		"fontconfig": {
+			"sans":{
+				"": "VictorMono-Regular.ttf",
+				"medium": "VictorMono-Medium.ttf",
+				"semibold": "VictorMono-SemiBold.ttf",
+				"bold": "VictorMono-Bold.ttf",
+				"italic": "VictorMono-Italic.ttf",
+				"mediumitalic": "VictorMono-MediumItalic.ttf",
+				"semibolditalic": "VictorMono-SemiBoldItalic.ttf",
+				"bolditalic": "VictorMono-BoldItalic.ttf"
+			},
+			"monospace": {
+				"": "Inconsolata-Regular.ttf",
+				"bold": "Inconsolata-Bold.ttf",
+				"italic": "Inconsolata-Medium.ttf"
+			}
+		},
+
+		"spacing": {
+			"title": 0.9,
+			"empty": 0.6,
+		},
+
+		"fonts": {
+			"title": {
+				"description": "sans semibold 16",
+			},
+			"subtitle": {
+				"description": "sans semibolditalic 14"
+			},
+			"text": {
+				"description": "sans 12",
+			},
+			"chord": {
+				"description": "sans semibold 12",
+			},
+			"comment": {
+				"description": "sans bold 12",
+				"background": ""
+			},
+			"comment_italic": {
+				"description": "sans bolditalic 12"
+			},
+			"comment_box": {
+				"description": "sans medium 12",
+				"frame": 1,
+			},
+			"tab": {
+				"description": "sans 12",
+			},
+			"grid": {
+				"description": "sans semibold 12",
+			}
+		},
+
+		"diagrams": {
+			"show": "none",
+		},
+
+		"chorus": {
+			"indent": 8,
+			"bar": {
+				"offset": 8,
+				"width": 1,
+				"color": "foreground"
+			},
+			"recall": {
+				"tag": "(Chorus)",
+				"type": "comment_italic",
+				"quote": false,
+			}
+		},
+
+		"formats": {
+			"default": {
+				"title": null,
+				"subtitle": null,
+				"footer": ["%{title}", "", "%{page}"]
+			},
+			"title": {
+				"title": ["", "%{title}", ""],
+				"subtitle": ["", "%{artist}", ""],
+				"footer": ["", "", "%{page}"],
+			},
+			"first": {
+				"footer": null,
+			}
+		},
+	},
+
+	"chords": [
+		{
+			"name": "F/C",
+			"base": 1,
+			"frets": [-1, 3, 3, 2, 1, 1],
+		}
+	],
+}

@@ -1,0 +1,10 @@
+# CPU frequency
+
+sudo pacman -S acpi cpupower
+modprobe acpi-cpufreq
+sudo systemctl enable cpupower
+
+# Themperature
+
+sudo pacman -S thermald
+sudo systemctl enable thermald

@@ -1,0 +1,10 @@
+{
+	//"target": "terminus_exec",
+	//"cancel": "terminus_cancel_build",
+	//"focus":true,
+	"shell_cmd": "love ${project_path:${folder:${file_path}}}",
+	"file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
+	"selector": "source.lua",
+	"working_dir": "${project_path:${folder:${file_path}}}",
+	"quiet": true
+}

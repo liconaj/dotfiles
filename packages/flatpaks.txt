@@ -4,10 +4,23 @@ cavestory
 spotify
 tuxguitar
 clapper
-mramr.mcpelauncher
+mcpelauncher
 easytag
 lollypop
 kdenlive
 kturtle
 leocad
 musescore
+dialect
+qgnomeplatform
+kstyle
+adwaita
+adwaita-dark
+breeze
+breeze-dark
+kig
+kmplot
+kalgebra
+
+# add "export XDG_DATA_DIRS=$XDG_DATA_DIRS:/var/lib/flatpak/exports/share" 
+# to ~/.xprofile

@@ -13,16 +13,17 @@ Type=Application
 Name=PICO-8
 GenericName=Fantasy Console
 Comment=Lexaloffle's fantasy console
-Exec=/opt/lexaloffle/pico-8/PICO-8
+Exec=/opt/lexaloffle/pico-8/pico8
 Icon=pico-8
 Categories=GTK;Development;Game Development;
 StartupNotify=true
 Keywords=pico8;pico;pico-8;lexaloffle;gamedev;
+StartupWMClass=pico8
 " > pico-8.desktop
 
 [[ ! -d /usr/local/share/applications ]] && sudo mkdir /usr/local/share/applications
 
 sudo mv pico-8.desktop /usr/local/share/applications/pico-8.desktop
-sudo mv /opt/lexaloffle/pico-8/pico8 /opt/lexaloffle/pico-8/PICO-8
+#sudo mv /opt/lexaloffle/pico-8/pico8 /opt/lexaloffle/pico-8/PICO-8
 
 echo "Pico-8 Installed on /opt/lexaloffle/pico-8/"
