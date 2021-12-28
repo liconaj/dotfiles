@@ -8,7 +8,6 @@ kinfocenter
 kscreen
 kscreenlocker
 kwin
-kwrited
 kwalletmanager
 kwallet-pam
 plasma-desktop

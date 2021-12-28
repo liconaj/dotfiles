@@ -21,3 +21,7 @@ fd
 sox
 soundconverter
 xclip
+aria2
+rebuild-detector
+ccache
+pacman-contrib

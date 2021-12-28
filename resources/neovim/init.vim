@@ -36,8 +36,6 @@ call plug#end()
 let mapleader = ' '
 set nocompatible
 
-
-filetype plugin indent on
 syntax on
 
 set guicursor
@@ -88,7 +86,7 @@ set clipboard+=unnamedplus
 set formatoptions+=rnlmM
 
 if &shell =~# 'fish$'
-	set shell=/bin/bash
+    set shell=/bin/bash
 endif
 
 set nobackup
@@ -113,13 +111,13 @@ set nospell
 set wildmenu
 set wildignore=*.so,*.swp,.*pyc,*.pyo,*.exe,*.zip
 if has("win32")
-	set wildignore+=.git\*,.hg\*,.svn\*,*\desktop.ini
+    set wildignore+=.git\*,.hg\*,.svn\*,*\desktop.ini
 else
-	set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
+    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
 end
 
 if (has('termguicolors'))
-	set termguicolors
+    set termguicolors
 endif
 
 set autoread
@@ -137,7 +135,7 @@ set fillchars+=vert:│
 hi! VertSplit ctermbg=NONE guibg=NONE
 
 " TRAILING WHITESPACES:
-"autocmd FileType c,cpp,go,py,lua autocmd BufWritePre <buffer> %s/\s\+$//e
+autocmd FileType c,cpp,go,py,lua autocmd BufWritePre <buffer> %s/\s\+$//e
 autocmd BufWritePre <buffer> %s/\s\+$//e
 
 " THEME:
@@ -147,45 +145,45 @@ let g:edge_style = "aura"
 let g:sonokai_style = "atlantis"
 
 if g:light_theme
-	set background=light
-	colorscheme edge
-	let b:lightline_theme = 'edge'
+    set background=light
+    colorscheme edge
+    let b:lightline_theme = 'edge'
 else
-	set background=dark
-	colorscheme everforest
-	let b:lightline_theme = 'everforest'
+    set background=dark
+    colorscheme everforest
+    let b:lightline_theme = 'everforest'
 endif
 
 " LIGHTLINE:
 
 function! LightlineFilename()
-	let filename = expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
-	let modified = &modified ? ' +' : ''
-	return filename . modified
+    let filename = expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
+    let modified = &modified ? ' +' : ''
+    return filename . modified
 endfunction
 
 let g:lightline = {
-			\ 'colorscheme' : b:lightline_theme,
-			\ 'active': {
-			\   'left': [[ 'mode', 'paste' ], [ 'readonly', 'filename' ]]
-			\ },
-			\ 'tabline': {
-			\   'left': [ ['buffers'] ],
-			\   'right': [ ['text'] ]
-			\ },
-			\ 'component_expand': {
-			\   'buffers': 'lightline#bufferline#buffers'
-			\ },
-			\ 'component_type': {
-			\   'buffers': 'tabsel'
-			\ },
-			\ 'component_function': {
-			\   'filename' : 'LightlineFilename',
-			\ },
-			\ 'component': { 'text': 'BUFFERS' },
-			\ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
-			\ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" },
-			\ }
+            \ 'colorscheme' : b:lightline_theme,
+            \ 'active': {
+                \   'left': [[ 'mode', 'paste' ], [ 'readonly', 'filename' ]]
+                \ },
+                \ 'tabline': {
+                    \   'left': [ ['buffers'] ],
+                    \   'right': [ ['text'] ]
+                    \ },
+                    \ 'component_expand': {
+                        \   'buffers': 'lightline#bufferline#buffers'
+                        \ },
+                        \ 'component_type': {
+                            \   'buffers': 'tabsel'
+                            \ },
+                            \ 'component_function': {
+                                \   'filename' : 'LightlineFilename',
+                                \ },
+                                \ 'component': { 'text': 'BUFFERS' },
+                                \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
+                                \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" },
+                                \ }
 
 "let g:lightline#bufferline#filename_modifier = ':t'
 let g:lightline#bufferline#show_number  = 0
@@ -208,45 +206,45 @@ set shortmess+=c
 set signcolumn=number
 
 let g:coc_global_extensions = [
-			\ 'coc-json',
-			\ 'coc-git',
-			\ 'coc-go',
-			\ 'coc-html',
-			\ 'coc-jedi',
-			\ 'coc-toml',
-			\ 'coc-python',
-			\ 'coc-vimlsp',
-			\ 'coc-snippets',
-			\ 'coc-prettier',
-			\ 'coc-lua'
-			\ ]
+            \ 'coc-json',
+            \ 'coc-git',
+            \ 'coc-go',
+            \ 'coc-html',
+            \ 'coc-jedi',
+            \ 'coc-toml',
+            \ 'coc-python',
+            \ 'coc-vimlsp',
+            \ 'coc-snippets',
+            \ 'coc-prettier',
+            \ 'coc-lua'
+            \ ]
 
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 command! -nargs=0 Format :call CocAction('format')
 
 
 inoremap <silent><expr> <TAB>
-			\ pumvisible() ? "\<C-n>" :
-			\ <SID>check_back_space() ? "\<TAB>" :
-			\ coc#refresh()
+            \ pumvisible() ? "\<C-n>" :
+            \ <SID>check_back_space() ? "\<TAB>" :
+            \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
-	let col = col('.') - 1
-	return !col || getline('.')[col - 1]  =~# '\s'
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
 " Use <c-space> to trigger completion.
 if has('nvim')
-	inoremap <silent><expr> <c-space> coc#refresh()
+    inoremap <silent><expr> <c-space> coc#refresh()
 else
-	inoremap <silent><expr> <c-@> coc#refresh()
+    inoremap <silent><expr> <c-@> coc#refresh()
 endif
 
 if exists('*complete_info')
-	inoremap <silent><expr> <cr> complete_info(['selected'])['selected'] != -1 ? "\<C-y>" : "\<C-g>u\<CR>"
+    inoremap <silent><expr> <cr> complete_info(['selected'])['selected'] != -1 ? "\<C-y>" : "\<C-g>u\<CR>"
 else
-	inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+    inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 endif
 
 
@@ -272,9 +270,9 @@ nmap <leader>rn <Plug>(coc-rename)
 xmap <leader>f <Plug>(coc-format-selected)
 nmap <leader>f <Plug>(coc-format-selected)
 augroup mygroup
-	autocmd!
-	autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-	autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+    autocmd!
+    autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
 " Applying codeAction to the selected region.
@@ -303,19 +301,19 @@ nnoremap <leader>n :NERDTreeToggle<CR>
 
 " Exit Vim if NERDTree is the only window left.
 autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() |
-    \ quit | endif
+            \ quit | endif
 
 function! NERDTreeToggleInCurDir()
-	" If NERDTree is open in the current buffer
-	if (exists("t:NERDTreeBufName") && bufwinnr(t:NERDTreeBufName) != -1)
-		exe ":NERDTreeClose"
-	else
-		if (expand("%:t") != '')
-			exe ":NERDTreeFind"
-		else
-			exe ":NERDTreeToggle"
-		endif
-	endif
+    " If NERDTree is open in the current buffer
+    if (exists("t:NERDTreeBufName") && bufwinnr(t:NERDTreeBufName) != -1)
+        exe ":NERDTreeClose"
+    else
+        if (expand("%:t") != '')
+            exe ":NERDTreeFind"
+        else
+            exe ":NERDTreeToggle"
+        endif
+    endif
 endfunction
 
 " nnoremap <leader>nf :NERDTreeFind<cr>
@@ -356,8 +354,8 @@ let g:go_textobj_include_function_doc = 0
 nnoremap ,s :Startify<CR>
 let g:startify_custom_header=[]
 let g:startify_lists=[
-			\ { 'type': 'files', 'header': ['    Recent files']},
-			\ ]
+            \ { 'type': 'files', 'header': ['    Recent files']},
+            \ ]
 
 " INDENT GUIDES:
 let g:indentguides_ignorelist = ['startify']
@@ -367,7 +365,7 @@ let g:indentguides_tabchar = ""
 
 " SAVE FILE AS SUDO:
 if !has('win32')
-	command! SuW w !sudo tee % > /dev/null
+    command! SuW w !sudo tee % > /dev/null
 endif
 
 " SELECT ALL:
